@@ -993,13 +993,26 @@ async def send_message(chat_req: ChatRequest):
             operator_response = call_openai_chat(prompt, model=model)
         else:
             # Role-play conversation: use IQL policy selection
-            best_policy, qvals = iql_selector.select_policy(history)
-            print(f"[IQL] Selected policy: {best_policy}")
+            import time as timing_module
+            t1 = timing_module.time()
+            best_policy, qvals = iql_selector.select_policy(history, character=character, n_last=N_LAST_RESIDENT)
+            t2 = timing_module.time()
+            print(f"[IQL] Selected policy: {best_policy} (took {t2-t1:.2f}s)")
             
             # Retrieval + operator generation
-            examples = policy_retriever.retrieve_topk_pairs(best_policy, resident_query=chat_req.message, k=2)
+            t3 = timing_module.time()
+            if policy_retriever:
+                examples = policy_retriever.retrieve_topk_pairs(best_policy, resident_query=chat_req.message, k=2)
+            else:
+                examples = []
+            t4 = timing_module.time()
+            print(f"[RETRIEVAL] Got {len(examples)} examples (took {t4-t3:.2f}s)")
+            
+            t5 = timing_module.time()
             prompt = build_prompt(best_policy, character, history, examples)
             operator_response = call_openai_chat(prompt, model=model)
+            t6 = timing_module.time()
+            print(f"[OPENAI] Generated response (took {t6-t5:.2f}s)")
         
         history.append({"role": "operator", "text": operator_response})
         
