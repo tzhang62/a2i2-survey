@@ -1,0 +1,9 @@
+{
+  "provide_information": 0,
+  "offer_assistance": 1,
+  "express_urgency": 2,
+  "ask_question": 3,
+  "give_direction": 4,
+  "acknowledge_concern": 5,
+  "build_rapport": 6
+}

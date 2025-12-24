@@ -255,7 +255,14 @@ class PolicyExampleRetriever:
         if len(pairs) == 0:
             return []
         
-        q = self.embed_model.encode([resident_query], convert_to_numpy=True, normalize_embeddings=True)[0].astype(np.float32)
+        # Encode resident query with optimizations (batch_size=1, no progress bar)
+        q = self.embed_model.encode(
+            [resident_query], 
+            convert_to_numpy=True, 
+            normalize_embeddings=True,
+            show_progress_bar=False,
+            batch_size=1
+        )[0].astype(np.float32)
         idxs = cosine_topk(q, embeds, k=k)
 
         out = []
@@ -656,11 +663,17 @@ def initialize_policy_retriever_lazy():
         print("[POLICY-RETRIEVER] Lazy loading sentence-transformers (first use, may take 30-60s)...")
         t1 = timing_module.time()
         
-        # Load sentence-transformers model
+        # Load sentence-transformers model with optimizations
         embed_model = SentenceTransformer(EMBED_MODEL)
         
+        # Optimize for CPU inference
+        embed_model.to('cpu')
+        # Use single thread for consistency (multi-threading can be slow on some platforms)
+        import torch
+        torch.set_num_threads(1)
+        
         # Warm up with a dummy encoding
-        _ = embed_model.encode(["warm up"], convert_to_numpy=True)
+        _ = embed_model.encode(["warm up"], convert_to_numpy=True, show_progress_bar=False)
         
         t2 = timing_module.time()
         print(f"[POLICY-RETRIEVER] Model loaded in {t2-t1:.2f}s")

@@ -1,0 +1,76 @@
+=====================================================================
+🚀 HUGGING FACE SPACE - READY TO DEPLOY!
+=====================================================================
+
+All files are prepared and ready to upload!
+
+📁 FILES IN THIS FOLDER:
+  ✅ app.py (5.5KB)
+  ✅ requirements.txt (106B)
+  ✅ label_map.json (73B)
+  ✅ iql_model_embed.pt (7.0MB)
+  ✅ README.md (detailed instructions)
+
+=====================================================================
+🎯 NEXT STEPS:
+=====================================================================
+
+1. CREATE SPACE (2 min)
+   → Go to: https://huggingface.co/spaces
+   → Click: "Create new Space"
+   → Name: iql-fire-rescue-api
+   → SDK: Docker ⚠️ (IMPORTANT!)
+   → Click: "Create Space"
+
+2. UPLOAD FILES (3 min)
+   → In your Space, click "Files" → "Upload files"
+   → Drag ALL 4 files from this folder
+   → Commit to main
+
+3. WAIT FOR BUILD (5-10 min)
+   → Watch "Logs" tab
+   → Wait for "Application startup complete"
+
+4. TEST SPACE (1 min)
+   → Your URL: https://tzhang62-iql-fire-rescue-api.hf.space
+   → Test: curl -X POST https://tzhang62-iql-fire-rescue-api.hf.space/ \
+           -H "Content-Type: application/json" \
+           -d '{"inputs": "help", "parameters": {"character": "bob"}}'
+
+5. GET HF TOKEN (1 min)
+   → Go to: https://huggingface.co/settings/tokens
+   → Create token (Read access)
+   → Copy token (hf_...)
+
+6. UPDATE RENDER (2 min)
+   → Render Dashboard → Environment
+   → Add: HUGGINGFACE_MODEL_ID = tzhang62-iql-fire-rescue-api.hf.space
+   → Add: HUGGINGFACE_TOKEN = hf_your_token
+   → Save (auto-redeploys)
+
+7. TEST SURVEY! ✨
+   → Go to your Netlify URL
+   → Session 2 should be FAST now! (2-5 sec)
+
+=====================================================================
+📖 DETAILED INSTRUCTIONS:
+=====================================================================
+
+Read: README.md (in this folder)
+Or: ../SPACE_DEPLOYMENT_GUIDE.md (in parent folder)
+
+=====================================================================
+🎉 EXPECTED RESULT:
+=====================================================================
+
+✅ Session 2 responses: 2-5 seconds (was 15-30 sec)
+✅ Render stays on free tier
+✅ HF Space free tier
+✅ Total cost: $0/month
+
+=====================================================================
+
+Ready? Go to https://huggingface.co/spaces and start! 🚀
+
+=====================================================================
+
