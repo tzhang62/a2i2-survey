@@ -309,9 +309,28 @@
   // Preload audio immediately (don't wait for user interaction)
   preloadAudio();
 
+  // Trigger backend model preloading when survey page loads
+  function triggerModelPreload() {
+    console.log('🔄 Triggering backend model preload...');
+    fetch(`${CONFIG.API_URL}/api/preload-models`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log('✅ Backend preload started:', data.message);
+    })
+    .catch(err => {
+      console.warn('⚠️ Preload request failed (non-critical):', err);
+    });
+  }
+
   // Wait for DOM to be ready
   document.addEventListener('DOMContentLoaded', function() {
     console.log('=== SURVEY DOM READY ===');
+    
+    // Trigger model preloading immediately (will be ready by Session 2)
+    triggerModelPreload();
     
     // Create temporary participant ID if doesn't exist (for exit tracking)
     if (!sessionStorage.getItem('participantId')) {

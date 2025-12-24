@@ -776,6 +776,23 @@ async def startup_event():
     initialize_iql()
 
 
+@app.post("/api/preload-models")
+async def preload_models():
+    """Trigger preloading of sentence-transformers model in background (called when survey loads)"""
+    def preload_in_background():
+        global policy_retriever
+        if policy_retriever is None:
+            print("[PRELOAD] User started survey, preloading models in background...")
+            initialize_policy_retriever_lazy()
+            print("[PRELOAD] Models ready for Session 2!")
+    
+    # Start preloading in background thread
+    thread = threading.Thread(target=preload_in_background, daemon=True)
+    thread.start()
+    
+    return {"success": True, "message": "Preloading started in background"}
+
+
 @app.get("/")
 async def root():
     """Health check endpoint"""
