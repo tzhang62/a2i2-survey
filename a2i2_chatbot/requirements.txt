@@ -6,7 +6,6 @@ exceptiongroup==1.2.2
 fastapi==0.115.8
 h11==0.14.0
 httpcore==1.0.7
-httpx==0.28.1
 idna==3.10
 # ollama==0.4.7  # Replaced with OpenAI API
 openai==1.54.4  # Compatible with Python 3.8
@@ -25,4 +24,3 @@ websockets==12.0
 torch==2.1.0
 sentence_transformers==2.2.0
 faiss-cpu
-
