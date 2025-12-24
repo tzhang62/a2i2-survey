@@ -413,32 +413,37 @@ def generate_personalized_scenario(survey_data: dict, model: str = "gpt-4o-mini"
     
     context = ", ".join(context_parts) if context_parts else "is at home"
     
-    prompt = f"""Generate a brief, realistic emergency scenario (2-3 sentences) for a fire evacuation simulation.
+    prompt = f"""Generate a brief, immersive emergency scenario (2-3 sentences) for a fire evacuation simulation.
 
 Participant profile:
 - Age: {age}
 - Occupation: {occupation}
 - Situation: {context}
 
-Create a scenario that:
-- Is personalized to their circumstances
-- Describes a nearby wildfire requiring evacuation
-- Sets up an urgent but realistic emergency situation
-- Is written in second person ("You are...")
-- Does NOT mention their exact age explicitly
+CRITICAL REQUIREMENTS:
+- Use SIMPLE, everyday words (8th grade reading level)
+- Make it feel IMMEDIATE and REAL
+- Start with: "It is a regular day at home. You are [doing something typical]..."
+- MUST end with: "Your phone suddenly rings. The caller ID shows the local fire department."
+- Do NOT mention age explicitly
+- Keep it SHORT (2-3 simple sentences)
 
-Example: "You are at home working on your computer when you notice smoke in the distance. The local news reports a wildfire spreading rapidly through nearby neighborhoods. Your phone rings—it's the fire department."
+GOOD EXAMPLE:
+"It is a regular day at home. You are working on your computer projects when your phone suddenly rings. The caller ID shows the local fire department."
 
-Generate only the scenario text, no labels or extra formatting."""
+BAD EXAMPLE (too formal, doesn't end with phone):
+"You are at home preparing dinner when the smell of smoke fills the air. You glance out the window and see flames in the distance..."
+
+Generate ONLY the scenario text in the good example style."""
 
     try:
-        scenario = call_openai_chat(prompt, model=model, temperature=0.7, max_tokens=100)
+        scenario = call_openai_chat(prompt, model=model, temperature=0.7, max_tokens=80)
         scenario = scenario.strip().strip('"').strip("'")
         print(f"[SCENARIO] Generated personalized scenario: {scenario[:100]}...")
         return scenario
     except Exception as e:
         print(f"[WARNING] Failed to generate scenario: {e}, using fallback")
-        return "You are at home when you notice smoke in the distance. A wildfire is spreading rapidly through nearby neighborhoods. Your phone rings—it's the fire department calling about an emergency evacuation."
+        return "It is a regular day at home. You are relaxing when your phone suddenly rings. The caller ID shows the local fire department."
 
 
 def generate_initial_greeting(character: str, persona: str, model: str = "gpt-4o-mini") -> str:
@@ -910,7 +915,7 @@ async def start_chat(request: Request):
                 session["scenario"] = scenario
             else:
                 print(f"[CHAT] No survey data provided, using fallback scenario")
-                scenario = "You are at home when you notice smoke in the distance. A wildfire is spreading rapidly. Your phone rings—it's the fire department."
+                scenario = "It is a regular day at home. You are relaxing when your phone suddenly rings. The caller ID shows the local fire department."
                 session["scenario"] = scenario
             
             # Generate initial greeting
