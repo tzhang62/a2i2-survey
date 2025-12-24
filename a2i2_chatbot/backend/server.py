@@ -1280,9 +1280,12 @@ async def exit_study(request: Request):
                 exit_data["post_surveys"] = participant_data[participant_id]["post_surveys"]
         
         # Gather all conversations for this participant from conversation_sessions
-        print(f"[EXIT] Gathering conversations...")
+        print(f"[EXIT] Gathering conversations for participant: {participant_id}")
+        print(f"[EXIT] Total sessions in memory: {len(conversation_sessions)}")
+        
         conversations = []
         for session_id, session in conversation_sessions.items():
+            print(f"[EXIT] Checking session {session_id}, participant: {session.get('participant_id')}")
             if session.get("participant_id") == participant_id:
                 conv_data = {
                     "session_id": session_id,
@@ -1411,9 +1414,14 @@ async def complete_study(request: Request):
                 completion_data["post_surveys"] = participant_data[participant_id]["post_surveys"]
         
         # Gather ALL conversations for this participant from conversation_sessions
+        print(f"[COMPLETE] Looking for conversations for participant: {participant_id}")
+        print(f"[COMPLETE] Total sessions in memory: {len(conversation_sessions)}")
+        
         conversations = []
         for session_id, session in conversation_sessions.items():
+            print(f"[COMPLETE] Checking session {session_id}, participant: {session.get('participant_id')}")
             if session.get("participant_id") == participant_id:
+                print(f"[COMPLETE] Found matching session: {session_id}")
                 conv_data = {
                     "session_id": session_id,
                     "character": session.get("character"),
@@ -1427,6 +1435,8 @@ async def complete_study(request: Request):
                     "scenario": session.get("scenario")
                 }
                 conversations.append(conv_data)
+        
+        print(f"[COMPLETE] Found {len(conversations)} conversations for {participant_id}")
         
         # Sort conversations by creation time
         conversations.sort(key=lambda x: x.get("created_at", ""))
