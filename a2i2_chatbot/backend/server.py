@@ -26,6 +26,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
+import threading
 
 # Suppress warnings
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -1132,8 +1133,8 @@ def get_next_confirmation_number(prefix: str) -> str:
     return f"{prefix}{number:03d}"
 
 
-def email_participant_data(data: dict, subject: str):
-    """Email participant data as JSON attachment via Gmail SMTP"""
+def _send_email_sync(data: dict, subject: str):
+    """Internal synchronous email function (runs in background thread)"""
     try:
         # Get Gmail credentials from environment
         gmail_user = os.getenv('GMAIL_USER')
@@ -1184,6 +1185,14 @@ Complete data is attached as JSON file.
         print(f"[ERROR] Failed to email via Gmail: {e}")
         traceback.print_exc()
         return False
+
+
+def email_participant_data(data: dict, subject: str):
+    """Email participant data asynchronously (non-blocking) via Gmail SMTP"""
+    # Send email in background thread so API responds immediately
+    thread = threading.Thread(target=_send_email_sync, args=(data, subject), daemon=True)
+    thread.start()
+    print(f"[EMAIL] Started background email send for {data.get('confirmation_number', 'UNKNOWN')}")
 
 
 @app.post("/api/exit-study")
