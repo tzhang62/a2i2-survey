@@ -1212,15 +1212,21 @@ def email_participant_data(data: dict, subject: str):
 async def exit_study(request: Request):
     """Handle early exit from study and generate INC confirmation number"""
     try:
+        print("[EXIT] Processing exit request...")
         data = await request.json()
         participant_id = data.get("participantId")
         page = data.get("exitPage", "unknown")
         
+        print(f"[EXIT] Participant: {participant_id}, Page: {page}")
+        
         if not participant_id:
+            print("[EXIT] ERROR: No participant ID provided")
             raise HTTPException(status_code=400, detail="Participant ID required")
         
         # Generate INC confirmation number
+        print("[EXIT] Generating confirmation number...")
         confirmation_number = get_next_confirmation_number("INC")
+        print(f"[EXIT] Generated: {confirmation_number}")
         
         # Gather all participant data from memory
         exit_data = {
@@ -1239,6 +1245,7 @@ async def exit_study(request: Request):
                 exit_data["post_surveys"] = participant_data[participant_id]["post_surveys"]
         
         # Gather all conversations for this participant from conversation_sessions
+        print(f"[EXIT] Gathering conversations...")
         conversations = []
         for session_id, session in conversation_sessions.items():
             if session.get("participant_id") == participant_id:
@@ -1258,16 +1265,20 @@ async def exit_study(request: Request):
         
         if conversations:
             exit_data["conversations"] = conversations
+        print(f"[EXIT] Found {len(conversations)} conversations")
         
         # Save comprehensive exit record with ONE file
+        print(f"[EXIT] Saving to file...")
         exit_dir = os.path.join(SURVEY_RESPONSES_DIR, "exits")
         os.makedirs(exit_dir, exist_ok=True)
         
         exit_file = os.path.join(exit_dir, f"{confirmation_number}.json")
         with open(exit_file, 'w') as f:
             json.dump(exit_data, f, indent=2)
+        print(f"[EXIT] File saved: {exit_file}")
         
-        # Email the data to researcher
+        # Email the data to researcher (async - don't wait)
+        print(f"[EXIT] Starting email send...")
         email_participant_data(exit_data, f"Study Exit: {confirmation_number}")
         
         # Clean up memory for this participant
