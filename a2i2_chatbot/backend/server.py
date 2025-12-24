@@ -663,14 +663,11 @@ def initialize_policy_retriever_lazy():
         print("[POLICY-RETRIEVER] Lazy loading sentence-transformers (first use, may take 30-60s)...")
         t1 = timing_module.time()
         
-        # Load sentence-transformers model with optimizations
+        # Load sentence-transformers model
         embed_model = SentenceTransformer(EMBED_MODEL)
         
         # Optimize for CPU inference
         embed_model.to('cpu')
-        # Use single thread for consistency (multi-threading can be slow on some platforms)
-        import torch
-        torch.set_num_threads(1)
         
         # Warm up with a dummy encoding
         _ = embed_model.encode(["warm up"], convert_to_numpy=True, show_progress_bar=False)
@@ -1155,7 +1152,7 @@ def _send_email_sync(data: dict, subject: str):
         recipient_email = os.getenv('RESEARCHER_EMAIL', 'tzhang62@usc.edu')
         
         if not gmail_user or not gmail_password:
-            print("[EMAIL] Gmail credentials not set, skipping email")
+            print("[EMAIL] Gmail credentials not set, data saved locally only")
             return False
         
         # Create message
@@ -1194,18 +1191,28 @@ Complete data is attached as JSON file.
         print(f"[EMAIL] Sent {confirmation} to {recipient_email} via Gmail")
         return True
         
+    except OSError as e:
+        # Network errors (e.g., Render free tier blocks SMTP)
+        print(f"[EMAIL] Network error (SMTP blocked?): {e}")
+        print(f"[EMAIL] Data saved locally at: survey_responses/{data.get('status', 'unknown')}/{confirmation}.json")
+        return False
     except Exception as e:
-        print(f"[ERROR] Failed to email via Gmail: {e}")
-        traceback.print_exc()
+        # Other email errors (credentials, format, etc.)
+        print(f"[EMAIL] Failed to send email (non-critical): {e}")
+        print(f"[EMAIL] Data saved locally at: survey_responses/{data.get('status', 'unknown')}/{confirmation}.json")
         return False
 
 
 def email_participant_data(data: dict, subject: str):
     """Email participant data asynchronously (non-blocking) via Gmail SMTP"""
-    # Send email in background thread so API responds immediately
-    thread = threading.Thread(target=_send_email_sync, args=(data, subject), daemon=True)
-    thread.start()
-    print(f"[EMAIL] Started background email send for {data.get('confirmation_number', 'UNKNOWN')}")
+    try:
+        # Send email in background thread so API responds immediately
+        thread = threading.Thread(target=_send_email_sync, args=(data, subject), daemon=True)
+        thread.start()
+        print(f"[EMAIL] Started background email send for {data.get('confirmation_number', 'UNKNOWN')}")
+    except Exception as e:
+        # Silently fail - don't block API response if threading fails
+        print(f"[EMAIL] Failed to start email thread (non-critical): {e}")
 
 
 @app.post("/api/exit-study")
