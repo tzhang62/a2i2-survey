@@ -27,13 +27,11 @@ else:
 
 # Policy names (must match training)
 POLICY_NAMES = [
-    "provide_information",
-    "offer_assistance", 
-    "express_urgency",
-    "ask_question",
-    "give_direction",
-    "acknowledge_concern",
-    "build_rapport"
+    "bob",
+    "lindsay",
+    "michelle",
+    "niki",
+    "ross"
 ]
 
 class IQLHuggingFace:
