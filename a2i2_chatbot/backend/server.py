@@ -22,6 +22,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 from sentence_transformers import SentenceTransformer
 import requests
+
+# Try to import HF Embedding API wrapper
+try:
+    from embedding_hf_api import get_embedding_hf, HF_EMBEDDING_API_AVAILABLE
+except ImportError:
+    print("[WARNING] embedding_hf_api.py not found, will use local embeddings")
+    HF_EMBEDDING_API_AVAILABLE = False
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -660,20 +667,24 @@ def initialize_policy_retriever_lazy():
     base = Path(__file__).resolve().parent
     
     try:
-        print("[POLICY-RETRIEVER] Lazy loading sentence-transformers (first use, may take 30-60s)...")
-        t1 = timing_module.time()
-        
-        # Load sentence-transformers model
-        embed_model = SentenceTransformer(EMBED_MODEL)
-        
-        # Optimize for CPU inference
-        embed_model.to('cpu')
-        
-        # Warm up with a dummy encoding
-        _ = embed_model.encode(["warm up"], convert_to_numpy=True, show_progress_bar=False)
-        
-        t2 = timing_module.time()
-        print(f"[POLICY-RETRIEVER] Model loaded in {t2-t1:.2f}s")
+        # Use HF Embedding API instead of local model for speed
+        if HF_EMBEDDING_API_AVAILABLE:
+            print("[POLICY-RETRIEVER] Using HF Space GPU embeddings (fast!)")
+            t1 = timing_module.time()
+            embed_model = get_embedding_hf()
+            t2 = timing_module.time()
+            print(f"[POLICY-RETRIEVER] HF embedding API ready in {t2-t1:.2f}s")
+        else:
+            print("[POLICY-RETRIEVER] Falling back to local embeddings (slow on Render)")
+            t1 = timing_module.time()
+            
+            # Load sentence-transformers model locally
+            embed_model = SentenceTransformer(EMBED_MODEL)
+            embed_model.to('cpu')
+            _ = embed_model.encode(["warm up"], convert_to_numpy=True, show_progress_bar=False)
+            
+            t2 = timing_module.time()
+            print(f"[POLICY-RETRIEVER] Local model loaded in {t2-t1:.2f}s")
         
         # Initialize policy retriever
         policy_retriever = PolicyExampleRetriever(base_dir=base, embed_model=embed_model)

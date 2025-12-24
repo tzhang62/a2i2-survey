@@ -145,6 +145,57 @@ async def predict(req: Request):
 async def health():
     return {"status": "ok", "model_loaded": iql_selector is not None}
 
+# ============================================================================
+# Embedding API
+# ============================================================================
+
+class EmbedRequest(BaseModel):
+    texts: List[str]
+    normalize: Optional[bool] = True
+
+class EmbedResponse(BaseModel):
+    embeddings: List[List[float]]
+    model: str = EMBED_MODEL
+    dimension: int
+
+@app.post("/embed", response_model=EmbedResponse)
+async def embed_texts(req: EmbedRequest):
+    """
+    Embed texts using sentence-transformers (GPU-accelerated)
+    
+    Input:
+        texts: List of strings to embed
+        normalize: Whether to normalize embeddings (default: True)
+    
+    Output:
+        embeddings: List of embedding vectors (384-dim)
+    """
+    if not iql_selector:
+        return {"embeddings": [], "dimension": 384}
+    
+    try:
+        # Use the already-loaded sentence-transformers model
+        embeddings = iql_selector.embed_model.encode(
+            req.texts,
+            convert_to_numpy=True,
+            normalize_embeddings=req.normalize,
+            show_progress_bar=False
+        )
+        
+        # Convert to list for JSON serialization
+        embeddings_list = embeddings.tolist()
+        
+        return EmbedResponse(
+            embeddings=embeddings_list,
+            dimension=embeddings.shape[1]
+        )
+        
+    except Exception as e:
+        print(f"[EMBED] Error: {e}")
+        import traceback
+        traceback.print_exc()
+        return {"embeddings": [], "dimension": 384}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=7860)
