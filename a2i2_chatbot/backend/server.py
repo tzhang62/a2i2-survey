@@ -22,6 +22,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 from sentence_transformers import SentenceTransformer
 import requests
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
+import base64
 
 # Suppress warnings
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -1064,6 +1067,59 @@ def get_next_confirmation_number(prefix: str) -> str:
     return f"{prefix}{number:03d}"
 
 
+def email_participant_data(data: dict, subject: str):
+    """Email participant data as JSON attachment via SendGrid"""
+    try:
+        # Get SendGrid API key and recipient email from environment
+        sendgrid_api_key = os.getenv('SENDGRID_API_KEY')
+        recipient_email = os.getenv('RESEARCHER_EMAIL', 'your-email@usc.edu')
+        sender_email = os.getenv('SENDER_EMAIL', 'noreply@a2i2survey.com')
+        
+        if not sendgrid_api_key:
+            print("[EMAIL] SENDGRID_API_KEY not set, skipping email")
+            return False
+        
+        # Convert data to JSON string
+        json_str = json.dumps(data, indent=2)
+        confirmation = data.get("confirmation_number", "UNKNOWN")
+        
+        # Create email message
+        message = Mail(
+            from_email=sender_email,
+            to_emails=recipient_email,
+            subject=subject,
+            html_content=f'''
+                <h3>Participant Data Received</h3>
+                <p><strong>Confirmation Number:</strong> {confirmation}</p>
+                <p><strong>Status:</strong> {data.get("status", "unknown")}</p>
+                <p><strong>Timestamp:</strong> {data.get("completion_timestamp") or data.get("exit_timestamp", "N/A")}</p>
+                <p>Complete data is attached as JSON file.</p>
+            '''
+        )
+        
+        # Attach JSON file
+        encoded = base64.b64encode(json_str.encode()).decode()
+        attachment = Attachment(
+            FileContent(encoded),
+            FileName(f'{confirmation}.json'),
+            FileType('application/json'),
+            Disposition('attachment')
+        )
+        message.attachment = attachment
+        
+        # Send email
+        sg = SendGridAPIClient(sendgrid_api_key)
+        response = sg.send(message)
+        
+        print(f"[EMAIL] Sent {confirmation} to {recipient_email}, status: {response.status_code}")
+        return True
+        
+    except Exception as e:
+        print(f"[ERROR] Failed to email data: {e}")
+        traceback.print_exc()
+        return False
+
+
 @app.post("/api/exit-study")
 async def exit_study(request: Request):
     """Handle early exit from study and generate INC confirmation number"""
@@ -1122,6 +1178,9 @@ async def exit_study(request: Request):
         exit_file = os.path.join(exit_dir, f"{confirmation_number}.json")
         with open(exit_file, 'w') as f:
             json.dump(exit_data, f, indent=2)
+        
+        # Email the data to researcher
+        email_participant_data(exit_data, f"Study Exit: {confirmation_number}")
         
         # Clean up memory for this participant
         if participant_id in participant_data:
@@ -1246,6 +1305,9 @@ async def complete_study(request: Request):
         complete_file = os.path.join(complete_dir, f"{confirmation_number}.json")
         with open(complete_file, 'w') as f:
             json.dump(completion_data, f, indent=2)
+        
+        # Email the data to researcher
+        email_participant_data(completion_data, f"Study Complete: {confirmation_number}")
         
         # Clean up memory for this participant
         if participant_id in participant_data:
