@@ -400,6 +400,9 @@
           sessionStorage.setItem('participantId', response.participantId);
           sessionStorage.setItem('participantNickname', formData.background.nickname || 'Participant');
           
+          // Store survey data for personalized scenarios
+          sessionStorage.setItem('surveyData', JSON.stringify(formData));
+          
           // Initialize conversation tracking (start fresh)
           sessionStorage.setItem('completedConversations', '0');
           
