@@ -641,6 +641,39 @@ iql_selector = None
 policy_retriever = None
 
 
+def initialize_policy_retriever_lazy():
+    """Lazy initialization of policy retriever (loads on first use)"""
+    global policy_retriever
+    
+    if policy_retriever is not None:
+        return  # Already initialized
+    
+    import time as timing_module
+    base = Path(__file__).resolve().parent
+    
+    try:
+        print("[POLICY-RETRIEVER] Lazy loading sentence-transformers (first use, may take 30-60s)...")
+        t1 = timing_module.time()
+        
+        # Load sentence-transformers model
+        embed_model = SentenceTransformer(EMBED_MODEL)
+        
+        # Warm up with a dummy encoding
+        _ = embed_model.encode(["warm up"], convert_to_numpy=True)
+        
+        t2 = timing_module.time()
+        print(f"[POLICY-RETRIEVER] Model loaded in {t2-t1:.2f}s")
+        
+        # Initialize policy retriever
+        policy_retriever = PolicyExampleRetriever(base_dir=base, embed_model=embed_model)
+        print("[POLICY-RETRIEVER] Ready for fast retrieval")
+        
+    except Exception as e:
+        print(f"[ERROR] Policy retriever lazy initialization failed: {e}")
+        traceback.print_exc()
+        policy_retriever = None
+
+
 def initialize_iql():
     """Initialize IQL system using Hugging Face API ONLY"""
     global iql_selector, policy_retriever
@@ -660,37 +693,11 @@ def initialize_iql():
         # Use Hugging Face API - no local model
         iql_selector = get_iql_hf()
         
-        # Initialize lightweight policy retriever for example retrieval (PRELOAD NOW!)
-        base = Path(__file__).resolve().parent
-        try:
-            print("[POLICY-RETRIEVER] Loading sentence-transformers model (this may take 30-60s on first run)...")
-            t1 = timing_module.time()
-            
-            # Load sentence-transformers model
-            embed_model = SentenceTransformer(EMBED_MODEL)
-            
-            # Warm up the model with a dummy encoding to ensure it's fully loaded
-            _ = embed_model.encode(["warm up"], convert_to_numpy=True)
-            
-            t2 = timing_module.time()
-            print(f"[POLICY-RETRIEVER] Sentence-transformers loaded in {t2-t1:.2f}s")
-            
-            # Initialize policy retriever
-            policy_retriever = PolicyExampleRetriever(base_dir=base, embed_model=embed_model)
-            
-            # Preload one policy to warm up the cache
-            t3 = timing_module.time()
-            available_policies = ["bob", "lindsay", "michelle", "niki", "ross"]
-            if available_policies:
-                _ = policy_retriever._load_policy(available_policies[0])
-                t4 = timing_module.time()
-                print(f"[POLICY-RETRIEVER] Preloaded cache in {t4-t3:.2f}s")
-            
-            print("[POLICY-RETRIEVER] Fully initialized and ready for fast retrieval")
-        except Exception as e:
-            print(f"[WARNING] Policy retriever initialization failed: {e}")
-            traceback.print_exc()
-            policy_retriever = None
+        # Use LAZY LOADING for policy retriever to save memory at startup
+        # Will load on first Session 2 message instead of at startup
+        print("[POLICY-RETRIEVER] Using lazy loading (will load on first use)")
+        print("[POLICY-RETRIEVER] This keeps startup fast and saves memory")
+        policy_retriever = None  # Will be initialized on first use
         
         init_end = timing_module.time()
         print(f"[IQL] System initialized successfully in {init_end-init_start:.2f}s (Hugging Face API)")
@@ -1026,10 +1033,15 @@ async def send_message(chat_req: ChatRequest):
             print(f"[IQL] Selected policy: {best_policy} (took {t2-t1:.2f}s)")
             
             # Retrieval + operator generation
+            # Lazy load policy retriever on first use
+            if policy_retriever is None:
+                initialize_policy_retriever_lazy()
+            
             t3 = timing_module.time()
             if policy_retriever:
                 examples = policy_retriever.retrieve_topk_pairs(best_policy, resident_query=chat_req.message, k=2)
             else:
+                print("[WARNING] Policy retriever not available, using no examples")
                 examples = []
             t4 = timing_module.time()
             print(f"[RETRIEVAL] Got {len(examples)} examples (took {t4-t3:.2f}s)")
