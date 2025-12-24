@@ -1,0 +1,98 @@
+[
+  {
+    "resident_text": "Hello?",
+    "operator_text": "How many people are in your residence?"
+  },
+  {
+    "resident_text": "I'm here with my partner.",
+    "operator_text": "OK. Are you aware that there is a fire approaching and both of you need to evacuate?"
+  },
+  {
+    "resident_text": "We were just how serious the fire was.",
+    "operator_text": "Well, it's very serious. That's why I'm on here talking to you. So I need for you to get out of the house right now and follow the drone so he can direct you to the emergency vehicle."
+  },
+  {
+    "resident_text": "who are you?",
+    "operator_text": "I'm part of the emergency service. I just want to make sure that you guys are taking off or if you need extra assistance."
+  },
+  {
+    "resident_text": "You're alright. the drone said something about a fire?",
+    "operator_text": "Sorry, I'm getting a little bit of feedback. What was that?"
+  },
+  {
+    "resident_text": "You're alright. You don't have to say anything about a fire.",
+    "operator_text": "Yeah, there's a fire approaching north to your house. You need to grab your belongings and head north and get out of there."
+  },
+  {
+    "resident_text": "do you know anywhere in particular we should go?",
+    "operator_text": "You're going to head north down on the street. So that's the only escape route as of right now. You can follow the drone north if you need to."
+  },
+  {
+    "resident_text": "Hello",
+    "operator_text": ". Hi, you have fire in your area to the south. You need to evacuate right away, please."
+  },
+  {
+    "resident_text": "we thought it would be contained soon",
+    "operator_text": "It's not. It is headed your way. It's an emergency and you need to evacuate as soon as possible."
+  },
+  {
+    "resident_text": "do you know anywhere in particular we should go?",
+    "operator_text": "Uh, I would head north. The drone can lead you out."
+  },
+  {
+    "resident_text": "we weren't sure just how serious the fire was.",
+    "operator_text": "ok, it's starting to spread. It's almost there. Hello? Yes, I need you guys to evacuate. ASAP. Now. As the fire is about to get to your house."
+  },
+  {
+    "resident_text": "Hello.",
+    "operator_text": "Good. What are you guys up to? Is your car working?"
+  },
+  {
+    "resident_text": "We were just not sure how serious the fire was.",
+    "operator_text": "Okay. Do me a favor. There's a big fire that's fastly moving towards your direction. Can you guys please just get out of there as quickly as possible? Jump in your car."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Are you okay?"
+  },
+  {
+    "resident_text": "Yeah. Who are you?",
+    "operator_text": "Is that a purple vehicle?"
+  },
+  {
+    "resident_text": "Yes.",
+    "operator_text": "We're here with the fire rescue unit. We're looking at you through a UAV. And we will dispatch a transport vagon to recover you shortly"
+  },
+  {
+    "resident_text": "We weren't sure just how serious the fire was.",
+    "operator_text": "oh it's serious hello civilians, Your transport wagon is on the way."
+  },
+  {
+    "resident_text": "that was very helpful, thank you",
+    "operator_text": "Do you need to get anything from inside your house? You have about 30 seconds, maybe less."
+  },
+  {
+    "resident_text": "no I don't hink so",
+    "operator_text": "Any pets you left inside?"
+  },
+  {
+    "resident_text": "Hey, you weren't sure just how serious the fire was.",
+    "operator_text": "It's pretty serious. What I'm going to do now is send emergency vehicles within your area, okay? So we'll connect with you very soon. I'm sending them now."
+  },
+  {
+    "resident_text": "He thought it will be contained soon.",
+    "operator_text": "You know what actually is growing rather rapidly, so they should be coming directly to you pretty soon. It's definitely not contained."
+  },
+  {
+    "resident_text": "Is there anywhere in particular we should go?",
+    "operator_text": "No, just stay where you are outside to make sure the emergency vehicles will be able to spot you and get you to safety, okay?"
+  },
+  {
+    "resident_text": "Okay.",
+    "operator_text": "Okay, and they should be coming to you pretty soon. And like I said, please stay outside and we'll get you to safety shortly."
+  },
+  {
+    "resident_text": "Hello.",
+    "operator_text": "Hi, this is a fire dispatcher today again. I just wanted to let you know that the emergency vehicle should be there within seconds, okay?"
+  }
+]

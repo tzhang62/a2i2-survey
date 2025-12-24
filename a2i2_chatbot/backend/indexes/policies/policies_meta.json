@@ -1,0 +1,35 @@
+{
+  "model_name": "all-MiniLM-L6-v2",
+  "policies": {
+    "bob": {
+      "num_pairs": 83,
+      "pairs_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/bob_pairs.json",
+      "embeds_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/bob_op_embeds.npy",
+      "prototype_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/bob_prototype.npy"
+    },
+    "lindsay": {
+      "num_pairs": 26,
+      "pairs_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/lindsay_pairs.json",
+      "embeds_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/lindsay_op_embeds.npy",
+      "prototype_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/lindsay_prototype.npy"
+    },
+    "michelle": {
+      "num_pairs": 73,
+      "pairs_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/michelle_pairs.json",
+      "embeds_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/michelle_op_embeds.npy",
+      "prototype_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/michelle_prototype.npy"
+    },
+    "niki": {
+      "num_pairs": 24,
+      "pairs_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/niki_pairs.json",
+      "embeds_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/niki_op_embeds.npy",
+      "prototype_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/niki_prototype.npy"
+    },
+    "ross": {
+      "num_pairs": 73,
+      "pairs_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/ross_pairs.json",
+      "embeds_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/ross_op_embeds.npy",
+      "prototype_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/ross_prototype.npy"
+    }
+  }
+}

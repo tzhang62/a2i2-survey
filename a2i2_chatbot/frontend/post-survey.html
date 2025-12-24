@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post-Conversation Survey</title>
+  <link rel="stylesheet" href="styles/post-survey.css">
+</head>
+<body>
+  <div class="fire-overlay"></div>
+  
+  <div class="survey-container">
+    <header class="survey-header">
+      <h1>Post-Conversation Questions</h1>
+      <p class="subtitle">Please share your thoughts about the conversation you just had</p>
+    </header>
+
+    <form id="post-survey-form" class="survey-form">
+      <!-- Question 1: Willingness to be rescued -->
+      <section class="question-section">
+        <h2>1. Were you willing to be rescued based on this conversation?</h2>
+        <p class="question-description">
+          That is, did the emergency operator's responses make you feel ready or convinced to follow the rescue instructions?
+        </p>
+        
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="willing_rescued" value="yes" required>
+            <span>Yes, I was willing to be rescued.</span>
+          </label>
+          
+          <div class="conditional-field" id="yes-field" style="display: none;">
+            <label for="yes-influence">What influenced your decision:</label>
+            <textarea id="yes-influence" name="yes_influence" rows="4" placeholder="Please describe what influenced your decision..."></textarea>
+          </div>
+
+          <label class="radio-option">
+            <input type="radio" name="willing_rescued" value="maybe" required>
+            <span>Maybe / uncertain.</span>
+          </label>
+
+          <label class="radio-option">
+            <input type="radio" name="willing_rescued" value="no" required>
+            <span>No, I was not willing to be rescued.</span>
+          </label>
+          
+          <div class="conditional-field" id="no-field" style="display: none;">
+            <label for="no-convince">If no, what would have made the operator's guidance more convincing:</label>
+            <textarea id="no-convince" name="no_convince" rows="4" placeholder="Please describe what would have been more convincing..."></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- Question 2: Naturalness of conversation -->
+      <section class="question-section">
+        <h2>2. How natural and coherent did this conversation feel overall?</h2>
+        <p class="question-description">
+          We'd love to hear your honest thoughts
+        </p>
+        
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="naturalness" value="very_natural" required>
+            <span>Very natural</span>
+          </label>
+
+          <label class="radio-option">
+            <input type="radio" name="naturalness" value="somewhat_natural" required>
+            <span>Somewhat natural</span>
+          </label>
+          
+          <div class="conditional-field" id="somewhat-field" style="display: none;">
+            <label>Mark the number of utterances you think are unnatural:</label>
+            <div class="checkbox-grid" id="somewhat-utterances"></div>
+          </div>
+
+          <label class="radio-option">
+            <input type="radio" name="naturalness" value="neutral" required>
+            <span>Neutral</span>
+          </label>
+          
+          <div class="conditional-field" id="neutral-field" style="display: none;">
+            <label>Mark the number of utterances you think are unnatural:</label>
+            <div class="checkbox-grid" id="neutral-utterances"></div>
+          </div>
+
+          <label class="radio-option">
+            <input type="radio" name="naturalness" value="bit_unnatural" required>
+            <span>A bit unnatural</span>
+          </label>
+          
+          <div class="conditional-field" id="bit-field" style="display: none;">
+            <label>Mark the number of utterances you think are unnatural:</label>
+            <div class="checkbox-grid" id="bit-utterances"></div>
+          </div>
+
+          <label class="radio-option">
+            <input type="radio" name="naturalness" value="not_natural" required>
+            <span>Not natural at all</span>
+          </label>
+          
+          <div class="conditional-field" id="not-field" style="display: none;">
+            <label>Mark the number of utterances you think are unnatural:</label>
+            <div class="checkbox-grid" id="not-utterances"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Submit Button -->
+      <div class="submit-section">
+        <button type="submit" class="btn-submit">Submit Feedback</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="js/post-survey.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fire Rescue Chat - Emergency Response</title>
+  <link rel="stylesheet" href="styles/chat.css">
+</head>
+<body>
+  <div class="fire-overlay"></div>
+  
+  <div class="chat-container">
+    <header class="chat-header">
+      <div class="header-content">
+        <div class="emergency-badge">🚨 EMERGENCY CALL</div>
+        <h1>Fire Department Dispatcher</h1>
+        <div id="session-status" class="session-status">
+          <!-- Session and conversation info will be populated by JavaScript -->
+        </div>
+        <div id="character-info" class="character-info"></div>
+      </div>
+    </header>
+
+    <div id="chat-messages" class="chat-messages">
+      <!-- Messages will be inserted here -->
+    </div>
+
+    <div class="chat-input-container" id="chat-input-container">
+      <div class="input-wrapper">
+        <textarea 
+          id="message-input" 
+          class="message-input" 
+          placeholder="Type your message..." 
+          rows="2"
+        ></textarea>
+        <button id="send-btn" class="send-btn">
+          Send 📤
+        </button>
+      </div>
+      <div class="turn-counter">
+        <span id="turn-count">Turn: 0 / 5</span>
+      </div>
+    </div>
+
+    <!-- Post-Survey Section (shown after conversation ends) -->
+    <div id="post-survey-section" class="post-survey-section hidden">
+      <div class="post-survey-card">
+        <h2>Post-Conversation Survey</h2>
+        <p class="survey-instruction">Please review the conversation above and answer the following questions:</p>
+        <p class="survey-requirement">
+          <strong>Note:</strong> Both questions below are required before proceeding to the next conversation.
+        </p>
+        
+        <form id="post-survey-form">
+          <!-- Question 1: Willingness to be rescued -->
+          <div class="survey-question">
+            <label class="question-label">
+              1. Were you willing to be rescued based on this conversation?
+              <span class="required">*</span>
+            </label>
+            <p class="question-explanation">
+              (That is, did the emergency operator's responses make you feel ready or convinced to follow the rescue instructions?)
+            </p>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="willing" value="yes" required>
+                <span>Yes, I was willing to be rescued</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="willing" value="maybe" required>
+                <span>Maybe / uncertain</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="willing" value="no" required>
+                <span>No, I was not willing to be rescued</span>
+              </label>
+            </div>
+            
+            <div id="willing-yes-details" class="conditional-field hidden">
+              <label class="sub-label">What influenced your decision:</label>
+              <textarea name="willingYesDetails" rows="3" placeholder="Please describe what influenced your decision..."></textarea>
+            </div>
+            
+            <div id="willing-no-details" class="conditional-field hidden">
+              <label class="sub-label">If no, what would have made the operator's guidance more convincing:</label>
+              <textarea name="willingNoDetails" rows="3" placeholder="Please describe what would have been more convincing..."></textarea>
+            </div>
+          </div>
+
+          <!-- Question 2: Naturalness -->
+          <div class="survey-question">
+            <label class="question-label">
+              2. How natural and coherent did this conversation feel overall?
+              <span class="required">*</span>
+            </label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="naturalness" value="very-natural" required>
+                <span>Very natural and coherent</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="naturalness" value="somewhat-natural" required>
+                <span>Somewhat natural</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="naturalness" value="neutral" required>
+                <span>Neutral</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="naturalness" value="somewhat-unnatural" required>
+                <span>Somewhat unnatural</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="naturalness" value="very-unnatural" required>
+                <span>Not natural at all</span>
+              </label>
+            </div>
+            
+            <div id="unnatural-details" class="conditional-field hidden">
+              <label class="sub-label">Which utterances could be improved? (Select all that apply)</label>
+              <div id="utterance-checkboxes" class="checkbox-group">
+                <!-- Will be populated dynamically with operator utterances -->
+              </div>
+            </div>
+          </div>
+
+          <div class="survey-actions">
+            <button type="submit" class="btn-submit">Submit Survey</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- End of Conversation Modal -->
+  <div id="end-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="end-title">Conversation Ended</h2>
+      <p id="end-message"></p>
+      <button id="close-modal-btn" class="btn-primary">Close</button>
+    </div>
+  </div>
+
+  <!-- Background Ambient Sound -->
+  <audio id="ambientSound" loop>
+    <source src="media/distant-ambulance.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Sound Control Button -->
+  <div class="sound-control">
+    <button id="toggleSound" class="sound-btn" title="Toggle Background Sound">
+      <span class="sound-icon sound-on">🔊</span>
+      <span class="sound-icon sound-off hidden">🔇</span>
+    </button>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="spinner"></div>
+    <p>Operator is responding...</p>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="js/exit-study.js"></script>
+  <script src="js/chat.js"></script>
+  <script>
+    // Initialize exit button
+    window.addEventListener('DOMContentLoaded', function() {
+      window.initExitButton('chat');
+    });
+  </script>
+</body>
+</html>

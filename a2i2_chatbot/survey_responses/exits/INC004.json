@@ -1,0 +1,53 @@
+{
+  "confirmation_number": "INC004",
+  "participant_id": "e7cd3336-3323-4b64-8eda-1c3b1ddbf8af",
+  "status": "incomplete",
+  "exit_page": "chat",
+  "exit_timestamp": "2025-12-24T03:08:29.830247",
+  "survey_data": {
+    "timestamp": "2025-12-24T03:07:22.393Z",
+    "background": {
+      "email": "tzhang62@usc.edu",
+      "nickname": "Mavis",
+      "age": "30",
+      "gender": "female",
+      "education": "some-college",
+      "occupation": "software engineer",
+      "ideology": "2"
+    },
+    "personality": {
+      "q1": "5",
+      "q2": "1",
+      "q3": "5",
+      "q4": "1",
+      "q5": "5",
+      "q6": "1",
+      "q7": "5",
+      "q8": "1",
+      "q9": "5",
+      "q10": "1"
+    },
+    "moral": {
+      "q1": "5",
+      "q2": "5",
+      "q3": "5",
+      "q4": "5",
+      "q5": "5",
+      "q6": "5",
+      "q7": "5",
+      "q8": "5",
+      "q9": "5",
+      "q10": "5",
+      "q11": "5",
+      "q12": "5"
+    },
+    "specialNeeds": {
+      "condition": "no",
+      "responsible": "no",
+      "vehicle": "no",
+      "details": ""
+    },
+    "participantId": "e7cd3336-3323-4b64-8eda-1c3b1ddbf8af",
+    "serverTimestamp": "2025-12-24T03:07:22.459612"
+  }
+}

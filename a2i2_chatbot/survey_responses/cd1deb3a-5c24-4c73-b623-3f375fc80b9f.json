@@ -1,0 +1,46 @@
+{
+  "timestamp": "2025-12-23T20:37:44.072Z",
+  "background": {
+    "email": "tzhang62@usc.edu",
+    "nickname": "Mavis",
+    "age": "30",
+    "gender": "female",
+    "education": "graduate-degree",
+    "occupation": "Research assistant",
+    "ideology": "2"
+  },
+  "personality": {
+    "q1": "5",
+    "q2": "1",
+    "q3": "5",
+    "q4": "1",
+    "q5": "5",
+    "q6": "5",
+    "q7": "1",
+    "q8": "5",
+    "q9": "1",
+    "q10": "5"
+  },
+  "moral": {
+    "q1": "6",
+    "q2": "6",
+    "q3": "6",
+    "q4": "6",
+    "q5": "6",
+    "q6": "6",
+    "q7": "6",
+    "q8": "6",
+    "q9": "6",
+    "q10": "6",
+    "q11": "6",
+    "q12": "6"
+  },
+  "specialNeeds": {
+    "condition": "no",
+    "responsible": "no",
+    "vehicle": "no",
+    "details": ""
+  },
+  "participantId": "cd1deb3a-5c24-4c73-b623-3f375fc80b9f",
+  "serverTimestamp": "2025-12-23T20:37:44.109268"
+}

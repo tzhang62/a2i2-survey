@@ -1,0 +1,14 @@
+{
+  "sessionId": "c3496889-ef76-4a2d-bddb-832c157dc4be_ben_1766461142",
+  "participantId": "c3496889-ef76-4a2d-bddb-832c157dc4be",
+  "character": "ben",
+  "conversationNumber": 1,
+  "timestamp": "2025-12-23T03:40:37.223Z",
+  "willing": "yes",
+  "willingYesDetails": "The operator seems reasonable",
+  "willingNoDetails": "",
+  "naturalness": "somewhat-natural",
+  "unnaturalUtterances": [
+    7
+  ]
+}

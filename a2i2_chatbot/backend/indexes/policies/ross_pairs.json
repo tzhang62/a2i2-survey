@@ -1,0 +1,294 @@
+[
+  {
+    "resident_text": "Hello?",
+    "operator_text": "You should have left already. The fire is approaching quickly. Do you need an emergency vehicle or can you leave right now?"
+  },
+  {
+    "resident_text": "We're kind of stranded out here. I've got a couple of patients and some of them can't move too quickly.",
+    "operator_text": "It's on its way."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "OK, sir, we need for you to evacuate right now. The fire line is right just to the south of you. You need to leave right now."
+  },
+  {
+    "resident_text": "We're kind of stranded out here. Our van's busted up.",
+    "operator_text": "OK, if you go out on the street and just keep heading north, there'll be a drone."
+  },
+  {
+    "resident_text": "Patience, and some of them can't move too quickly.",
+    "operator_text": "OK, well, you got to at least try. So I'm going to have a drone that's going to direct you, that'll lead you to the emergency vehicle. Drone number five, lead residents to the emergency vehicle."
+  },
+  {
+    "resident_text": "We'll stay put if they'll help arise.",
+    "operator_text": "Well, you need to keep moving now, sir."
+  },
+  {
+    "resident_text": "Some of them have walkers.",
+    "operator_text": "But if you don't start moving, OK, there's one coming right at you. Start ready to get to load. OK."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hello, can you hear me?"
+  },
+  {
+    "resident_text": "Yes.",
+    "operator_text": "And how many residents are in your, how many people are in your house?"
+  },
+  {
+    "resident_text": "There's four others.",
+    "operator_text": "Okay, are all of them able to walk? Reason is there's a fire line approaching right now."
+  },
+  {
+    "resident_text": "Our van is busted up.",
+    "operator_text": "Okay, I'll have the emergency vehicle come to your location, but get everybody out of the house right now."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi. How are you guys doing over there?"
+  },
+  {
+    "resident_text": "Well, we're in a rough spot. Our van's busted up.",
+    "operator_text": "OK. I'm going to go ahead and send a deployment vehicle out to you. Want you to meet around the corner. Yeah, I'm going to go ahead and send a van out to you so we can go ahead and get you evacuated. Does that sound good?"
+  },
+  {
+    "resident_text": "Thank goodness. We'll stay put until help arrives.",
+    "operator_text": "OK. You're actually going to have to get out of there. The fire is actually encroaching. So I'm going to need you to go to the nearest intersection that's not on fire. So we're going to need you to go to the, let's see here. You're going to have to go up the street."
+  },
+  {
+    "resident_text": "We have some patients here and Some of them can't move too quickly. Some of them have wheelchairs.",
+    "operator_text": "OK. Is there any way you can get some additional help by anybody? Any neighbors or anything like that? OK."
+  },
+  {
+    "resident_text": "We can't all make it out on our own.",
+    "operator_text": "OK. All the vehicles should be approaching soon. Is it there? Do you see it?"
+  },
+  {
+    "resident_text": "Yeah.",
+    "operator_text": "OK, you're going to have to get out in a hurry here. So."
+  },
+  {
+    "resident_text": "we're kinda stranded out here. Our van's busted out.",
+    "operator_text": "Okay, I'll send an emergency vehicle."
+  },
+  {
+    "resident_text": "Well, we're in a rough spot. Our van's busted up.",
+    "operator_text": "I can have someone come and get you."
+  },
+  {
+    "resident_text": "Thanks a lot. Really appreciate it. Sure.",
+    "operator_text": "Yes, the emergency vehicle is coming."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hello. How can I help you?"
+  },
+  {
+    "resident_text": "I'm kind of stranded out here. I think we must have gone over something.",
+    "operator_text": "Great, we can send an emergency vehicle to have you evacuated."
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Hello, how can I help you?"
+  },
+  {
+    "resident_text": "Well, we're in a rough spot. Our van's busted up.",
+    "operator_text": "Not a problem. We can go ahead and send you an emergency vehicle if needed."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hey guys, there's a fire approaching south of you and I think you guys gotta hurry up and get out of there as quickly as possible. Evacuate immediately."
+  },
+  {
+    "resident_text": "Well, we're in a rough spot. Our van's busted up.",
+    "operator_text": "Okay, well, I mean, just, I guess you have to foot it then. Just run. I mean, leave the van, you know, grab the important items. No, actually, you know what? You probably don't have time to grab your important items. Just leave everything behind because a fire department is on their way. Just book it. Just start running. Running."
+  },
+  {
+    "resident_text": "I have some patients here and some of them can't move too quickly.",
+    "operator_text": "Okay. Okay, I see that you guys have a wheelchair there. I guess put, I don't know, how many patients do you have?"
+  },
+  {
+    "resident_text": "There's four others.",
+    "operator_text": "Four patients? And they can't walk or run? Or what's the deal? Are they paralyzed? Hello, you still there?"
+  },
+  {
+    "resident_text": "No.",
+    "operator_text": "I'm saying, so answer my question quickly. How many patients can walk or run on their own?"
+  },
+  {
+    "resident_text": "We'll need a ride. We can't all make it out on our own.",
+    "operator_text": "Well, I'm going to send you an emergency vehicle to your section."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hey, what's up?"
+  },
+  {
+    "resident_text": "Well, we're in a rough spot. Our van's busted up.",
+    "operator_text": "Okay. So I'm going to send an emergency vehicle to you."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "The transport van will come shortly for y'all."
+  },
+  {
+    "resident_text": "We'll stay put until help arrives.",
+    "operator_text": "Thank you. Are you okay?"
+  },
+  {
+    "resident_text": "I think so?",
+    "operator_text": "Is anybody hurt?"
+  },
+  {
+    "resident_text": "No. Our van's busted up. We could use some help out here.",
+    "operator_text": "Help is on its way."
+  },
+  {
+    "resident_text": "Hello? Hello?",
+    "operator_text": "Yes. Yeah, hello?"
+  },
+  {
+    "resident_text": "We're kind of stranded out here. Our van's busted up.",
+    "operator_text": "Okay. Um... The best thing would be to stay in the house. We'll try to send an emergency vehicle to you, but it may be a while."
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Um, this is important that you evacuate. There's a fire that's coming closer to your house. For your own safety. Yeah."
+  },
+  {
+    "resident_text": "well, we're in a rough stop,",
+    "operator_text": "What happened?"
+  },
+  {
+    "resident_text": "we're stranded out here",
+    "operator_text": "Okay, do you need transportation? Yeah. Okay, I'll send an emergency vehicle."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi, civilian."
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "We need you to evacuate."
+  },
+  {
+    "resident_text": "Well, we're in a rough spot. We're kind of stranded out here.",
+    "operator_text": "What happened to your van, civilian?"
+  },
+  {
+    "resident_text": "I think we must have gone over something.",
+    "operator_text": "How many times?"
+  },
+  {
+    "resident_text": "I'm not sure.",
+    "operator_text": "We have a van en route to pick you up."
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Hello there, folks. Your van break down?"
+  },
+  {
+    "resident_text": "Yeah.",
+    "operator_text": "Okay, are you safe?"
+  },
+  {
+    "resident_text": "I think so.",
+    "operator_text": "Can you all pile into the wheelchair and wheel away?"
+  },
+  {
+    "resident_text": "Thank goodness.",
+    "operator_text": "Yes, would you like us to escort you out of the area?"
+  },
+  {
+    "resident_text": "Yes, our van's busted up.",
+    "operator_text": "Okay, help is on the way."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi. We need you to evacuate because there's a fire very close to your house."
+  },
+  {
+    "resident_text": "Well, we're in a rough spot. We're kind of stranded out here. Our van's busted up.",
+    "operator_text": "We're going to send an emergency vehicle to come get you."
+  },
+  {
+    "resident_text": "We're kind of stranded out here. Our van's busted up.",
+    "operator_text": "Okay, we can send an emergency vehicle for you to come get you."
+  },
+  {
+    "resident_text": "Will the drones stay with us until the paramedics arrive?",
+    "operator_text": "Yes, I think so. Will the drones stay with them until the paramedic arrives? Okay, yes, the drones will."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Yes, please. The fire is going on. You have to evacuate so you can be safe."
+  },
+  {
+    "resident_text": "We're kinda stranded out here. Our van's busted up.",
+    "operator_text": "Um... I'll ask the van to come pick you up."
+  },
+  {
+    "resident_text": "Yes, hello sir. You are asked to evacuate as soon as possible for your own safety. Well, we're in a rough spot. Our van's busted up. I think we must have gone over something.",
+    "operator_text": "Oh, no problem. I will send the van to pick you up."
+  },
+  {
+    "resident_text": "Thank goodness.",
+    "operator_text": "No problem. You sit tight."
+  },
+  {
+    "resident_text": "We'll stay put until help arrives.",
+    "operator_text": "Great. It'll be soon. Thank you."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi. Do you, we're suggesting that you evacuate. We strongly suggest."
+  },
+  {
+    "resident_text": "Well, we're in a rough spot. Our van's busted up. I think we must have gone over something.",
+    "operator_text": "We'll have a truck pick you up. We'll have a van pick you up."
+  },
+  {
+    "resident_text": "Our van's busted up. Okay. I'm stranded out here.",
+    "operator_text": "Okay, you can follow the drone or would you like a van to be sent to you?"
+  },
+  {
+    "resident_text": "We'll need a ride. We can't make it out on our own. Thank goodness. We'll stay put until help arrives.",
+    "operator_text": "Please get everyone outside and ready to go."
+  },
+  {
+    "resident_text": "Well, we're in a rough spot. Our van's busted out.",
+    "operator_text": "Okay, we need to evacuate. Do we need to send the emergency vehicle over to get you?"
+  },
+  {
+    "resident_text": "We'll need a ride. We can't make it out on our own. Yeah.",
+    "operator_text": "All right. I sent the emergency vehicle over to come pick you up."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "How's it going? What's the problem here?"
+  },
+  {
+    "resident_text": "Well, we're in a rough spot. We're trying to strand it out here.",
+    "operator_text": "All right. I'm gonna send an emergency vehicle to come rescue you."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi."
+  },
+  {
+    "resident_text": "We're kind of stranded out here. Our van's busted up.",
+    "operator_text": "Okay, please go with drone four and they'll take you to safety evacuation point. The fire's fast approaching."
+  },
+  {
+    "resident_text": "I've got a couple of patients and some of them can't move too quickly.",
+    "operator_text": "Okay, that's... Drone four is going to transport you there safely."
+  },
+  {
+    "resident_text": "Our van's busted up. I think we must have gone over something.",
+    "operator_text": "Okay, well you know what, no worries. We should have an emergency vehicle on the way to come and get you. Please do not go into the house or leave anywhere, stay outside. They should be coming for you in just a little bit, okay? So you don't have to worry about the van. We will come and get you shortly."
+  },
+  {
+    "resident_text": "That's okay. We won't be moving anywhere. We'll stay put until help arrives",
+    "operator_text": "Okay, and they will be on their way shortly."
+  }
+]

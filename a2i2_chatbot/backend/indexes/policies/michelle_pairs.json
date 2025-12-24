@@ -1,0 +1,294 @@
+[
+  {
+    "resident_text": "Who is this?",
+    "operator_text": "Hello, we're trying to help you evacuate. You have to leave at once. Do you need assistance? We can send a vehicle."
+  },
+  {
+    "resident_text": "We've gotten through wildfires before. We know how to handle our property.",
+    "operator_text": "It's mandatory that you leave and it's for your own safety. You'll have to leave now or we'll have to send a vehicle to assist you."
+  },
+  {
+    "resident_text": "Would you leave if this was your house?",
+    "operator_text": "Yes."
+  },
+  {
+    "resident_text": "We're not leaving everything to burn. We watered our lawn, we cleared the yard of dead vegetation, so we should be fine.",
+    "operator_text": "You don't have a choice. You're going to perish in the fire if you don't leave. You have to make a decision and you have to leave, or we're going to have to send an emergency vehicle to pick you up. You have to travel north at once or we're sending a vehicle."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Yeah, the fire is approaching right to the south of you, so I need you to get to the street and start heading north to the emergency vehicle right away."
+  },
+  {
+    "resident_text": "We've gotten through wildfires before. We know how to handle our property. We're not leaving everything to burn.",
+    "operator_text": "Okay, but emergency vehicles aren't going to be able to protect a home and looking at it right now, the wildfires are approaching right... it's right close to you, so do understand that I did try to evacuate you."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hello? Can you hear me?"
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Okay, I need for you to evacuate. Right now there's a fire coming at you from the south. How many people are there in your residence?"
+  },
+  {
+    "resident_text": "I'm here with my husband, Joel.",
+    "operator_text": "Okay, are both of you able to walk?"
+  },
+  {
+    "resident_text": "Listen, we appreciate what the robot thing is saying, but we're not leaving our home.",
+    "operator_text": "Okay, but you do know where you are in danger."
+  },
+  {
+    "resident_text": "Would you leave if this was your house?",
+    "operator_text": "If I'm in danger, yes. No point in joining if I'm not alive."
+  },
+  {
+    "resident_text": "we have watered our yawn, we cleared the yard, which has vegitation, we should be fine",
+    "operator_text": "Okay, you need to evacuate the area the fire is actually encroaching on your neighborhood So I suggest that you not stay there because the fires will be there momentarily So if you have a if your vehicle works, I would suggest grabbing your belongings and getting out"
+  },
+  {
+    "resident_text": "We appreciate what the robot thing is saying, but we're not leaving our home.",
+    "operator_text": "Okay, well the the fire is moving north and you guys need to evacuate right now, because otherwise you're going to put yourselves in danger, so you guys need to leave right now."
+  },
+  {
+    "resident_text": "Would you leave this with your house?",
+    "operator_text": "Yes, if it meant my wife was at stake. Yes, you need to leave right now. I'm going to go ahead and send a transportation vehicle down if you need extra assistance. Are you needing extra assistance?"
+  },
+  {
+    "resident_text": "We've watered our lawn, we've cleared the yard of dead vegetation, so we should be fine.",
+    "operator_text": "No, you need to leave right now. I cannot assure your safety if you do not leave at this time."
+  },
+  {
+    "resident_text": "Would you leave if this was your house?",
+    "operator_text": "Yes, I would leave."
+  },
+  {
+    "resident_text": "We've gotten through wildfires before. We know how to handle our property.",
+    "operator_text": "Yes, I cannot assure your safety. And if you don't leave right now, your safety is in jeopardy. The fire is very close to your house and I cannot assure your safety. You need to evacuate now, please."
+  },
+  {
+    "resident_text": "we're not leaving everything to burn right.",
+    "operator_text": "You must leave now or I will call the police and have you evacuated."
+  },
+  {
+    "resident_text": "we've gotten through wildfires before, we know how to handle our property",
+    "operator_text": "It's actually right across the street from you."
+  },
+  {
+    "resident_text": "would you leave if this was your house?",
+    "operator_text": "If it's across the street from me, yes."
+  },
+  {
+    "resident_text": "We've gotten through wildfires before. We know how to handle our property.",
+    "operator_text": "Ma'am, it's three, two, a street away from you. It's coming fast."
+  },
+  {
+    "resident_text": "We're not leaving everything to burn.",
+    "operator_text": "It might happen anyway, with you with it, so I suggest that you leave."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi, how can I help you?"
+  },
+  {
+    "resident_text": "Listen, we appreciate what the robot thing is saying, but we're not leaving our home.",
+    "operator_text": "Okay, we're just letting you know that there is a possible fire that's to be heading your guys' way, so if you'd like some help out, we can go ahead and send you an emergency vehicle, or you can choose to stay in your home and leave at your own accord."
+  },
+  {
+    "resident_text": "We've watered our lawn, we've cleared the yard with dead vegetation, so we should be fine.",
+    "operator_text": "That's not a problem, we're just here to help. If you need any help, go ahead and give us a call."
+  },
+  {
+    "resident_text": "Hi. Who is this?",
+    "operator_text": "Yeah, so, yeah, hi. This is Emergency Services. We have a fire that's literally on, like in your, probably, you could probably see it from, you know, if you turn around. I need you guys to run and get out of there as quickly as possible. The fire is right there."
+  },
+  {
+    "resident_text": "We water our lawn, we clear the yard from dead vegetation, so we should be fine.",
+    "operator_text": "No, no, no. This fire is pretty massive. I don't think it's going to be contained anytime soon, and the fire department are on their way, but I just need you guys to emergency evacuate, like ASAP, like yesterday. Please."
+  },
+  {
+    "resident_text": "Would you leave if this was your house?",
+    "operator_text": "Yes, because my house is not alive, and, you know, your guys are alive, so houses could be rebuilt, but you guys' life, you know, is precious. You can't, obviously, make another life, but just get out of there. Leave everything behind. Your life is at stake."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Yeah, hey, what's up?"
+  },
+  {
+    "resident_text": "We've gotten through wildfires before. We know how to handle our property",
+    "operator_text": "Well, listen, honestly, I can't force you to go, I guess, because I'm not going to send my people in harm's way and danger because it looks like the fire is already upon you. You stand your own risk. So if you want to stay, go right ahead. But I'm just warning you, you should probably try to get out there as quickly as possible. But if you want to stay, I can't put a gun to your head and force you to leave. Just stay. And hopefully you make it out alive."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hello?"
+  },
+  {
+    "resident_text": "Can I help you with something?",
+    "operator_text": "I think we can help you with being evacuated from the path of the fire. Please go ahead and-"
+  },
+  {
+    "resident_text": "We've gone through wildfires before. We know how to handle our poverty.",
+    "operator_text": "That's fantastic. Go ahead and get your stuff and we'll have a transport vehicle ready to evacuate you in a few minutes' time."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hello?"
+  },
+  {
+    "resident_text": "Can I help you with something?",
+    "operator_text": "Hi, we're evacuating the area. Do you need assistance?"
+  },
+  {
+    "resident_text": "I don't think so. Listen, we appreciate what the robot thing is saying, but we're not leaving our home.",
+    "operator_text": "Okay, I just want to warn you that there might be a fire nearby."
+  },
+  {
+    "resident_text": "Staying is the best way to keep everything safe, alright?",
+    "operator_text": "Okay, that's your choice. Goodbye."
+  },
+  {
+    "resident_text": "Listen, we appreciate what the robot thing is saying, but we're not leaving our home.",
+    "operator_text": "Well, there's a fire coming your way, so I don't know what else to tell you. I don't want you to have your family burned to a crisp."
+  },
+  {
+    "resident_text": "We're not leaving everything to burn.",
+    "operator_text": "Well, it's going to burn whether or not you're there, and it would make more sense if you weren't there."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Yes, hi. Why haven't you evacuated?"
+  },
+  {
+    "resident_text": "Listen, we appreciate what the robot thing is saying, but we're not leaving our home.",
+    "operator_text": "Well I'm just giving you a fair warning that for your safety you should evacuate."
+  },
+  {
+    "resident_text": "We've watered our lawn, we've cleared the yard of dead vegetation, so we should be fine.",
+    "operator_text": "Okay, this is the last warning. And then, you know, you are responsible for yourselves. I tried to warn you."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi. It would be wonderful if you would evacuate. It's good for your safety, so could you please leave as soon as possible?"
+  },
+  {
+    "resident_text": "We've watered our lawn, we've cleared the yard of dead vegetation, so we should be fine.",
+    "operator_text": "No, that's not all that's necessary. So I would really, for your safety, appreciate it if you would leave. If you need a van, I'll send a van to pick you up."
+  },
+  {
+    "resident_text": "Would you leave if this was your house?",
+    "operator_text": "Yes."
+  },
+  {
+    "resident_text": "I guess if we leave our sprinklers on, that might work.",
+    "operator_text": "What might work?"
+  },
+  {
+    "resident_text": "we'll follow the drone out, just gotta grab my keys.",
+    "operator_text": "Okay, great. Your safety is the first thing. Thank you."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hello, please follow the drone. It will lead you to an emergency vehicle."
+  },
+  {
+    "resident_text": "Listen, we appreciate what the robot thing is saying, but we're not leaving our home.",
+    "operator_text": "You must leave your home. It is not an option."
+  },
+  {
+    "resident_text": "We've gotten through wildfires before. We know how to handle our property. Hi",
+    "operator_text": "Hello, I have sent the emergency vehicle. Please evacuate."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hello? Hello?"
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Hi, you must evacuate. I'm gonna send an emergency vehicle. And, um, please follow the drone. You'll-"
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi, you are in a mandatory evacuation area. Can you please follow the drone north?"
+  },
+  {
+    "resident_text": "We've gotten through wildfires before. We know how to handle",
+    "operator_text": "I understand, but this is not the same wildfire you've been through before. You can either take your vehicle north or you can follow the drone to safety."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hello, how you doing today?"
+  },
+  {
+    "resident_text": "Can I help you with something?",
+    "operator_text": "Yeah, we need you to get out of here."
+  },
+  {
+    "resident_text": "We've gotten through wildfires before, we know how to handle our property",
+    "operator_text": "No, this is more dangerous than ever."
+  },
+  {
+    "resident_text": "We watered our lawn, we clear the yard of dead vegetation, so we should be fine.",
+    "operator_text": "I need you to evacuate right now."
+  },
+  {
+    "resident_text": "Would you leave if this was your house?",
+    "operator_text": "Yes."
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "we need you to evacuate. Immediately"
+  },
+  {
+    "resident_text": "We've gotten through wildfires before. We know how to handle our property",
+    "operator_text": "How did you handle it?"
+  },
+  {
+    "resident_text": "We water our lawn, we clear the yard of dead vegetation. So we should be fine.",
+    "operator_text": "Do you really think so?"
+  },
+  {
+    "resident_text": "Yes.",
+    "operator_text": "Well this is more dangerous than before. We need you to leave right now."
+  },
+  {
+    "resident_text": "would you leave if this was your house?",
+    "operator_text": "yes"
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi."
+  },
+  {
+    "resident_text": "Can I help you with something?",
+    "operator_text": "Yes, ma'am. You need to evacuate the premises immediately. The wildfires spreading fast."
+  },
+  {
+    "resident_text": "We've gotten through wildfires before. We know how to handle our property.",
+    "operator_text": "It's spreading fast and the results may be fatal if you don't evacuate immediately. Please go with drone 2."
+  },
+  {
+    "resident_text": "Would you leave if this was your house?",
+    "operator_text": "Yes, I would."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi. Hello?"
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Hello."
+  },
+  {
+    "resident_text": "We've gotten through wildfires before. We know how to handle our property.",
+    "operator_text": "I do understand that ma'am, but this is happening rapidly and just in case anything gets as close as very close to you, we don't want anything to happen to you. We're worried about you more than we're worried about your property. I am sending emergency vehicles directly to you to make sure you guys are out of the area safely. Okay?"
+  },
+  {
+    "resident_text": "Would you leave if this was your house?",
+    "operator_text": "Absolutely, because my safety and my family's safety is more important than anything. And with fires, they are unpredictable and we're worried about your safety."
+  },
+  {
+    "resident_text": "Yes.",
+    "operator_text": "Okay, good. We're doing our best to get an emergency vehicle to you as soon as possible. They should be on the way in just a few minutes, okay?"
+  }
+]

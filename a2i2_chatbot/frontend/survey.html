@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Response Study - Participant Questionnaire</title>
+  <link rel="stylesheet" href="styles/survey.css">
+  <script src="config.js"></script>
+</head>
+<body>
+  <div class="survey-container">
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+      <h1>Welcome!</h1>
+      <p class="intro-text">
+        Thank you for participating in our study on decision-making and communication during emergencies.
+      </p>
+      <p class="intro-text">
+        In this study, you will first complete a short questionnaire about yourself. After that, you will interact 
+        with a virtual emergency operator powered by AI in a simulated fire-rescue scenario. You will act as the 
+        person being rescued.
+      </p>
+      <p class="intro-text">
+        The study aims to understand how individual differences—such as personality, moral values, and communication 
+        preferences—affect how people respond to instructions and make decisions under pressure.
+      </p>
+    </div>
+
+    <!-- Survey Form -->
+    <form id="surveyForm" class="survey-form">
+      <!-- Important Notice -->
+      <div class="warning-banner">
+        <div class="icon">💡</div>
+        <div class="content">
+          <h4>Important: Please Read Carefully</h4>
+          <p>
+            Take your time to read each question carefully and provide honest responses. 
+            Your genuine answers are valuable for this research. For sections with multiple similar questions, 
+            please consider each statement individually—your responses should naturally vary based on your personal views.
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 1: Background Information -->
+      <section class="form-section">
+        <h2>1. Background Information</h2>
+        <p class="section-subtitle">Approx. 3–5 minutes — please complete all required fields marked with <span style="color: #e74c3c;">*</span></p>
+        
+        <div class="form-group">
+          <label for="email">Email Address <span class="required">*</span></label>
+          <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="nickname">Nick Name <span style="color: #e74c3c;">*</span> <span class="helper-text">(Choose any name you want)</span></label>
+          <input type="text" id="nickname" name="nickname" placeholder="Your preferred nickname" required>
+        </div>
+
+        <div class="form-group">
+          <label for="age">Age <span style="color: #e74c3c;">*</span></label>
+          <input type="number" id="age" name="age" min="18" max="120" placeholder="Your age" required>
+        </div>
+
+        <div class="form-group">
+          <label>Gender <span style="color: #e74c3c;">*</span></label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="gender" value="male">
+              <span>Male</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="gender" value="female">
+              <span>Female</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="gender" value="non-binary">
+              <span>Non-binary</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="gender" value="prefer-not-to-say">
+              <span>Prefer not to say</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="education">Education <span style="color: #e74c3c;">*</span></label>
+          <select id="education" name="education" required>
+            <option value="">Select your education level</option>
+            <option value="high-school">High school</option>
+            <option value="some-college">Some college</option>
+            <option value="college-graduate">College graduate</option>
+            <option value="graduate-degree">Graduate degree</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="occupation">Occupation or area of study</label>
+          <input type="text" id="occupation" name="occupation" placeholder="Your occupation or field of study">
+        </div>
+
+        <div class="form-group">
+          <label for="ideology">Ideology <span style="color: #e74c3c;">*</span></label>
+          <div class="scale-container">
+            <div class="scale-labels">
+              <span>Very liberal</span>
+              <span>Very conservative</span>
+            </div>
+            <div class="scale-options">
+              <label class="scale-option">
+                <input type="radio" name="ideology" value="1">
+                <span>1</span>
+              </label>
+              <label class="scale-option">
+                <input type="radio" name="ideology" value="2">
+                <span>2</span>
+              </label>
+              <label class="scale-option">
+                <input type="radio" name="ideology" value="3">
+                <span>3</span>
+              </label>
+              <label class="scale-option">
+                <input type="radio" name="ideology" value="4">
+                <span>4</span>
+              </label>
+              <label class="scale-option">
+                <input type="radio" name="ideology" value="5">
+                <span>5</span>
+              </label>
+              <label class="scale-option">
+                <input type="radio" name="ideology" value="6">
+                <span>6</span>
+              </label>
+              <label class="scale-option">
+                <input type="radio" name="ideology" value="7">
+                <span>7</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Personality Traits -->
+      <section class="form-section">
+        <h2>2. Personality Traits <span style="color: #e74c3c;">*</span></h2>
+        <p class="section-subtitle">Please rate how well each statement describes you. <strong>All questions are required.</strong></p>
+        
+        <p class="rating-scale-label">
+          <strong>Rating Scale:</strong> 1 = Strongly disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly agree
+        </p>
+
+        <div class="likert-question">
+          <p>I communicate my thoughts clearly and confidently.</p>
+          <div class="likert-scale">
+            <label><input type="radio" name="personality_1" value="1"><span>1</span></label>
+            <label><input type="radio" name="personality_1" value="2"><span>2</span></label>
+            <label><input type="radio" name="personality_1" value="3"><span>3</span></label>
+            <label><input type="radio" name="personality_1" value="4"><span>4</span></label>
+            <label><input type="radio" name="personality_1" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>I tend to hold back from expressing my thoughts or concerns.</p>
+          <div class="likert-scale">
+            <label><input type="radio" name="personality_2" value="1"><span>1</span></label>
+            <label><input type="radio" name="personality_2" value="2"><span>2</span></label>
+            <label><input type="radio" name="personality_2" value="3"><span>3</span></label>
+            <label><input type="radio" name="personality_2" value="4"><span>4</span></label>
+            <label><input type="radio" name="personality_2" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>I try to stay polite and cooperative when interacting with others.</p>
+          <div class="likert-scale">
+            <label><input type="radio" name="personality_3" value="1"><span>1</span></label>
+            <label><input type="radio" name="personality_3" value="2"><span>2</span></label>
+            <label><input type="radio" name="personality_3" value="3"><span>3</span></label>
+            <label><input type="radio" name="personality_3" value="4"><span>4</span></label>
+            <label><input type="radio" name="personality_3" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>I can be irritated or resistant when others try to direct me.</p>
+          <div class="likert-scale">
+            <label><input type="radio" name="personality_4" value="1"><span>1</span></label>
+            <label><input type="radio" name="personality_4" value="2"><span>2</span></label>
+            <label><input type="radio" name="personality_4" value="3"><span>3</span></label>
+            <label><input type="radio" name="personality_4" value="4"><span>4</span></label>
+            <label><input type="radio" name="personality_4" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>I stay organized and focused when handling multiple tasks.</p>
+          <div class="likert-scale">
+            <label><input type="radio" name="personality_5" value="1"><span>1</span></label>
+            <label><input type="radio" name="personality_5" value="2"><span>2</span></label>
+            <label><input type="radio" name="personality_5" value="3"><span>3</span></label>
+            <label><input type="radio" name="personality_5" value="4"><span>4</span></label>
+            <label><input type="radio" name="personality_5" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>I may ignore or neglect important safety steps while preparing for something.</p>
+          <div class="likert-scale">
+            <label><input type="radio" name="personality_6" value="1"><span>1</span></label>
+            <label><input type="radio" name="personality_6" value="2"><span>2</span></label>
+            <label><input type="radio" name="personality_6" value="3"><span>3</span></label>
+            <label><input type="radio" name="personality_6" value="4"><span>4</span></label>
+            <label><input type="radio" name="personality_6" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>I often feel worried or stressed when situations become more uncertain.</p>
+          <div class="likert-scale">
+            <label><input type="radio" name="personality_7" value="1"><span>1</span></label>
+            <label><input type="radio" name="personality_7" value="2"><span>2</span></label>
+            <label><input type="radio" name="personality_7" value="3"><span>3</span></label>
+            <label><input type="radio" name="personality_7" value="4"><span>4</span></label>
+            <label><input type="radio" name="personality_7" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>I remain calm and steady during stressful situations.</p>
+          <div class="likert-scale">
+            <label><input type="radio" name="personality_8" value="1"><span>1</span></label>
+            <label><input type="radio" name="personality_8" value="2"><span>2</span></label>
+            <label><input type="radio" name="personality_8" value="3"><span>3</span></label>
+            <label><input type="radio" name="personality_8" value="4"><span>4</span></label>
+            <label><input type="radio" name="personality_8" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>I am willing to consider different strategies or tools when solving problems.</p>
+          <div class="likert-scale">
+            <label><input type="radio" name="personality_9" value="1"><span>1</span></label>
+            <label><input type="radio" name="personality_9" value="2"><span>2</span></label>
+            <label><input type="radio" name="personality_9" value="3"><span>3</span></label>
+            <label><input type="radio" name="personality_9" value="4"><span>4</span></label>
+            <label><input type="radio" name="personality_9" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>I resist adapting my plan even when new information becomes available.</p>
+          <div class="likert-scale">
+            <label><input type="radio" name="personality_10" value="1"><span>1</span></label>
+            <label><input type="radio" name="personality_10" value="2"><span>2</span></label>
+            <label><input type="radio" name="personality_10" value="3"><span>3</span></label>
+            <label><input type="radio" name="personality_10" value="4"><span>4</span></label>
+            <label><input type="radio" name="personality_10" value="5"><span>5</span></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Moral Foundations -->
+      <section class="form-section">
+        <h2>3. Moral Foundations <span style="color: #e74c3c;">*</span></h2>
+        <p class="section-subtitle">Please indicate how much you agree with each statement. <strong>All questions are required.</strong></p>
+        
+        <p class="rating-scale-label">
+          <strong>Rating Scale:</strong> 1 = Strongly Disagree, 2 = Moderately Disagree, 3 = Slightly Disagree, 
+          4 = Slightly Agree, 5 = Moderately Agree, 6 = Strongly Agree
+        </p>
+
+        <div class="likert-question">
+          <p>Compassion for people who are suffering is important to me.</p>
+          <div class="likert-scale six-point">
+            <label><input type="radio" name="moral_1" value="1"><span>1</span></label>
+            <label><input type="radio" name="moral_1" value="2"><span>2</span></label>
+            <label><input type="radio" name="moral_1" value="3"><span>3</span></label>
+            <label><input type="radio" name="moral_1" value="4"><span>4</span></label>
+            <label><input type="radio" name="moral_1" value="5"><span>5</span></label>
+            <label><input type="radio" name="moral_1" value="6"><span>6</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>If others nearby might be hurt, I would feel responsible to check if they are safe.</p>
+          <div class="likert-scale six-point">
+            <label><input type="radio" name="moral_2" value="1"><span>1</span></label>
+            <label><input type="radio" name="moral_2" value="2"><span>2</span></label>
+            <label><input type="radio" name="moral_2" value="3"><span>3</span></label>
+            <label><input type="radio" name="moral_2" value="4"><span>4</span></label>
+            <label><input type="radio" name="moral_2" value="5"><span>5</span></label>
+            <label><input type="radio" name="moral_2" value="6"><span>6</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>Everyone deserves to be treated fairly, no matter who they are.</p>
+          <div class="likert-scale six-point">
+            <label><input type="radio" name="moral_3" value="1"><span>1</span></label>
+            <label><input type="radio" name="moral_3" value="2"><span>2</span></label>
+            <label><input type="radio" name="moral_3" value="3"><span>3</span></label>
+            <label><input type="radio" name="moral_3" value="4"><span>4</span></label>
+            <label><input type="radio" name="moral_3" value="5"><span>5</span></label>
+            <label><input type="radio" name="moral_3" value="6"><span>6</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>In an emergency, I believe everyone should have an equal chance to get help.</p>
+          <div class="likert-scale six-point">
+            <label><input type="radio" name="moral_4" value="1"><span>1</span></label>
+            <label><input type="radio" name="moral_4" value="2"><span>2</span></label>
+            <label><input type="radio" name="moral_4" value="3"><span>3</span></label>
+            <label><input type="radio" name="moral_4" value="4"><span>4</span></label>
+            <label><input type="radio" name="moral_4" value="5"><span>5</span></label>
+            <label><input type="radio" name="moral_4" value="6"><span>6</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>I feel committed to supporting my community or close groups.</p>
+          <div class="likert-scale six-point">
+            <label><input type="radio" name="moral_5" value="1"><span>1</span></label>
+            <label><input type="radio" name="moral_5" value="2"><span>2</span></label>
+            <label><input type="radio" name="moral_5" value="3"><span>3</span></label>
+            <label><input type="radio" name="moral_5" value="4"><span>4</span></label>
+            <label><input type="radio" name="moral_5" value="5"><span>5</span></label>
+            <label><input type="radio" name="moral_5" value="6"><span>6</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>During an emergency, I would feel a strong need to stand by my neighbors.</p>
+          <div class="likert-scale six-point">
+            <label><input type="radio" name="moral_6" value="1"><span>1</span></label>
+            <label><input type="radio" name="moral_6" value="2"><span>2</span></label>
+            <label><input type="radio" name="moral_6" value="3"><span>3</span></label>
+            <label><input type="radio" name="moral_6" value="4"><span>4</span></label>
+            <label><input type="radio" name="moral_6" value="5"><span>5</span></label>
+            <label><input type="radio" name="moral_6" value="6"><span>6</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>Respecting legitimate authority helps keep society stable.</p>
+          <div class="likert-scale six-point">
+            <label><input type="radio" name="moral_7" value="1"><span>1</span></label>
+            <label><input type="radio" name="moral_7" value="2"><span>2</span></label>
+            <label><input type="radio" name="moral_7" value="3"><span>3</span></label>
+            <label><input type="radio" name="moral_7" value="4"><span>4</span></label>
+            <label><input type="radio" name="moral_7" value="5"><span>5</span></label>
+            <label><input type="radio" name="moral_7" value="6"><span>6</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>I believe following rescuers' instructions is important for everyone's safety.</p>
+          <div class="likert-scale six-point">
+            <label><input type="radio" name="moral_8" value="1"><span>1</span></label>
+            <label><input type="radio" name="moral_8" value="2"><span>2</span></label>
+            <label><input type="radio" name="moral_8" value="3"><span>3</span></label>
+            <label><input type="radio" name="moral_8" value="4"><span>4</span></label>
+            <label><input type="radio" name="moral_8" value="5"><span>5</span></label>
+            <label><input type="radio" name="moral_8" value="6"><span>6</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>Some actions feel morally wrong because they violate basic standards of decency.</p>
+          <div class="likert-scale six-point">
+            <label><input type="radio" name="moral_9" value="1"><span>1</span></label>
+            <label><input type="radio" name="moral_9" value="2"><span>2</span></label>
+            <label><input type="radio" name="moral_9" value="3"><span>3</span></label>
+            <label><input type="radio" name="moral_9" value="4"><span>4</span></label>
+            <label><input type="radio" name="moral_9" value="5"><span>5</span></label>
+            <label><input type="radio" name="moral_9" value="6"><span>6</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>I would feel uneasy after an emergency if I acted against my core values.</p>
+          <div class="likert-scale six-point">
+            <label><input type="radio" name="moral_10" value="1"><span>1</span></label>
+            <label><input type="radio" name="moral_10" value="2"><span>2</span></label>
+            <label><input type="radio" name="moral_10" value="3"><span>3</span></label>
+            <label><input type="radio" name="moral_10" value="4"><span>4</span></label>
+            <label><input type="radio" name="moral_10" value="5"><span>5</span></label>
+            <label><input type="radio" name="moral_10" value="6"><span>6</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>People should be free to make their own choices without unnecessary control.</p>
+          <div class="likert-scale six-point">
+            <label><input type="radio" name="moral_11" value="1"><span>1</span></label>
+            <label><input type="radio" name="moral_11" value="2"><span>2</span></label>
+            <label><input type="radio" name="moral_11" value="3"><span>3</span></label>
+            <label><input type="radio" name="moral_11" value="4"><span>4</span></label>
+            <label><input type="radio" name="moral_11" value="5"><span>5</span></label>
+            <label><input type="radio" name="moral_11" value="6"><span>6</span></label>
+          </div>
+        </div>
+
+        <div class="likert-question">
+          <p>In an emergency, I would want some freedom to make my own decisions.</p>
+          <div class="likert-scale six-point">
+            <label><input type="radio" name="moral_12" value="1"><span>1</span></label>
+            <label><input type="radio" name="moral_12" value="2"><span>2</span></label>
+            <label><input type="radio" name="moral_12" value="3"><span>3</span></label>
+            <label><input type="radio" name="moral_12" value="4"><span>4</span></label>
+            <label><input type="radio" name="moral_12" value="5"><span>5</span></label>
+            <label><input type="radio" name="moral_12" value="6"><span>6</span></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Special Needs -->
+      <section class="form-section">
+        <h2>4. Special Needs in the Fire Rescue Scenario <span style="color: #e74c3c;">*</span></h2>
+        <p class="section-subtitle">
+          Please answer the following questions to help us understand your possible circumstances in a fire-rescue situation. 
+          All responses are anonymous. <strong>All questions are required.</strong>
+        </p>
+
+        <div class="form-group">
+          <label>Do you have any physical or medical condition that could affect your movement or communication during a fire rescue? <span style="color: #e74c3c;">*</span></label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="special_needs_condition" value="yes">
+              <span>Yes</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="special_needs_condition" value="no">
+              <span>No</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="special_needs_condition" value="prefer-not-to-say">
+              <span>Prefer not to say</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>In a fire rescue situation, would you be responsible for others (for example, a child, elderly person, or pet)? <span style="color: #e74c3c;">*</span></label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="special_needs_responsible" value="yes">
+              <span>Yes</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="special_needs_responsible" value="no">
+              <span>No</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Would you require a vehicle or special assistance to evacuate because of age, mobility limitations, or the number of people with you? <span style="color: #e74c3c;">*</span></label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="special_needs_vehicle" value="yes">
+              <span>Yes</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="special_needs_vehicle" value="no">
+              <span>No</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="special_needs_details">If you answered "Yes" to any of the above, please describe briefly (optional):</label>
+          <textarea id="special_needs_details" name="special_needs_details" rows="4" 
+                    placeholder="Please provide any additional details..."></textarea>
+        </div>
+      </section>
+
+      <!-- Submit Button -->
+      <div class="submit-section">
+        <p class="completion-message">✅ Thank you! Your responses will help personalize the next part of this study.</p>
+        <button type="submit" class="submit-button">Start Conversation →</button>
+      </div>
+    </form>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+      <div class="loading-spinner"></div>
+      <p>Submitting your responses...</p>
+    </div>
+  </div>
+
+  <script src="js/exit-study.js"></script>
+  <script src="js/survey.js"></script>
+  <script>
+    // Initialize exit button
+    window.addEventListener('DOMContentLoaded', function() {
+      window.initExitButton('survey');
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,35 @@
+{
+  "model_name": "all-MiniLM-L6-v2",
+  "policies": {
+    "bob": {
+      "resident_texts_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/bob_pairs.json",
+      "index_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/faiss/bob.faiss",
+      "num_pairs": 83,
+      "dim": 384
+    },
+    "lindsay": {
+      "resident_texts_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/lindsay_pairs.json",
+      "index_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/faiss/lindsay.faiss",
+      "num_pairs": 26,
+      "dim": 384
+    },
+    "michelle": {
+      "resident_texts_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/michelle_pairs.json",
+      "index_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/faiss/michelle.faiss",
+      "num_pairs": 73,
+      "dim": 384
+    },
+    "niki": {
+      "resident_texts_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/niki_pairs.json",
+      "index_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/faiss/niki.faiss",
+      "num_pairs": 24,
+      "dim": 384
+    },
+    "ross": {
+      "resident_texts_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/policies/ross_pairs.json",
+      "index_file": "/Users/mousumi/A2I2_RAG/cross_policy/dataA/indexes/faiss/ross.faiss",
+      "num_pairs": 73,
+      "dim": 384
+    }
+  }
+}

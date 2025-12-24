@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Survey System Demo - All Pages</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: #f5f7fa;
+      padding: 2rem;
+    }
+
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .demo-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 16px;
+    }
+
+    .demo-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .demo-header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    .demo-section {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .demo-section h2 {
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #667eea;
+    }
+
+    .demo-section p {
+      color: #7f8c8d;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .page-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .page-link {
+      display: block;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .page-link:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .page-link h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-link p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.95rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .feature-item {
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+
+    .feature-item h4 {
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .feature-item p {
+      color: #7f8c8d;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .code-block {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 1.5rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-top: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      border-radius: 12px;
+    }
+
+    .stat-card .number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #667eea;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card .label {
+      color: #7f8c8d;
+      font-size: 0.9rem;
+    }
+
+    .button-demo {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #2c3e50;
+      border: 2px solid #e0e6ed;
+    }
+
+    .btn-secondary:hover {
+      border-color: #667eea;
+      color: #667eea;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-container">
+    <!-- Header -->
+    <div class="demo-header">
+      <h1>🎯 Survey System Demo</h1>
+      <p>Emergency Response Study - Interactive Preview</p>
+    </div>
+
+    <!-- Overview Section -->
+    <div class="demo-section">
+      <h2>📋 System Overview</h2>
+      <p>
+        This is a complete survey system for studying decision-making and communication during emergencies.
+        The system includes a multi-section questionnaire, scenario introduction, and chat interface integration.
+      </p>
+      
+      <div class="stats">
+        <div class="stat-card">
+          <span class="number">4</span>
+          <span class="label">Survey Sections</span>
+        </div>
+        <div class="stat-card">
+          <span class="number">29</span>
+          <span class="label">Total Questions</span>
+        </div>
+        <div class="stat-card">
+          <span class="number">3</span>
+          <span class="label">Web Pages</span>
+        </div>
+        <div class="stat-card">
+          <span class="number">5</span>
+          <span class="label">Characters</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pages Section -->
+    <div class="demo-section">
+      <h2>🌐 Available Pages</h2>
+      <p>Click on any page to view it:</p>
+      
+      <div class="page-links">
+        <a href="landing.html" class="page-link">
+          <h3>Landing Page</h3>
+          <p>Study introduction and consent form</p>
+        </a>
+        
+        <a href="survey.html" class="page-link">
+          <h3>Survey Form</h3>
+          <p>Complete questionnaire with 4 sections</p>
+        </a>
+        
+        <a href="scenario.html" class="page-link">
+          <h3>Scenario Page</h3>
+          <p>Fire emergency scenario and character selection</p>
+        </a>
+        
+        <a href="chat.html" class="page-link">
+          <h3>Chat Interface</h3>
+          <p>Existing chat system (requires backend)</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="demo-section">
+      <h2>✨ Key Features</h2>
+      
+      <div class="feature-grid">
+        <div class="feature-item">
+          <h4>📱 Responsive Design</h4>
+          <p>Works on desktop, tablet, and mobile devices</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🎨 Modern UI</h4>
+          <p>Clean, elegant interface with smooth animations</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🔒 Privacy-First</h4>
+          <p>Anonymous participation, optional email</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>💾 Data Storage</h4>
+          <p>JSON format for easy analysis</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🚀 Deploy Ready</h4>
+          <p>Configured for Render and Netlify</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>🧪 Tested</h4>
+          <p>Includes testing scripts and documentation</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Survey Sections -->
+    <div class="demo-section">
+      <h2>📝 Survey Content</h2>
+      
+      <h3 style="color: #667eea; margin-top: 1.5rem;">Section 1: Background Information</h3>
+      <p>
+        Collects basic demographic information including email (optional), nickname, age, gender, 
+        education level, occupation, and political ideology (7-point scale).
+      </p>
+      
+      <h3 style="color: #667eea; margin-top: 1.5rem;">Section 2: Personality Traits</h3>
+      <p>
+        10 questions measuring the Big Five personality dimensions: Extraversion, Agreeableness, 
+        Conscientiousness, Neuroticism, and Openness. Uses a 5-point Likert scale.
+      </p>
+      
+      <h3 style="color: #667eea; margin-top: 1.5rem;">Section 3: Moral Foundations</h3>
+      <p>
+        12 questions based on Moral Foundations Theory, measuring Care, Fairness, Loyalty, 
+        Authority, Sanctity, and Liberty. Uses a 6-point Likert scale.
+      </p>
+      
+      <h3 style="color: #667eea; margin-top: 1.5rem;">Section 4: Special Needs</h3>
+      <p>
+        Assesses physical/medical conditions, responsibility for others, and need for special 
+        assistance during emergency evacuation.
+      </p>
+    </div>
+
+    <!-- Quick Start -->
+    <div class="demo-section">
+      <h2>🚀 Quick Start</h2>
+      <p>To run the complete system locally:</p>
+      
+      <div class="code-block">
+# Terminal 1: Start backend<br>
+cd backend<br>
+python server.py<br>
+<br>
+# Terminal 2: Serve frontend<br>
+cd frontend<br>
+python -m http.server 8000<br>
+<br>
+# Open browser to:<br>
+http://localhost:8000/landing.html
+      </div>
+      
+      <div class="button-demo">
+        <button class="btn btn-primary" onclick="window.location.href='landing.html'">
+          Start Demo →
+        </button>
+        <button class="btn btn-secondary" onclick="window.open('../SURVEY_QUICKSTART.md')">
+          View Documentation
+        </button>
+      </div>
+    </div>
+
+    <!-- Documentation -->
+    <div class="demo-section">
+      <h2>📚 Documentation</h2>
+      <p>Comprehensive documentation is available:</p>
+      
+      <div class="feature-grid">
+        <div class="feature-item">
+          <h4>SURVEY_QUICKSTART.md</h4>
+          <p>Get started in 5 minutes</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>SURVEY_DEPLOYMENT.md</h4>
+          <p>Deploy to production</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>SURVEY_SYSTEM_OVERVIEW.md</h4>
+          <p>Complete system overview</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>VISUAL_GUIDE.md</h4>
+          <p>Visual design guide</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>frontend/README.md</h4>
+          <p>Frontend documentation</p>
+        </div>
+        
+        <div class="feature-item">
+          <h4>test_survey_api.py</h4>
+          <p>API testing script</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="demo-section" style="text-align: center; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);">
+      <h2>🎯 Ready to Begin?</h2>
+      <p style="margin-bottom: 1.5rem;">
+        Start by viewing the landing page, or jump directly to any section.
+      </p>
+      <div class="button-demo" style="justify-content: center;">
+        <button class="btn btn-primary" onclick="window.location.href='landing.html'">
+          View Landing Page →
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debug - Survey System</title>
+  <script src="config.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #f5f5f5;
+    }
+    h1 {
+      color: #333;
+    }
+    .section {
+      background: white;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .label {
+      font-weight: bold;
+      color: #666;
+      margin-top: 0.5rem;
+    }
+    .value {
+      color: #333;
+      margin-left: 1rem;
+      font-family: monospace;
+    }
+    button {
+      background: #ff6b35;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 0.5rem 0.5rem 0.5rem 0;
+    }
+    button:hover {
+      background: #e55a2b;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Survey System Debug Page</h1>
+  
+  <div class="section">
+    <h2>Session Storage</h2>
+    <div class="label">Participant ID:</div>
+    <div class="value" id="participantId">Loading...</div>
+    
+    <div class="label">Participant Nickname:</div>
+    <div class="value" id="participantNickname">Loading...</div>
+    
+    <div class="label">Selected Character:</div>
+    <div class="value" id="selectedCharacter">Loading...</div>
+    
+    <div class="label">Completed Conversations:</div>
+    <div class="value" id="completedConversations">Loading...</div>
+  </div>
+  
+  <div class="section">
+    <h2>API Connection</h2>
+    <div class="label">Backend URL:</div>
+    <div class="value" id="apiUrl">Loading...</div>
+    
+    <div class="label">Backend Status:</div>
+    <div class="value" id="backendStatus">Checking...</div>
+    
+    <button onclick="testBackend()">Test Backend Connection</button>
+  </div>
+  
+  <div class="section">
+    <h2>Survey Data</h2>
+    <div class="label">Survey Data Status:</div>
+    <div class="value" id="surveyStatus">Not checked</div>
+    
+    <button onclick="fetchSurveyData()">Fetch Survey Data</button>
+    
+    <pre id="surveyData" style="background: #f5f5f5; padding: 1rem; margin-top: 1rem; overflow-x: auto;"></pre>
+  </div>
+  
+  <div class="section">
+    <h2>Actions</h2>
+    <button onclick="clearStorage()">Clear Session Storage</button>
+    <button onclick="window.location.href='survey.html'">Go to Survey</button>
+    <button onclick="window.location.href='scenario.html'">Go to Scenario</button>
+    <button onclick="location.reload()">Reload Page</button>
+  </div>
+
+  <script>
+    // Load session storage info
+    function loadSessionInfo() {
+      document.getElementById('participantId').textContent = sessionStorage.getItem('participantId') || '(not set)';
+      document.getElementById('participantNickname').textContent = sessionStorage.getItem('participantNickname') || '(not set)';
+      document.getElementById('selectedCharacter').textContent = sessionStorage.getItem('selectedCharacter') || '(not set)';
+      document.getElementById('completedConversations').textContent = sessionStorage.getItem('completedConversations') || '0';
+    }
+
+    // Load API URL
+    function loadApiUrl() {
+      const CONFIG = window.APP_CONFIG || {
+        API_URL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+          ? 'http://localhost:8001' 
+          : 'https://your-backend-url.onrender.com',
+      };
+      document.getElementById('apiUrl').textContent = CONFIG.API_URL;
+    }
+
+    // Test backend connection
+    async function testBackend() {
+      const CONFIG = window.APP_CONFIG || {
+        API_URL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+          ? 'http://localhost:8001' 
+          : 'https://your-backend-url.onrender.com',
+      };
+      
+      const statusEl = document.getElementById('backendStatus');
+      statusEl.textContent = 'Testing...';
+      
+      try {
+        const response = await fetch(`${CONFIG.API_URL}/`);
+        if (response.ok) {
+          statusEl.textContent = '✓ Backend is online';
+          statusEl.className = 'value success';
+        } else {
+          statusEl.textContent = `✗ Backend returned status ${response.status}`;
+          statusEl.className = 'value error';
+        }
+      } catch (error) {
+        statusEl.textContent = `✗ Cannot connect: ${error.message}`;
+        statusEl.className = 'value error';
+      }
+    }
+
+    // Fetch survey data
+    async function fetchSurveyData() {
+      const participantId = sessionStorage.getItem('participantId');
+      const statusEl = document.getElementById('surveyStatus');
+      const dataEl = document.getElementById('surveyData');
+      
+      if (!participantId) {
+        statusEl.textContent = '✗ No participant ID found';
+        statusEl.className = 'value error';
+        dataEl.textContent = 'Please complete the survey first.';
+        return;
+      }
+      
+      statusEl.textContent = 'Fetching...';
+      
+      const CONFIG = window.APP_CONFIG || {
+        API_URL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+          ? 'http://localhost:8001' 
+          : 'https://your-backend-url.onrender.com',
+      };
+      
+      try {
+        const response = await fetch(`${CONFIG.API_URL}/api/survey/${participantId}`);
+        
+        if (response.ok) {
+          const data = await response.json();
+          statusEl.textContent = '✓ Survey data found';
+          statusEl.className = 'value success';
+          dataEl.textContent = JSON.stringify(data, null, 2);
+        } else {
+          statusEl.textContent = `✗ Failed: ${response.status}`;
+          statusEl.className = 'value error';
+          dataEl.textContent = await response.text();
+        }
+      } catch (error) {
+        statusEl.textContent = `✗ Error: ${error.message}`;
+        statusEl.className = 'value error';
+        dataEl.textContent = error.stack;
+      }
+    }
+
+    // Clear session storage
+    function clearStorage() {
+      if (confirm('Are you sure you want to clear all session storage?')) {
+        sessionStorage.clear();
+        loadSessionInfo();
+        alert('Session storage cleared!');
+      }
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSessionInfo();
+      loadApiUrl();
+      testBackend();
+    });
+  </script>
+</body>
+</html>
+

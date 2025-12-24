@@ -1,0 +1,334 @@
+[
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Hi. Do you need assistance in leaving?"
+  },
+  {
+    "resident_text": "I'm not leaving my home. I have too much work here to just leave it all behind.",
+    "operator_text": "It is required for you to leave. It's not safe."
+  },
+  {
+    "resident_text": "You really think it's that bad?",
+    "operator_text": "It is that bad and you will have to leave at once. Do you need assistance with a vehicle?"
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Yes, you have to evacuate at once. The fire is spreading quickly and you have to move north."
+  },
+  {
+    "resident_text": "Look, I already said this to the drone. I'm not leaving my home.",
+    "operator_text": "We're going to send an emergency vehicle to pick you up. You'll have to comply. It's for your own safety."
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Hi. How many people are there in your residence?"
+  },
+  {
+    "resident_text": "No, just me.",
+    "operator_text": "OK. I need for you to evacuate. Are you able to walk?"
+  },
+  {
+    "resident_text": "Look, I already said this to the drone. I'm not leaving my home.",
+    "operator_text": "OK. Um. So you're aware that you're in danger right now?"
+  },
+  {
+    "resident_text": "I have too much work here to just leave it all behind. I'm fine. I just need to finish prepping my house.",
+    "operator_text": "OK, well as long as you're aware that you're in danger and you're refusing help."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Yes, are you aware there's a fire approaching, encroaching your neighborhood?"
+  },
+  {
+    "resident_text": "I'm fine, I just need to finish prepping my house.",
+    "operator_text": "Okay, you need to grab your belongings and exit. If you need assistance, I can send somebody down there to assist you."
+  },
+  {
+    "resident_text": "I have too much work here to just leave it all behind.",
+    "operator_text": "Well, grab whatever you can and you need to take off. So, unfortunately, anything that's of value or important, you're going to need to leave with it."
+  },
+  {
+    "resident_text": "You really think it's that bad?",
+    "operator_text": "Yes. So, please leave. If you need assistance again, I can go ahead and send a van down to you."
+  },
+  {
+    "resident_text": "I have too much work here to just leave it all behind.",
+    "operator_text": "Sir, you're in danger. There's fire coming. I can't assure your safety unless you leave right now, sir."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hey, what's going on? Are you okay? I need you to evacuate right now. Immediately. You're in danger."
+  },
+  {
+    "resident_text": "I'm leaving my home. There's too much work here to just...",
+    "operator_text": "No, no, no. You're going to leave right now. There's a fire. Do you understand? You need to leave right now."
+  },
+  {
+    "resident_text": "I spent years on this collection.",
+    "operator_text": "I understand that."
+  },
+  {
+    "resident_text": "I'm trying to take it all.",
+    "operator_text": "Listen. You have to go, sir. You have to go. Please listen. You have to go. your life is in danger."
+  },
+  {
+    "resident_text": "You really think it's that bad?",
+    "operator_text": "It's very bad. It is starting to spread."
+  },
+  {
+    "resident_text": "I'm not leaving my home",
+    "operator_text": "The fire is like over there. Can you see it?"
+  },
+  {
+    "resident_text": "I have too much work here to just leave it all behind",
+    "operator_text": "It's gonna burn up anyway. Yeah,"
+  },
+  {
+    "resident_text": "you really think it's that bad?",
+    "operator_text": "yeah because I got ten drones and it's basically surrounding you."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "There's a fire right across from you. You have to leave."
+  },
+  {
+    "resident_text": "I'm fine. I just need to finish prepping my house.",
+    "operator_text": "It's actually right across. It's right across the corner from you. You have to..."
+  },
+  {
+    "resident_text": "Do you think it's that bad?",
+    "operator_text": "Pretty bad. You're close to a lot of brush and I have drones saying it's right a corner from you. You can see it."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi there, how's it going?"
+  },
+  {
+    "resident_text": "But I already said this to the drone. I'm not leaving my home.",
+    "operator_text": "Okay, this is just a friendly warning letting you know that we are suspected of fire to head your guys' way, so it's your choice to evacuate your home. But we're just here to help."
+  },
+  {
+    "resident_text": "I'm fine. I just need to finish prepping my house.",
+    "operator_text": "Not a problem. If you have happened to change your mind, just let us know and we can help you in the ways of sending you an emergency vehicle or we can go ahead and help lead you out the safest way possible."
+  },
+  {
+    "resident_text": "Do you really think it's that bad?",
+    "operator_text": "I think it's better to be safe than sorry, but it's absolutely at your own accord."
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Hey, what's going on man? What's going on brother?"
+  },
+  {
+    "resident_text": "I said this to the drone.",
+    "operator_text": "I'm sorry?"
+  },
+  {
+    "resident_text": "I'm not leaving my home.",
+    "operator_text": "What happened? Say that again."
+  },
+  {
+    "resident_text": "I'm not leaving my home.",
+    "operator_text": "Well, this is like an emergency mandatory evacuation site. Either you leave or somebody will come and remove you, like arrest you and remove you"
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Are you okay?"
+  },
+  {
+    "resident_text": "Yeah.",
+    "operator_text": "Vans on this way shortly."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hey."
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Okay, driver, I mean civilian, we may have some bit of a delay in recovering you from your barnhouse. Are you safe where you are presently located?"
+  },
+  {
+    "resident_text": "I'm fine. I just need to finish prepping my house.",
+    "operator_text": "For what?"
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Um, please evacuate. There's a fire spreading. Do you need a ride?"
+  },
+  {
+    "resident_text": "Look, I already said this to the drone. I'm not leaving my home.",
+    "operator_text": "Okay, that's your choice."
+  },
+  {
+    "resident_text": "look I've already said this to the drone. I have too much work here to just leave it all behind",
+    "operator_text": "That's your choice"
+  },
+  {
+    "resident_text": "you really think it's that bad?",
+    "operator_text": "Yes"
+  },
+  {
+    "resident_text": "okay I'm not stupid. Just let me grab my bag and I'll head out.",
+    "operator_text": "Okay, do you need assistance"
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Hi, we're going to need you to evacuate because there's a fire coming your way."
+  },
+  {
+    "resident_text": "Look, I already said this to the drone. I have too much work here to just leave it all behind.",
+    "operator_text": "Your work is going to be in flames within a matter of minutes, so it's best to leave it or grab your work and take it with you somewhere."
+  },
+  {
+    "resident_text": "Do you really think it's that bad?",
+    "operator_text": "I do. I really think it's that bad and I think you need to grab what you can and leave."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Yes, hi. We've asked everyone to evacuate because of the dangers of the fire getting near you."
+  },
+  {
+    "resident_text": "Look, I already said this to the drone. I'm not leaving my home.",
+    "operator_text": "Any reason?"
+  },
+  {
+    "resident_text": "I have too much work here to just leave it all behind.",
+    "operator_text": "Okay, but the fire is coming and if you get hurt or killed or whatever, what good would that do you?"
+  },
+  {
+    "resident_text": "Do you really think it's that bad?",
+    "operator_text": "Yes, I do. And also, do you want me to send a van to pick you up or can you leave on your own?"
+  },
+  {
+    "resident_text": "Okay, I'm not stupid. Just let me grab my bag and I'll head out.",
+    "operator_text": "Okay, so you don't need the van?"
+  },
+  {
+    "resident_text": "No.",
+    "operator_text": "Okay, well I appreciate that because, you know, first thing is for everyone to be safe. Thank you."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hello? We are strongly suggesting that you leave as soon as possible. Is there a reason why you cannot?"
+  },
+  {
+    "resident_text": "look, I've already said this to the drone. I have too much work here to just leave it all behind",
+    "operator_text": "The fire is really close and somebody will if you cannot come somebody will come and get you."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi, you're in a mandatory evacuation area. Your house is about to be overcome with fire. Can you please come?"
+  },
+  {
+    "resident_text": "I've already said this to the drone. I have too much work here to just leave it all behind.",
+    "operator_text": "I understand, but you're about, you're in a dangerous situation and right now you'll be, you need to think about living your life. The only-"
+  },
+  {
+    "resident_text": "you really think it's that bad.",
+    "operator_text": "Yes, it's that bad."
+  },
+  {
+    "resident_text": "Hello.",
+    "operator_text": "How are you?"
+  },
+  {
+    "resident_text": "Hello.",
+    "operator_text": "How are you today?"
+  },
+  {
+    "resident_text": "I'm fine. I just need to finish prepping my house.",
+    "operator_text": "I need you to evacuate immediately."
+  },
+  {
+    "resident_text": "Look, I already said this to the drone. I'm not leaving my home.",
+    "operator_text": "I need you to leave right now."
+  },
+  {
+    "resident_text": "I have too much work here to just leave it all behind.",
+    "operator_text": "It's not worth it."
+  },
+  {
+    "resident_text": "You really think it's that bad?",
+    "operator_text": "It could be more dangerous than ever."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hello? How you doing?"
+  },
+  {
+    "resident_text": "I'm fine. I just need to finish prepring my house.",
+    "operator_text": "We need you to evacuate immediately."
+  },
+  {
+    "resident_text": "Look, I already said this to the drone. I have too much work here to just leave it all behind.",
+    "operator_text": "What type of work do you need to do?"
+  },
+  {
+    "resident_text": "It's artwork. It's irreplaceable.",
+    "operator_text": "We need you to leave right now, sir."
+  },
+  {
+    "resident_text": "You really think it's that bad?",
+    "operator_text": "Yes."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi. Hello?"
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Please evacuate the premises immediately, the wildfire is spreading fast."
+  },
+  {
+    "resident_text": "But I already said this to the drone. I'm not leaving my home.",
+    "operator_text": "Sir, the fire is spreading fast and we're asking everyone to evacuate or it may be fatal."
+  },
+  {
+    "resident_text": "You really think it's that bad?",
+    "operator_text": "Yes, I do."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi. Hello?"
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Sir, please go with Drone 3 to the evacuation safety point."
+  },
+  {
+    "resident_text": "I'm not leaving my home. I have too much work here to just leave it all behind.",
+    "operator_text": "You are in imminent danger and the fire is fast approaching. If you do not leave, the results may be fatal."
+  },
+  {
+    "resident_text": "You really think it's that bad?",
+    "operator_text": "Yes."
+  },
+  {
+    "resident_text": "I'm fine, I just need to finish prepring my house",
+    "operator_text": "Okay, sir, I don't think it's any more time for you to prep your house We're sending emergency vehicles to you. This is happening rapidly. I don't think you're gonna have time for that We're on our way to pick you up as we speak. Okay"
+  },
+  {
+    "resident_text": "I'm fine. I just need to finish prepping my house.",
+    "operator_text": "Sir, there is a very rapid fire happening. You don't have time to prep your house. I'm sending an emergency vehicle directly to you very soon."
+  },
+  {
+    "resident_text": "I have too much work here to just leave it all behind.",
+    "operator_text": "Sir, this is concerning your life. If this fire gets any closer to you, we don't want you to expire. So we're sending emergency vehicles to you now. Your life is more important than prepping your house."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi. Um, would you not like a vehicle to pick you up?"
+  },
+  {
+    "resident_text": "I'm fine. I just need to finish prepping my house.",
+    "operator_text": "Well, there's a fire right... that's very close to... that's approaching your house."
+  },
+  {
+    "resident_text": "I have too much work here to just leave it all behind.",
+    "operator_text": "Well, you're going to die if you don't leave your house. There's a fire about two streets away."
+  },
+  {
+    "resident_text": "Do you really think it's that bad?",
+    "operator_text": "Yes, you really need to leave right now. We're sending a vehicle to pick you up, okay?"
+  }
+]

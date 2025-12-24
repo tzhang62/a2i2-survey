@@ -1,0 +1,126 @@
+{
+  "confirmation_number": "CCC001",
+  "participant_id": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
+  "status": "complete",
+  "completion_timestamp": "2025-12-24T00:35:30.036198",
+  "survey": {
+    "timestamp": "2025-12-24T00:32:18.304Z",
+    "background": {
+      "email": "maviszhang0124@gmail.com",
+      "nickname": "Mavis",
+      "age": "33",
+      "gender": "female",
+      "education": "some-college",
+      "occupation": "Scientist",
+      "ideology": "2"
+    },
+    "personality": {
+      "q1": "5",
+      "q2": "1",
+      "q3": "5",
+      "q4": "1",
+      "q5": "5",
+      "q6": "1",
+      "q7": "5",
+      "q8": "1",
+      "q9": "5",
+      "q10": "1"
+    },
+    "moral": {
+      "q1": "6",
+      "q2": "5",
+      "q3": "5",
+      "q4": "5",
+      "q5": "5",
+      "q6": "5",
+      "q7": "5",
+      "q8": "5",
+      "q9": "5",
+      "q10": "5",
+      "q11": "5",
+      "q12": "5"
+    },
+    "specialNeeds": {
+      "condition": "no",
+      "responsible": "no",
+      "vehicle": "no",
+      "details": ""
+    },
+    "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
+    "serverTimestamp": "2025-12-24T00:32:18.311860"
+  },
+  "post_surveys": [
+    {
+      "sessionId": "1c15a853-e96e-486c-9ba6-744d72d4b71d_niki_1766536506",
+      "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
+      "character": "niki",
+      "conversationNumber": 6,
+      "timestamp": "2025-12-24T00:35:30.017Z",
+      "willing": "yes",
+      "willingYesDetails": "",
+      "willingNoDetails": "",
+      "naturalness": "very-natural",
+      "unnaturalUtterances": []
+    },
+    {
+      "sessionId": "1c15a853-e96e-486c-9ba6-744d72d4b71d_nonrole_social-normative_1766536413",
+      "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
+      "character": "self",
+      "conversationNumber": 3,
+      "timestamp": "2025-12-24T00:34:06.454Z",
+      "willing": "yes",
+      "willingYesDetails": "",
+      "willingNoDetails": "",
+      "naturalness": "very-natural",
+      "unnaturalUtterances": []
+    },
+    {
+      "sessionId": "1c15a853-e96e-486c-9ba6-744d72d4b71d_niki_1766536459",
+      "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
+      "character": "niki",
+      "conversationNumber": 4,
+      "timestamp": "2025-12-24T00:34:43.893Z",
+      "willing": "yes",
+      "willingYesDetails": "",
+      "willingNoDetails": "",
+      "naturalness": "very-natural",
+      "unnaturalUtterances": []
+    },
+    {
+      "sessionId": "1c15a853-e96e-486c-9ba6-744d72d4b71d_nonrole_emotional-relational_1766536386",
+      "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
+      "character": "self",
+      "conversationNumber": 2,
+      "timestamp": "2025-12-24T00:33:32.653Z",
+      "willing": "yes",
+      "willingYesDetails": "",
+      "willingNoDetails": "",
+      "naturalness": "very-natural",
+      "unnaturalUtterances": []
+    },
+    {
+      "sessionId": "1c15a853-e96e-486c-9ba6-744d72d4b71d_niki_1766536485",
+      "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
+      "character": "niki",
+      "conversationNumber": 5,
+      "timestamp": "2025-12-24T00:35:05.722Z",
+      "willing": "yes",
+      "willingYesDetails": "",
+      "willingNoDetails": "",
+      "naturalness": "very-natural",
+      "unnaturalUtterances": []
+    },
+    {
+      "sessionId": "1c15a853-e96e-486c-9ba6-744d72d4b71d_nonrole_rational-informational_1766536357",
+      "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
+      "character": "self",
+      "conversationNumber": 1,
+      "timestamp": "2025-12-24T00:33:05.178Z",
+      "willing": "yes",
+      "willingYesDetails": "",
+      "willingNoDetails": "",
+      "naturalness": "very-natural",
+      "unnaturalUtterances": []
+    }
+  ]
+}

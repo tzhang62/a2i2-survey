@@ -1,0 +1,106 @@
+[
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hello. You're going to have to evacuate. The fire is spreading quickly."
+  },
+  {
+    "resident_text": "I'm here with two kids. I can't reach their parents right now.",
+    "operator_text": "You'll have to take the kids with you and leave right now."
+  },
+  {
+    "resident_text": "I don't know where to go.",
+    "operator_text": "We will send an emergency vehicle. You have to travel north. Do you need assistance? Shall we send a vehicle?"
+  },
+  {
+    "resident_text": "Hello",
+    "operator_text": "ma'am you need to evacuate"
+  },
+  {
+    "resident_text": "I'm here with two kids, I can't reach their parents right now.",
+    "operator_text": "I'm sorry say that again. Okay"
+  },
+  {
+    "resident_text": "I'm here with two kids. I can't reach their parents right now.",
+    "operator_text": "Well, I suggest that if you can leave, take them with you and then contact them later."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hey, what's going on?"
+  },
+  {
+    "resident_text": "Hello.",
+    "operator_text": "Hey, how are you?"
+  },
+  {
+    "resident_text": "We're okay. I'm here with two kids",
+    "operator_text": "The van will come shortly."
+  },
+  {
+    "resident_text": "Hello I can see the smoke, I'm just a little worried",
+    "operator_text": "Can you smell the smoke"
+  },
+  {
+    "resident_text": "Yes,",
+    "operator_text": "is that your daughter there with you"
+  },
+  {
+    "resident_text": "I'm the babysitter. I'm here with two kids",
+    "operator_text": "Oh my good, oh wow you have your hands full a transport van is on the way"
+  },
+  {
+    "resident_text": "are we really in the path of the fire?",
+    "operator_text": "Yes."
+  },
+  {
+    "resident_text": "I'm here with two kids. I can't reach their parents right now",
+    "operator_text": "Well, we can send the emergency vehicle to come get you."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi. Hello?"
+  },
+  {
+    "resident_text": "I heard the warning. Are we really in the path of the fire?",
+    "operator_text": "Yes you are. Please evacuate with drone 5 immediately. The fire is spreading fast."
+  },
+  {
+    "resident_text": "I'm here with two kids. I can't reach their parents right now.",
+    "operator_text": "Okay drone 4 will take you to the evacuation point and we'll contact their parents from there."
+  },
+  {
+    "resident_text": "Hi.",
+    "operator_text": "Hi. Hello."
+  },
+  {
+    "resident_text": "Hello.",
+    "operator_text": "Hello."
+  },
+  {
+    "resident_text": "I heard the warning. Are we really in the path of a fire?",
+    "operator_text": "Yes, you are. Please evacuate with the drone to safety."
+  },
+  {
+    "resident_text": "I'm here with two kids. I'm not sure where their parents are.",
+    "operator_text": "Please follow the drone to this evacuation point and from there we'll contact their parents."
+  },
+  {
+    "resident_text": "I'm the babysitter.",
+    "operator_text": "Oh, you're the babysitter?"
+  },
+  {
+    "resident_text": "I can't reach their parents right now.",
+    "operator_text": "Okay, you know it might have a lot to do with the fires. Everything is cut off within that area. We will make sure to have emergency vehicles get to you as soon as possible so just stay put, okay?"
+  },
+  {
+    "resident_text": "We're okay.",
+    "operator_text": "Great. Emergency vehicles should be to you within a couple of seconds. I see them on the map here and they will get you to safety."
+  },
+  {
+    "resident_text": "Thank you.",
+    "operator_text": "You're welcome. Okay, you know what actually may just need to go there actually outside waiting for you now. Just if you can just get in the vehicle so we can get you to safety. The fire is very close to your home. We're just worried about your safety. Okay. I can do that. Okay."
+  },
+  {
+    "resident_text": "Hello?",
+    "operator_text": "Hi, um... We're about to send a rescue Vehicle to you to get you out of the way of the fire because there's a fire approaching your area"
+  }
+]

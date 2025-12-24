@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Scenario - Direct</title>
+  <script src="config.js"></script>
+</head>
+<body style="background: #222; color: white; font-family: Arial, sans-serif; padding: 2rem;">
+  <h1>Direct Scenario Test</h1>
+  <p>This page will simulate completing a survey and then show the scenario.</p>
+  
+  <button onclick="testWithExistingParticipant()" style="padding: 1rem; margin: 1rem 0; font-size: 1rem; cursor: pointer;">
+    Test with Existing Participant
+  </button>
+  
+  <button onclick="goToScenario()" style="padding: 1rem; margin: 1rem 0; font-size: 1rem; cursor: pointer;">
+    Go to Scenario Page
+  </button>
+  
+  <div id="output" style="margin-top: 2rem; padding: 1rem; background: #333; border-radius: 8px;"></div>
+
+  <script>
+    function log(message) {
+      const output = document.getElementById('output');
+      output.innerHTML += `<div>${new Date().toLocaleTimeString()}: ${message}</div>`;
+      console.log(message);
+    }
+
+    function testWithExistingParticipant() {
+      // Use an existing participant ID from your survey_responses
+      const participantId = '46ba3196-92e8-4624-a01f-6b6eb2f414c3';
+      
+      log('Setting participantId in sessionStorage: ' + participantId);
+      sessionStorage.setItem('participantId', participantId);
+      sessionStorage.setItem('participantNickname', 'Test User');
+      sessionStorage.setItem('completedConversations', '0');
+      
+      log('✓ Session storage set');
+      log('Click "Go to Scenario Page" to test');
+    }
+
+    function goToScenario() {
+      const participantId = sessionStorage.getItem('participantId');
+      if (!participantId) {
+        log('❌ ERROR: No participantId in sessionStorage. Click "Test with Existing Participant" first!');
+      } else {
+        log('✓ Found participantId: ' + participantId);
+        log('Redirecting to scenario.html...');
+        setTimeout(() => {
+          window.location.href = 'scenario.html';
+        }, 500);
+      }
+    }
+
+    // Show current session storage state
+    window.addEventListener('DOMContentLoaded', () => {
+      log('=== Current Session Storage ===');
+      log('participantId: ' + (sessionStorage.getItem('participantId') || '(not set)'));
+      log('participantNickname: ' + (sessionStorage.getItem('participantNickname') || '(not set)'));
+      log('completedConversations: ' + (sessionStorage.getItem('completedConversations') || '0'));
+    });
+  </script>
+</body>
+</html>
+

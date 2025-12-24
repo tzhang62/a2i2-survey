@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fire Rescue Scenario - Emergency Response Study</title>
+  <link rel="stylesheet" href="styles/scenario.css">
+  <script src="config.js"></script>
+</head>
+<body>
+  <div class="scenario-container">
+    <!-- Fire-themed background overlay -->
+    <div class="fire-overlay"></div>
+    
+    <!-- Scenario Content -->
+    <div class="scenario-content">
+      <!-- Loading state (shown by default, hidden by JavaScript) -->
+      <div class="scenario-card" id="loading-state">
+        <h1 class="scenario-title">Loading...</h1>
+        <p style="color: white; text-align: center; padding: 2rem; font-size: 1.2rem;">
+          Preparing your personalized scenario based on your survey responses...
+        </p>
+        <div style="text-align: center; padding: 1rem;">
+          <div style="display: inline-block; width: 50px; height: 50px; border: 5px solid rgba(255, 255, 255, 0.3); border-top-color: var(--fire-orange); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        </div>
+      </div>
+      
+      <!-- Default static content (hidden by default, only shown if JS fails) -->
+      <div class="scenario-card" id="default-content" style="display: none;">
+        <h1 class="scenario-title">Fire Rescue Scenario</h1>
+        
+        <div class="scenario-text">
+          <p class="scenario-intro">
+            It is a regular day at home. You are working on your computer projects when your phone suddenly rings. 
+            The caller ID shows the local fire department…
+          </p>
+          
+          <div class="phone-animation">
+            <div class="phone-icon">📱</div>
+            <div class="phone-ring-effect"></div>
+            <p class="caller-id">🚒 Fire Department</p>
+          </div>
+          
+          <div class="scenario-description">
+            <p>
+              <strong>You are about to interact with a virtual emergency operator.</strong>
+            </p>
+            <p>
+              The operator will guide you through an emergency evacuation scenario. 
+              Please respond naturally, as you would in a real emergency situation.
+            </p>
+            <p>
+              Your responses will help us understand how people communicate and make decisions during high-pressure situations.
+            </p>
+          </div>
+        </div>
+
+        <div class="character-selection">
+          <h2>Select Your Character</h2>
+          <p class="selection-subtitle">Choose a character profile for this scenario</p>
+          
+          <div class="character-grid">
+            <div class="character-card" data-character="Bob">
+              <h3>Bob</h3>
+              <p>A stubborn man who prioritizes work over safety</p>
+              <button class="select-character-btn" onclick="selectCharacter('Bob')">Select</button>
+            </div>
+            
+            <div class="character-card" data-character="Niki">
+              <h3>Niki</h3>
+              <p>A cooperative person willing to follow evacuation instructions</p>
+              <button class="select-character-btn" onclick="selectCharacter('Niki')">Select</button>
+            </div>
+            
+            <div class="character-card" data-character="Lindsay">
+              <h3>Lindsay</h3>
+              <p>A babysitter responsible for children</p>
+              <button class="select-character-btn" onclick="selectCharacter('Lindsay')">Select</button>
+            </div>
+            
+            <div class="character-card" data-character="Ross">
+              <h3>Ross</h3>
+              <p>A van driver helping evacuate elderly residents</p>
+              <button class="select-character-btn" onclick="selectCharacter('Ross')">Select</button>
+            </div>
+
+            <div class="character-card" data-character="Michelle">
+              <h3>Michelle</h3>
+              <p>A stubborn person determined to protect their property</p>
+              <button class="select-character-btn" onclick="selectCharacter('Michelle')">Select</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="instructions">
+          <h3>📋 Instructions</h3>
+          <ul>
+            <li>Answer honestly and naturally</li>
+            <li>There are no right or wrong answers</li>
+            <li>The conversation will last approximately 5-10 minutes</li>
+            <li>You can end the conversation at any time</li>
+          </ul>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn-secondary" onclick="goBack()">← Back to Survey</button>
+          <button class="btn-primary" onclick="startConversation()" id="startBtn" disabled>
+            Start Conversation →
+          </button>
+        </div>
+      </div>
+      <!-- End of default-content -->
+    </div>
+    <!-- End of scenario-content -->
+  </div>
+  <!-- End of scenario-container -->
+
+  <!-- Multimedia Elements (Hidden until media files are added) -->
+  
+  <!-- Background video (optional) -->
+  <video id="backgroundVideo" class="background-video" loop muted playsinline style="display: none;">
+    <!-- To enable: Add your video file and uncomment the line below -->
+    <!-- <source src="media/fire-smoke.mp4" type="video/mp4"> -->
+  </video>
+  
+  <!-- Audio elements -->
+  <audio id="ambientSound" loop style="display: none;">
+    <source src="media/fire-ambient.mp3" type="audio/mpeg">
+  </audio>
+  
+  <audio id="phoneRinging" style="display: none;">
+    <source src="media/phone-ring.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Media Controls - Hidden until immersive scenario -->
+  <div class="media-controls" style="display: none;">
+    <button id="toggleSound" class="media-btn" title="Toggle Sound">
+      <span class="sound-on">🔊 Sound On</span>
+      <span class="sound-off" style="display: none;">🔇 Sound Off</span>
+    </button>
+  </div>
+
+  <script src="js/exit-study.js"></script>
+  <script src="js/scenario.js"></script>
+  <script>
+    // Initialize exit button - delay to ensure it appears after scenario content loads
+    window.addEventListener('DOMContentLoaded', function() {
+      setTimeout(() => {
+        window.initExitButton('scenario');
+      }, 100);
+    });
+  </script>
+</body>
+</html>
+
