@@ -392,17 +392,23 @@ def generate_personalized_scenario(survey_data: dict, model: str = "gpt-4o-mini"
     Returns:
         Personalized scenario description
     """
-    age = survey_data.get('age', 'unknown age')
-    occupation = survey_data.get('occupation', 'unknown occupation')
+    # Extract from nested structure
+    background = survey_data.get('background', {})
+    age = background.get('age', 'unknown age')
+    occupation = background.get('occupation', 'unknown occupation')
     special_needs = survey_data.get('specialNeeds', {})
+    
+    print(f"[SCENARIO-GEN] Age: {age}, Occupation: {occupation}")
+    print(f"[SCENARIO-GEN] Special needs: {special_needs}")
     
     # Build context about special circumstances
     context_parts = []
-    if special_needs.get('hasCondition'):
+    # Check for 'yes' values in condition, responsible, vehicle fields
+    if special_needs.get('condition') == 'yes':
         context_parts.append("has mobility or communication challenges")
-    if special_needs.get('responsibleForOthers'):
+    if special_needs.get('responsible') == 'yes':
         context_parts.append("is responsible for others (children, elderly, or pets)")
-    if special_needs.get('needsVehicle'):
+    if special_needs.get('vehicle') == 'yes':
         context_parts.append("may need vehicle assistance for evacuation")
     
     context = ", ".join(context_parts) if context_parts else "is at home"
@@ -899,9 +905,11 @@ async def start_chat(request: Request):
             
             # Generate personalized scenario if survey data provided
             if survey_data:
+                print(f"[CHAT] Generating personalized scenario with survey data")
                 scenario = generate_personalized_scenario(survey_data, model=model)
                 session["scenario"] = scenario
             else:
+                print(f"[CHAT] No survey data provided, using fallback scenario")
                 scenario = "You are at home when you notice smoke in the distance. A wildfire is spreading rapidly. Your phone rings—it's the fire department."
                 session["scenario"] = scenario
             
