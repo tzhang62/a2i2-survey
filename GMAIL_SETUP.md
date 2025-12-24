@@ -28,7 +28,7 @@ You need to create an "App Password" for your Gmail account. This is a special p
    - **Name it**: `a2i2-survey`
 9. Click **Generate**
 10. **IMPORTANT**: Copy the 16-character password that appears
-    - It looks like: `abcd efgh ijkl mnop` (4 groups of 4 letters)
+    - It looks like: `` (4 groups of 4 letters)
     - You won't see it again!
 11. Save it somewhere secure (you'll need it for Render)
 

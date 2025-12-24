@@ -4,7 +4,7 @@ services:
     name: a2i2-survey-backend
     env: python
     region: oregon
-    buildCommand: "cd a2i2_chatbot/backend && pip install --upgrade pip && pip install --prefer-binary -r requirements.txt"
+    buildCommand: "cd a2i2_chatbot/backend && pip install --upgrade pip wheel setuptools && pip install --only-binary :all: --prefer-binary -r requirements.txt"
     startCommand: "cd a2i2_chatbot/backend && python server.py"
     envVars:
       - key: OPENAI_API_KEY
@@ -13,8 +13,6 @@ services:
         generateValue: true
       - key: OPENAI_MODEL
         value: gpt-4o-mini
-      - key: PYTHON_VERSION
-        value: 3.11.9
     disk:
       name: survey-data
       mountPath: /opt/render/project/src/a2i2_chatbot/backend/survey_responses
