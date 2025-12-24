@@ -1,79 +1,246 @@
-<!-- frontend/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Emergency Response Chatbot - Select Town Person</title>
-  <link rel="stylesheet" href="styles/main.css">
+  <title>Emergency Response Study - Welcome</title>
+  <link rel="stylesheet" href="styles/landing.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Emergency Response Simulation</h1>
-    <p class="intro">Select a town person to start the emergency response simulation:</p>
-    
-    <div class="person-grid">
-      <div class="person-card" onclick="selectPerson('Bob')">
-        <h2>Bob</h2>
-        <p class="persona">A stubborn man who prioritizes work over safety</p>
-        <button>Select Bob</button>
-      </div>
-      
-      <div class="person-card" onclick="selectPerson('Niki')">
-        <h2>Niki</h2>
-        <p class="persona">A cooperative couple willing to follow evacuation instructions</p>
-        <button>Select Niki</button>
-      </div>
-      
-      <div class="person-card" onclick="selectPerson('Lindsay')">
-        <h2>Lindsay</h2>
-        <p class="persona">A babysitter responsible for children</p>
-        <button>Select Lindsay</button>
-      </div>
-      
-      <div class="person-card" onclick="selectPerson('Ross')">
-        <h2>Ross</h2>
-        <p class="persona">A van driver helping evacuate elderly residents</p>
-        <button>Select Ross</button>
+  <div class="landing-container">
+    <div class="consent-document">
+      <div class="document-header">
+        <h1>Informed Consent for Research</h1>
+        <div class="study-details">
+          <p><strong>Study Title:</strong> Fire Rescue Simulation</p>
+          <p><strong>Principal Investigator:</strong> Tianyi Zhang</p>
+          <p><strong>Department:</strong> Computer Science</p>
+          <p><strong>24-Hour Telephone Number:</strong> <a href="tel:213-245-3195">213-245-3195</a></p>
+        </div>
       </div>
 
-      <div class="person-card" onclick="selectPerson('Michelle')">
-        <h2>Michelle</h2>
-        <p class="persona">A stubborn couple determined to protect their property</p>
-        <button>Select Michelle</button>
+      <div class="consent-content">
+        <section class="consent-section-text">
+          <h2>Introduction</h2>
+          <p>
+            We invite you to take part in a research study. Please take as much time as you need to 
+            read the consent form. You may want to discuss it with your family, friends, or your 
+            personal doctor. If you find any of the language difficult to understand, please ask 
+            questions. If you decide to participate, you will be asked to sign this form. A copy of the 
+            signed form will be given to you for your records.
+          </p>
+        </section>
+
+        <section class="consent-section-text">
+          <h2>Purpose</h2>
+          <p>
+            The purpose of this study is to understand how artificial intelligence systems can 
+            simulate individuals' decision-making and communication in stressful emergency 
+            situations like fire rescues. We hope to learn how individual factors, such as personality 
+            traits, moral values, and personal circumstances, affect how people respond to emergency 
+            instructions and persuasion strategies. You are invited to participate in this research because 
+            you meet the eligibility requirements for participation, which include being 18 years or 
+            older, a fluent English speaker, and having normal or corrected-to-normal (20/20) vision. 
+            About one hundred participants will take part in the study. This research is being funded 
+            by the United States Air Force.
+          </p>
+        </section>
+
+        <section class="consent-section-text">
+          <h2>Procedures</h2>
+          <p>
+            If you decide to take part, this is what will happen: you will first be asked to provide your 
+            consent by clicking "I consent and continue." After giving consent, you will complete an 
+            online questionnaire about your background, personality, values, moral beliefs, and 
+            any potential needs or constraints relevant to a fire-rescue situation. You will then 
+            engage in a simulated emergency conversation in which you will interact via text with 
+            a virtual emergency operator powered by artificial intelligence; during this interaction, 
+            you will take on the role of the person being rescued. You will share your preference, 
+            willingness to follow the instructions and how natural the conversation felt. The entire 
+            procedure should take 15 to 20 minutes. After the completion of the survey, we will request your email address solely to send you compensation. To 
+            ensure data quality and anonymity, we'll compare your responses with known patterns of 
+            effort. If the responses do not meet our data quality standards, compensation will not be offered.
+          </p>
+        </section>
+
+        <section class="consent-section-text">
+          <h2>Risk and Discomforts</h2>
+          <p>
+            Participation in this study involves minimal risk. Some participants may experience mild 
+            psychological discomfort or stress when engaging with the simulated fire-rescue 
+            scenario, as it depicts an emergency. You may also experience minor fatigue while 
+            completing the online questionnaire or interacting with the virtual operator. Although 
+            your responses will be recorded anonymously, there is always a small risk of loss of 
+            confidentiality, as is possible with any online data collection. No physical risks, medical 
+            procedures, or in-person activities involved.
+          </p>
+        </section>
+
+        <section class="consent-section-text">
+          <h2>Surveys/Questionnaires/Interviews</h2>
+          <p>
+            Some of the questions may make you feel uneasy or embarrassed. You can choose to 
+            skip or stop answering any questions you don't want to.
+          </p>
+        </section>
+
+        <section class="consent-section-text">
+          <h2>Breach of Confidentiality</h2>
+          <p>
+            There is a small risk that people who are not connected with this study will learn your 
+            identity or your personal information.
+          </p>
+        </section>
+
+        <section class="consent-section-text">
+          <h2>Benefits</h2>
+          <p>
+            There are no direct benefits to you from taking part in this study. However, your 
+            participation in this study may help us better understand communication and decision-making during emergency situations, which could contribute to improved emergency 
+            response systems
+          </p>
+        </section>
+
+        <section class="consent-section-text">
+          <h2>Privacy/Confidentiality</h2>
+          <p>
+            We will keep your records for this study confidential as far as permitted by law. 
+            However, if we are required to do so by law, we will disclose confidential information 
+            about you. Efforts will be made to limit the use and disclosure of your personal 
+            information, including research study and medical records, to people who are required 
+            to review this information. We may publish the information from this study in journals or 
+            present it at meetings. If we do, we will not use your name.
+          </p>
+          <p>
+            The University of Southern California's Institutional Review Board (IRB) and Human 
+            Research Protection Program (HRPP) may review your records. Organizations that may 
+            also inspect and copy your information include the research team responsible for 
+            conducting this study. No outside agencies, sponsors, or federal regulators will have 
+            access to your identifiable information.
+          </p>
+          <p>
+            Officials of the U.S. Army Research Protections Office and the Army Research 
+            Laboratory's Human Research Protection Program are permitted by law to inspect the 
+            records obtained in this study to ensure compliance with laws and regulations for 
+            experiments using human subjects.
+          </p>
+        </section>
+
+        <section class="consent-section-text">
+          <h2>Possible Future use of data</h2>
+          <p>
+            Your data will be maintained confidentially and may be shared with other researchers. 
+            The research may be about similar or unrelated topics to this study. Our goal is to make 
+            more research possible. We plan to keep your data indefinitely. If shared, data will be 
+            transferred securely. If you are not comfortable with this, you should not participate in 
+            this study.
+          </p>
+        </section>
+
+        <section class="consent-section-text">
+          <h2>Alternatives</h2>
+          <p>
+            An alternative would be not to participate in this study.
+          </p>
+        </section>
+
+        <section class="consent-section-text">
+          <h2>Payments/Compensation</h2>
+          <p>
+            You will receive a $5 Amazon gift card for taking part in this study. Compensation will be 
+            provided after you complete the study session. Payments for research participation are 
+            considered taxable income; however, because the amount in this study is below the IRS 
+            reporting threshold, you will not receive a tax form from the University.
+          </p>
+        </section>
+
+        <section class="consent-section-text">
+          <h2>Voluntary Participation</h2>
+          <p>
+            It is your choice whether to participate. If you choose to participate, you may change 
+            your mind and leave the study at any time. If you decide not to participate, or choose to 
+            end your participation in this study, you will not be penalized or lose any benefits that 
+            you are otherwise entitled to.
+          </p>
+        </section>
+
+        <section class="consent-section-text">
+          <h2>Contact Information</h2>
+          <p>
+            If you have questions, concerns, complaints, or think the research has hurt you, talk to 
+            the study investigator Tianyi Zhang, Graduate Research Assistant, Institute of Creative 
+            Technologies, University of Southern California, 12015 Waterfront Drive, Playa Vista, 
+            CA 90094, (310) 574-5729, or <a href="mailto:tzhang@ict.usc.edu">tzhang@ict.usc.edu</a>.
+          </p>
+          <p>
+            This research has been reviewed by the USC Institutional Review Board (IRB). The 
+            IRB is a research review board that reviews and monitors research studies to protect 
+            the rights and welfare of research participants. Contact the IRB if you have questions 
+            about your rights as a research participant or you have complaints about the 
+            research. You may contact the IRB at (323) 442-0114 or by email at <a href="mailto:hrpp@usc.edu">hrpp@usc.edu</a>.
+          </p>
+        </section>
       </div>
 
-      <div class="person-card" onclick="selectPerson('Mary')">
-        <h2>Mary</h2>
-        <p class="persona">A 67-year-old woman with a small dog, needs help evacuating</p>
-        <button>Select Mary</button>
+      <div class="consent-agreement">
+        <label class="consent-checkbox">
+          <input type="checkbox" id="consentCheck">
+          <span class="checkbox-text">
+            I have read and understood the information above. I confirm that I am 18 years or older, 
+            a fluent English speaker, and have normal or corrected-to-normal (20/20) vision. 
+            I voluntarily agree to participate in this research study.
+          </span>
+        </label>
       </div>
 
-      <div class="person-card" onclick="selectPerson('Ben')">
-        <h2>Ben</h2>
-        <p class="persona">A 29-year-old work-from-home tech who may delay leaving</p>
-        <button>Select Ben</button>
-      </div>
-
-      <div class="person-card" onclick="selectPerson('Ana')">
-        <h2>Ana</h2>
-        <p class="persona">A caregiver helping evacuate seniors from the senior center</p>
-        <button>Select Ana</button>
-      </div>
-
-      <div class="person-card" onclick="selectPerson('Tom')">
-        <h2>Tom</h2>
-        <p class="persona">A high school teacher who may delay to help others</p>
-        <button>Select Tom</button>
-      </div>
-
-      <div class="person-card" onclick="selectPerson('Mia')">
-        <h2>Mia</h2>
-        <p class="persona">A 17-year-old student focused on robotics work</p>
-        <button>Select Mia</button>
+      <div class="action-section">
+        <button class="start-button" id="startButton" disabled onclick="startSurvey()">
+          I Consent and Continue →
+        </button>
+        <p class="contact-info">
+          Questions? Contact the research team at <a href="tel:213-245-3195">213-245-3195</a>
+        </p>
       </div>
     </div>
   </div>
-  <script src="js/index.js"></script>
+
+  <script>
+    // Handle page refresh - clear everything and restart from landing
+    const perfData = performance.getEntriesByType('navigation')[0];
+    if (perfData && perfData.type === 'reload') {
+      console.log('🔄 Page refresh detected on landing page - clearing all data');
+      sessionStorage.clear();
+      // Uncheck consent box on refresh
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('consentCheck').checked = false;
+        document.getElementById('startButton').disabled = true;
+      });
+    }
+
+    // Development mode: Clear session storage if ?reset=true in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('reset') === 'true') {
+      console.log('🔄 Reset parameter detected - clearing session storage');
+      sessionStorage.clear();
+      // Remove the reset parameter from URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+      console.log('✓ Session storage cleared');
+    }
+
+    // Enable start button when consent is checked
+    document.getElementById('consentCheck').addEventListener('change', function() {
+      document.getElementById('startButton').disabled = !this.checked;
+    });
+
+    function startSurvey() {
+      // Record consent timestamp
+      sessionStorage.setItem('consentTimestamp', new Date().toISOString());
+      sessionStorage.setItem('studyStartTime', new Date().toISOString());
+      
+      // Redirect to survey
+      window.location.href = 'survey.html';
+    }
+  </script>
 </body>
 </html>
+

@@ -50,7 +50,7 @@ git push -u origin main
    - **Instance Type**: Free (or paid for better performance)
 5. Add Environment Variables:
    - `OPENAI_API_KEY`: Your OpenAI API key
-   - `ADMIN_KEY`: 02bc3a6563641db8b4f2e5aa37f64b89
+   - `ADMIN_KEY`: 
    - `OPENAI_MODEL`: `gpt-4o-mini`
 6. Click "Create Web Service"
 7. **Add Persistent Disk** (Important for data storage):

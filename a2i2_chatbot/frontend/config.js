@@ -16,7 +16,7 @@ const CONFIG = {
   // Study information
   STUDY_NAME: 'Emergency Response Study',
   STUDY_VERSION: '1.0.0',
-  CONTACT_EMAIL: 'researcher@example.com' // Update with your email
+  CONTACT_EMAIL: 'tzhang62@usc.edu' // Update with your email
 };
 
 // Make config globally available
