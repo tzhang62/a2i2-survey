@@ -47,6 +47,15 @@ EMBED_MODEL = "all-MiniLM-L6-v2"
 MAX_TURNS = 5
 MIN_RESIDENT_TURNS = 3
 
+# Import Hugging Face API wrapper (replaces local IQL)
+try:
+    from iql_hf_api import get_iql_hf
+    HF_API_AVAILABLE = True
+    print("[IMPORT] Hugging Face API wrapper imported successfully")
+except ImportError as e:
+    print(f"[ERROR] Failed to import Hugging Face API wrapper: {e}")
+    HF_API_AVAILABLE = False
+
 # Character personas (simplified from persona.json)
 CHARACTER_PERSONAS = {
     "bob": "Bob is around 30 years old. He prioritizes his work over safety.",
@@ -99,11 +108,15 @@ PERSUASION_STRATEGIES = {
 }
 
 # ============================================================================
-# IQL Model Components
+# IQL Model Components (DEPRECATED - NO LONGER USED)
+# ============================================================================
+# These classes are kept for reference only
+# The system now uses Hugging Face Space API (iql_hf_api.py) for faster inference
+# Local IQL model is no longer loaded to save memory and improve performance
 # ============================================================================
 
 class QNetworkEmbed(nn.Module):
-    """Q-network for IQL policy selection"""
+    """Q-network for IQL policy selection (DEPRECATED - not used)"""
     def __init__(self, state_dim: int, action_embeds: torch.Tensor, hidden_dim: int, p_drop: float = 0.3):
         super().__init__()
         self.action_embeds = nn.Parameter(action_embeds, requires_grad=False)
@@ -132,7 +145,7 @@ def embed_state(model: SentenceTransformer, last_n_res_texts: List[str]) -> np.n
 
 
 class IQLSelector:
-    """IQL-based policy selector"""
+    """IQL-based policy selector (DEPRECATED - not used)"""
     def __init__(self, pt_path: Path, policy_names: List[str]):
         self.device = torch.device("cpu")
         self.embed_model = SentenceTransformer(EMBED_MODEL)
@@ -629,38 +642,38 @@ policy_retriever = None
 
 
 def initialize_iql():
-    """Initialize IQL system"""
+    """Initialize IQL system using Hugging Face API ONLY"""
     global iql_selector, policy_retriever
     
     if iql_selector is not None:
         return  # Already initialized
     
-    base = Path(__file__).resolve().parent
-    
-    label_map_path = find_first_existing(
-        base / "dataA" / "iql" / "label_map.json",
-        base / "iql" / "label_map.json",
-    )
-    pt_path = find_first_existing(
-        base / "dataA" / "iql" / "selector" / "iql_model_embed.pt",
-        base / "iql" / "selector" / "iql_model_embed.pt",
-    )
-    
-    if not label_map_path.exists():
-        print(f"[WARNING] IQL label_map.json not found at {label_map_path}. IQL disabled.")
-        return
-    if not pt_path.exists():
-        print(f"[WARNING] IQL model not found at {pt_path}. IQL disabled.")
+    if not HF_API_AVAILABLE:
+        print("[ERROR] Hugging Face API wrapper not available!")
+        print("[ERROR] Make sure iql_hf_api.py is present and dependencies are installed")
         return
     
     try:
-        policy_names = load_policy_names_from_label_map(label_map_path)
-        iql_selector = IQLSelector(pt_path=pt_path, policy_names=policy_names)
-        policy_retriever = PolicyExampleRetriever(base_dir=base, embed_model=iql_selector.embed_model)
-        print("[IQL] System initialized successfully")
+        # Use Hugging Face API - no local model
+        iql_selector = get_iql_hf()
+        
+        # Initialize lightweight policy retriever for example retrieval (optional)
+        base = Path(__file__).resolve().parent
+        try:
+            embed_model = SentenceTransformer(EMBED_MODEL)
+            policy_retriever = PolicyExampleRetriever(base_dir=base, embed_model=embed_model)
+            print("[POLICY-RETRIEVER] Initialized for example retrieval")
+        except Exception as e:
+            print(f"[WARNING] Policy retriever initialization failed: {e}")
+            policy_retriever = None
+        
+        print("[IQL] System initialized successfully (Hugging Face API)")
+        
     except Exception as e:
-        print(f"[ERROR] Failed to initialize IQL: {e}")
+        print(f"[ERROR] Failed to initialize Hugging Face IQL API: {e}")
+        print("[ERROR] Check HUGGINGFACE_MODEL_ID and HUGGINGFACE_TOKEN environment variables")
         traceback.print_exc()
+        iql_selector = None
 
 
 # ============================================================================
