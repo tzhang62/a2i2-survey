@@ -22,9 +22,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 from sentence_transformers import SentenceTransformer
 import requests
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
-import base64
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
 
 # Suppress warnings
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -1068,54 +1069,55 @@ def get_next_confirmation_number(prefix: str) -> str:
 
 
 def email_participant_data(data: dict, subject: str):
-    """Email participant data as JSON attachment via SendGrid"""
+    """Email participant data as JSON attachment via Gmail SMTP"""
     try:
-        # Get SendGrid API key and recipient email from environment
-        sendgrid_api_key = os.getenv('SENDGRID_API_KEY')
-        recipient_email = os.getenv('RESEARCHER_EMAIL', 'your-email@usc.edu')
-        sender_email = os.getenv('SENDER_EMAIL', 'noreply@a2i2survey.com')
+        # Get Gmail credentials from environment
+        gmail_user = os.getenv('GMAIL_USER')
+        gmail_password = os.getenv('GMAIL_APP_PASSWORD')
+        recipient_email = os.getenv('RESEARCHER_EMAIL', 'tzhang62@usc.edu')
         
-        if not sendgrid_api_key:
-            print("[EMAIL] SENDGRID_API_KEY not set, skipping email")
+        if not gmail_user or not gmail_password:
+            print("[EMAIL] Gmail credentials not set, skipping email")
             return False
         
-        # Convert data to JSON string
-        json_str = json.dumps(data, indent=2)
-        confirmation = data.get("confirmation_number", "UNKNOWN")
+        # Create message
+        msg = MIMEMultipart()
+        msg['From'] = gmail_user
+        msg['To'] = recipient_email
+        msg['Subject'] = subject
         
-        # Create email message
-        message = Mail(
-            from_email=sender_email,
-            to_emails=recipient_email,
-            subject=subject,
-            html_content=f'''
-                <h3>Participant Data Received</h3>
-                <p><strong>Confirmation Number:</strong> {confirmation}</p>
-                <p><strong>Status:</strong> {data.get("status", "unknown")}</p>
-                <p><strong>Timestamp:</strong> {data.get("completion_timestamp") or data.get("exit_timestamp", "N/A")}</p>
-                <p>Complete data is attached as JSON file.</p>
-            '''
-        )
+        confirmation = data.get("confirmation_number", "UNKNOWN")
+        status = data.get("status", "unknown")
+        timestamp = data.get("completion_timestamp") or data.get("exit_timestamp", "N/A")
+        
+        # Email body
+        body = f"""Participant Data Received
+
+Confirmation Number: {confirmation}
+Status: {status}
+Timestamp: {timestamp}
+
+Complete data is attached as JSON file.
+"""
+        msg.attach(MIMEText(body, 'plain'))
         
         # Attach JSON file
-        encoded = base64.b64encode(json_str.encode()).decode()
-        attachment = Attachment(
-            FileContent(encoded),
-            FileName(f'{confirmation}.json'),
-            FileType('application/json'),
-            Disposition('attachment')
-        )
-        message.attachment = attachment
+        json_str = json.dumps(data, indent=2)
+        attachment = MIMEApplication(json_str.encode(), _subtype='json')
+        attachment.add_header('Content-Disposition', 'attachment', 
+                            filename=f'{confirmation}.json')
+        msg.attach(attachment)
         
-        # Send email
-        sg = SendGridAPIClient(sendgrid_api_key)
-        response = sg.send(message)
+        # Send via Gmail SMTP
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+            server.login(gmail_user, gmail_password)
+            server.send_message(msg)
         
-        print(f"[EMAIL] Sent {confirmation} to {recipient_email}, status: {response.status_code}")
+        print(f"[EMAIL] Sent {confirmation} to {recipient_email} via Gmail")
         return True
         
     except Exception as e:
-        print(f"[ERROR] Failed to email data: {e}")
+        print(f"[ERROR] Failed to email via Gmail: {e}")
         traceback.print_exc()
         return False
 
