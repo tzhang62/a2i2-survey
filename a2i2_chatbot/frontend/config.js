@@ -3,7 +3,7 @@ const CONFIG = {
   // API URL - update this after deployment to Render
   API_URL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:8001' 
-    : 'https://a2i2-survey.onrender.com/', // Update this with your actual Render URL
+    : 'https://a2i2-survey-backend.onrender.com', // No trailing slash!
   
   // Application settings
   SURVEY_TIMEOUT: 30 * 60 * 1000, // 30 minutes in milliseconds
