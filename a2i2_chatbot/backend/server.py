@@ -654,20 +654,46 @@ def initialize_iql():
         return
     
     try:
+        import time as timing_module
+        init_start = timing_module.time()
+        
         # Use Hugging Face API - no local model
         iql_selector = get_iql_hf()
         
-        # Initialize lightweight policy retriever for example retrieval (optional)
+        # Initialize lightweight policy retriever for example retrieval (PRELOAD NOW!)
         base = Path(__file__).resolve().parent
         try:
+            print("[POLICY-RETRIEVER] Loading sentence-transformers model (this may take 30-60s on first run)...")
+            t1 = timing_module.time()
+            
+            # Load sentence-transformers model
             embed_model = SentenceTransformer(EMBED_MODEL)
+            
+            # Warm up the model with a dummy encoding to ensure it's fully loaded
+            _ = embed_model.encode(["warm up"], convert_to_numpy=True)
+            
+            t2 = timing_module.time()
+            print(f"[POLICY-RETRIEVER] Sentence-transformers loaded in {t2-t1:.2f}s")
+            
+            # Initialize policy retriever
             policy_retriever = PolicyExampleRetriever(base_dir=base, embed_model=embed_model)
-            print("[POLICY-RETRIEVER] Initialized for example retrieval")
+            
+            # Preload one policy to warm up the cache
+            t3 = timing_module.time()
+            available_policies = ["bob", "lindsay", "michelle", "niki", "ross"]
+            if available_policies:
+                _ = policy_retriever._load_policy(available_policies[0])
+                t4 = timing_module.time()
+                print(f"[POLICY-RETRIEVER] Preloaded cache in {t4-t3:.2f}s")
+            
+            print("[POLICY-RETRIEVER] Fully initialized and ready for fast retrieval")
         except Exception as e:
             print(f"[WARNING] Policy retriever initialization failed: {e}")
+            traceback.print_exc()
             policy_retriever = None
         
-        print("[IQL] System initialized successfully (Hugging Face API)")
+        init_end = timing_module.time()
+        print(f"[IQL] System initialized successfully in {init_end-init_start:.2f}s (Hugging Face API)")
         
     except Exception as e:
         print(f"[ERROR] Failed to initialize Hugging Face IQL API: {e}")
