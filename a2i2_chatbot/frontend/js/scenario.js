@@ -36,291 +36,154 @@
   }
 
   /**
-   * Display Session 1 (Non-Role-Play) scenario introduction
+   * Typewriter effect that supports HTML tags (for bold names) and newlines
    */
-  async function displaySession1Scenario() {
-    const scenarioContent = document.querySelector('.scenario-content');
-    if (!scenarioContent) return;
-    
-    // Get survey data for personalized scenario text
-    const occupation = sessionStorage.getItem('occupation') || 'your daily activities';
-    
-    // Generate personalized scenario text with subtle emphasis
-    const scenarioText = `A wildfire is spreading rapidly through neighborhoods near your area.\n\nYou are at home going about ${occupation} when your phone suddenly rings.\n\nThe caller ID shows the local fire department...`;
-    
-    // Display full-screen video with minimal UI
-    scenarioContent.innerHTML = `
-      <div class="fullscreen-video-container">
-        <!-- Full screen video background -->
-        <video class="fullscreen-video" autoplay muted loop playsinline>
-          <source src="media/wildfire-scenario.mov" type="video/mp4">
-        </video>
-        
-        <!-- Dark overlay for text readability -->
-        <div class="video-overlay"></div>
-        
-        <!-- Scenario text (hidden initially, will appear with typewriter effect) -->
-        <div class="cinematic-text" id="scenario-text" style="opacity: 0;">
-        </div>
-        
-        <!-- Answer button (appears after text finishes) -->
-        <div class="cinematic-button" id="answer-button-container" style="opacity: 0; pointer-events: none;">
-          <button class="answer-call-button pulse-animation" id="answer-call-button">
-            📞 Answer the Call
-          </button>
-        </div>
-        
-        <!-- Sound prompt banner -->
-        <div class="sound-prompt-banner" id="sound-prompt">
-          <div class="sound-prompt-content">
-            <span class="sound-prompt-icon">🔊</span>
-            <span class="sound-prompt-text">Click anywhere to enable sound for the full experience</span>
-          </div>
-        </div>
-        
-        <!-- Media controls (bottom corner) -->
-        <div class="video-sound-controls">
-          <audio id="session1-fire-ambient" loop preload="auto">
-            <source src="media/fire-ambient.mp3" type="audio/mpeg">
-          </audio>
-          <audio id="session1-phone-ring" preload="auto">
-            <source src="media/phone-ring.mp3" type="audio/mpeg">
-          </audio>
-          <button class="minimal-sound-button" id="sound-toggle">
-            <span class="sound-icon">🔊</span>
-          </button>
-        </div>
-      </div>
-    `;
-    
-    // Initialize ambient sound only (NOT phone ring)
-    const fireAmbient = document.getElementById('session1-fire-ambient');
-    const phoneRing = document.getElementById('session1-phone-ring');
-    const soundPrompt = document.getElementById('sound-prompt');
-    let soundEnabled = false;
-    
-    // Always show the sound prompt initially
-    if (soundPrompt) {
-      soundPrompt.style.display = 'flex';
-    }
-    
-    // Wait for audio to be loaded before attempting playback
-    const initializeAudio = () => {
-      if (fireAmbient) {
-        // Ensure normal playback rate
-        fireAmbient.playbackRate = 1.0;
-        fireAmbient.volume = 0.3;
-        
-        // Wait for audio to be ready
-        if (fireAmbient.readyState >= 2) {
-          // Audio is loaded enough to play
-          fireAmbient.play()
-            .then(() => {
-              console.log('Ambient sound autoplaying');
-              soundEnabled = true;
-            })
-            .catch(e => {
-              console.log('Ambient sound autoplay blocked');
-              soundEnabled = false;
-            });
+  function typewriterEffectHTML(element, text, speed = 35) {
+    return new Promise((resolve) => {
+      element.innerHTML = '';
+      element.style.opacity = '1';
+      
+      // Parse HTML tags, text, and newlines
+      const parts = [];
+      let currentText = '';
+      let i = 0;
+      
+      while (i < text.length) {
+        if (text[i] === '\n') {
+          if (currentText) {
+            parts.push({ type: 'text', content: currentText });
+            currentText = '';
+          }
+          parts.push({ type: 'newline' });
+          i++;
+        } else if (text.substring(i).startsWith('<strong>')) {
+          if (currentText) {
+            parts.push({ type: 'text', content: currentText });
+            currentText = '';
+          }
+          i += 8; // skip '<strong>'
+          let boldText = '';
+          while (i < text.length && !text.substring(i).startsWith('</strong>')) {
+            if (text[i] === '\n') {
+              parts.push({ type: 'bold', content: boldText });
+              parts.push({ type: 'newline' });
+              boldText = '';
+              i++;
+            } else {
+              boldText += text[i];
+              i++;
+            }
+          }
+          if (boldText) {
+            parts.push({ type: 'bold', content: boldText });
+          }
+          i += 9; // skip '</strong>'
         } else {
-          // Wait for audio to be loaded
-          fireAmbient.addEventListener('canplay', () => {
-            fireAmbient.play()
-              .then(() => {
-                console.log('Ambient sound autoplaying after load');
-                soundEnabled = true;
-              })
-              .catch(e => {
-                console.log('Ambient sound autoplay blocked');
-                soundEnabled = false;
-              });
-          }, { once: true });
+          currentText += text[i];
+          i++;
+        }
+      }
+      if (currentText) {
+        parts.push({ type: 'text', content: currentText });
+      }
+      
+      // Type out each part
+      let partIndex = 0;
+      let charIndex = 0;
+      
+      function type() {
+        if (partIndex < parts.length) {
+          const part = parts[partIndex];
+          
+          if (part.type === 'newline') {
+            element.appendChild(document.createElement('br'));
+            partIndex++;
+            setTimeout(type, speed * 2);
+          } else if (part.type === 'bold') {
+            // Add bold text all at once
+            const boldEl = document.createElement('strong');
+            boldEl.textContent = part.content;
+            element.appendChild(boldEl);
+            partIndex++;
+            setTimeout(type, speed * 2);
+          } else {
+            // Type regular text character by character
+            if (charIndex < part.content.length) {
+              element.appendChild(document.createTextNode(part.content[charIndex]));
+              charIndex++;
+              setTimeout(type, speed);
+            } else {
+              partIndex++;
+              charIndex = 0;
+              setTimeout(type, speed);
+            }
+          }
+        } else {
+          resolve();
         }
       }
       
-      // Ensure phone ring is also at normal speed
-      if (phoneRing) {
-        phoneRing.playbackRate = 1.0;
-        phoneRing.volume = 0.5;
-      }
-    };
-    
-    // Initialize audio with a small delay to ensure DOM is ready
-    setTimeout(initializeAudio, 100);
-    
-    // Enable sound on user interaction
-    const enableSound = () => {
-      if (!soundEnabled && fireAmbient) {
-        // Ensure audio is ready and at normal speed
-        fireAmbient.playbackRate = 1.0;
-        fireAmbient.volume = 0.3;
-        
-        // Function to play audio
-        const playAudio = () => {
-          fireAmbient.play()
-            .then(() => {
-              console.log('Sound enabled by user interaction');
-              soundEnabled = true;
-              if (soundPrompt) {
-                soundPrompt.style.opacity = '0';
-                setTimeout(() => {
-                  soundPrompt.style.display = 'none';
-                }, 500);
-              }
-            })
-            .catch(e => console.log('Sound enable failed:', e));
-        };
-        
-        // If audio is ready, play immediately
-        if (fireAmbient.readyState >= 2) {
-          playAudio();
-        } else {
-          // Wait for audio to be ready
-          fireAmbient.addEventListener('canplay', playAudio, { once: true });
-          // Force load if needed
-          fireAmbient.load();
-        }
-      } else if (soundEnabled && soundPrompt) {
-        // Sound already playing, just hide the prompt
-        soundPrompt.style.opacity = '0';
-        setTimeout(() => {
-          soundPrompt.style.display = 'none';
-        }, 500);
-      }
-    };
-    
-    // Make the banner itself clickable
-    if (soundPrompt) {
-      soundPrompt.addEventListener('click', enableSound);
-    }
-    
-    // Delay attaching document-level listeners to avoid immediate triggering
-    // from the navigation click
-    setTimeout(() => {
-      document.addEventListener('click', enableSound, { once: true });
-      document.addEventListener('keydown', enableSound, { once: true });
-    }, 500);
-    
-    // Setup sound toggle button
-    const soundToggle = document.getElementById('sound-toggle');
-    if (soundToggle && fireAmbient) {
-      soundToggle.addEventListener('click', () => {
-        if (fireAmbient.paused) {
-          fireAmbient.play();
-          soundToggle.querySelector('.sound-icon').textContent = '🔊';
-        } else {
-          fireAmbient.pause();
-          soundToggle.querySelector('.sound-icon').textContent = '🔇';
-        }
-      });
-    }
-    
-    // Wait 3 seconds, then start typing scenario text
-    setTimeout(async () => {
-      const textElement = document.getElementById('scenario-text');
-      if (textElement) {
-        textElement.style.transition = 'opacity 0.5s ease-in';
-        textElement.style.opacity = '1';
-        
-        // Type out the scenario text
-        await typewriterEffect(textElement, scenarioText, 40);
-        
-        // Wait a moment, then show button and play phone ring
-        setTimeout(() => {
-          const answerButtonContainer = document.getElementById('answer-button-container');
-          const answerButton = document.getElementById('answer-call-button');
-          
-          // Fade in the answer button
-          if (answerButtonContainer) {
-            answerButtonContainer.style.transition = 'opacity 1s ease-in';
-            answerButtonContainer.style.opacity = '1';
-            
-            // Enable button interaction after it's visible
-            setTimeout(() => {
-              answerButtonContainer.style.pointerEvents = 'auto';
-              
-              // Attach click handler now that button is visible and clickable
-              if (answerButton) {
-                answerButton.addEventListener('click', () => {
-                  // Stop phone ring
-                  const phoneRing = document.getElementById('session1-phone-ring');
-                  if (phoneRing) phoneRing.pause();
-                  
-                  // Start first non-role-play conversation
-                  window.location.href = 'chat.html?type=non-roleplay&conversation=1';
-                });
-              }
-            }, 1000); // Wait for fade-in to complete
-            
-            // Play phone ring when button appears
-            setTimeout(() => {
-              const phoneRingElement = document.getElementById('session1-phone-ring');
-              if (phoneRingElement) {
-                // Ensure normal playback rate
-                phoneRingElement.playbackRate = 1.0;
-                phoneRingElement.volume = 0.5;
-                phoneRingElement.play().catch(e => console.log('Phone ring autoplay blocked:', e));
-              }
-            }, 300); // Small delay after button appears
-          }
-        }, 1500);
-      }
-    }, 3000);
+      type();
+    });
   }
+
+  /**
+   * This function has been removed because non-role-play conversations have been eliminated.
+   * All conversations now use the character matching system.
+   */
   
   // Character scenario descriptions
   const SCENARIOS = {
     bob: {
       name: "Bob",
       description: "A stubborn person who prioritizes work over safety",
-      scenario: "It is a regular day at home. You are working on an important computer project when your phone suddenly rings. The caller ID shows the local fire department…"
+      scenario: "You are Bob, a man in his mid-20s working at home and focused on your job. It feels like a regular workday and you do not want to be interrupted. You have heard about a wildfire nearby, but you believe you still have time. While you are working, your phone suddenly rings. The caller ID shows the local fire department..."
     },
     niki: {
       name: "Niki",
       description: "A cooperative person willing to follow instructions",
-      scenario: "It is a regular day at home. You are relaxing with your partner when your phone suddenly rings. The caller ID shows the local fire department…"
+      scenario: "You are Niki, a woman in her mid-30s who lives at home with her husband. It is a normal day and you are together at home, relaxing. You have heard there is a wildfire nearby, but it does not seem serious. You look outside and see some smoke in the distance, but no flames. As you sit with your husband, your phone suddenly rings. The caller ID shows the local fire department..."
     },
     lindsay: {
       name: "Lindsay",
       description: "A caregiver responsible for children",
-      scenario: "It is a regular day. You are babysitting two young children while their parents are out. You're keeping the kids entertained when your phone suddenly rings. The caller ID shows the local fire department…"
+      scenario: "You are Lindsay, a babysitter in her early 20s watching two young children while their parents are not home. The day has been quiet and the children are playing nearby. You have heard there may be a wildfire in the area, but you are not sure how close it is. While you are with the children, your phone suddenly rings. The caller ID shows the local fire department..."
     },
     michelle: {
       name: "Michelle",
       description: "A stubborn person determined to protect property",
-      scenario: "It is a regular day at home. You and your partner have prepared well for wildfire season. When your phone suddenly rings, the caller ID shows the local fire department…"
+      scenario: "You are Michelle, a woman in her early 50s living at home with your partner. It is a normal day and you are going about your routines, feeling settled and secure in your home. You know a wildfire is approaching, but you believe your house is well prepared. As you are with your partner, your phone suddenly rings. The caller ID shows the local fire department..."
     },
     ross: {
       name: "Ross",
       description: "A driver helping evacuate elderly people",
-      scenario: "You are driving a van with elderly passengers when your vehicle breaks down on the roadside. Your passengers have mobility issues and cannot evacuate on their own. Your phone suddenly rings. The caller ID shows the local fire department…"
+      scenario: "You are Ross, a van driver in his 40s on the road with several elderly passengers. Earlier, there was an accident during evacuation and the van is now stopped. Your passengers cannot move easily, and you are trying to stay calm. While you are sitting in the driver’s seat, your phone suddenly rings. The caller ID shows the local fire department..."
     },
     mary: {
       name: "Mary",
       description: "An elderly person living alone with a pet",
-      scenario: "It is a regular day at home. You are reading with your small dog beside you when your phone suddenly rings. The caller ID shows the local fire department…"
+      scenario: "You are Mary, 67 years old, living alone with your small dog, Poppy. It is a quiet day at home and you are preparing for a visit from your daughter. You move slowly and everything feels unhurried. As you are getting ready, your phone suddenly rings. The caller ID shows the local fire department..."
     },
     ben: {
       name: "Ben",
       description: "A young professional working from home",
-      scenario: "It is a regular day at home. You are working on your computer, troubleshooting a client's problem, when your phone suddenly rings. The caller ID shows the local fire department…"
+      scenario: "You are Ben, 29 years old, working from home as a computer technician. It is a regular day and you are at your desk, with a bike race playing quietly in the background. You enjoy riding your e-bike, which is parked by the door. You have heard there may be a wildfire nearby, but your attention is elsewhere. While you are working, your phone suddenly rings. The caller ID shows the local fire department..."
     },
     ana: {
       name: "Ana",
       description: "A caregiver responsible for multiple elderly people",
-      scenario: "It is a regular workday. You are at the senior center helping elderly residents with their daily activities when your phone suddenly rings. The caller ID shows the local fire department…"
+      scenario: "You are Ana, 42 years old, working at the town’s senior center. It is a busy workday and you are helping older adults with their daily routines. You are focused on your responsibilities. As you are assisting residents, your phone suddenly rings. The caller ID shows the local fire department..."
     },
     tom: {
       name: "Tom",
       description: "A helpful person who wants to assist others first",
-      scenario: "It is a regular day at home. You are working on a woodworking project in your garage when your phone suddenly rings. The caller ID shows the local fire department…"
+      scenario: "You are Tom, 54 years old, at home working outside behind your house. You are focused on a woodworking project and the afternoon feels familiar and steady. You know many people in town and feel connected to the community. As you work, your phone suddenly rings. The caller ID shows the local fire department..."
     },
     mia: {
       name: "Mia",
       description: "A young student focused on a school project",
-      scenario: "It is a regular day after school. You are at the robotics lab testing your project when your phone suddenly rings. The caller ID shows the local fire department…"
-    }
+      scenario: "You are Mia, 17 years old, at school in the robotics lab. You are focused on testing a small flying robot and time passes without you noticing much else. Suddenly, your phone rings. The caller ID shows the local fire department."}
+    
   };
 
   // Handle page refresh - just reload the scenario page (keep participant data)
@@ -355,21 +218,10 @@
       // window.location.href = 'survey.html';
     }
 
-    // Check which session this is
-    const sessionType = urlParams.get('session');
-    
-    if (sessionType === '1') {
-      // Session 1: Show personalized scenario introduction
-      console.log('🎬 Session 1 - Non-role-play introduction');
-      await displaySession1Scenario();
-      return;
-    } else {
-      // Session 2: Show character selection (existing behavior)
-      console.log('🎭 Session 2 - Character selection');
-      // Load recommended scenario (updates text only, no notice shown)
-      console.log('Calling loadRecommendedScenario()...');
-      loadRecommendedScenario();
-    }
+    // All conversations now use character selection (no more non-role-play)
+    console.log('🎭 Loading character selection...');
+    console.log('Calling loadCharacterSelection()...');
+    loadCharacterSelection();
 
     // Add click handlers to character cards
     const characterCards = document.querySelectorAll('.character-card');
@@ -945,58 +797,303 @@
    * Load recommended characters based on survey
    * Shows top 2 matches with >50% similarity (only for first conversation)
    */
-  async function loadRecommendedScenario() {
+  async function loadCharacterSelection() {
     try {
-      console.log('=== Loading Recommended Scenario ===');
+      console.log('=== Loading Character Selection ===');
       
-      // Check if character already selected (for conversations 2-3)
-      const completedConversations = parseInt(sessionStorage.getItem('completedConversations') || '0');
-      const selectedCharacter = sessionStorage.getItem('selectedCharacter');
-      
-      console.log('Completed conversations:', completedConversations);
-      console.log('Selected character:', selectedCharacter);
-      
-      if (completedConversations > 3 && selectedCharacter) {
-        // Already selected character in Session 2, redirect directly to chat
-        const conversationInSession = completedConversations - 3 + 1;
-        console.log('Character already selected, redirecting to chat:', selectedCharacter, 'conversation:', conversationInSession);
-        window.location.href = `chat.html?type=roleplay&conversation=${conversationInSession}&character=${selectedCharacter}`;
+      const participantId = sessionStorage.getItem('participantId');
+      if (!participantId) {
+        console.error('No participant ID found');
+        alert('Please complete the survey first.');
+        window.location.href = 'survey.html';
         return;
       }
       
-      // First conversation: show character selection
-      console.log('Fetching survey data...');
-      const surveyData = await fetchSurveyData();
-      console.log('Survey data received:', surveyData);
+      // Check completed conversations to determine which conversation this is
+      const completedConversations = parseInt(sessionStorage.getItem('completedConversations') || '0');
+      console.log('Completed conversations:', completedConversations);
       
-      if (surveyData) {
-        console.log('Matching character to profile...');
-        const matches = matchCharacterToProfile(surveyData);
-        console.log('Matches found:', matches);
-        
-        // Hide loading state
-        hideLoadingState();
-        
-        if (matches.length > 0) {
-          // Show role-play selection UI
-          console.log('Displaying role-play selection UI');
-          displayRolePlaySelection(matches, surveyData);
-        } else {
-          // No matches found - end process
-          console.log('No matches found, displaying end message');
-          displayNoMatches();
-        }
-      } else {
-        console.error('No survey data received');
-        hideLoadingState();
-        showDefaultContent();
-        alert('Unable to load your survey data. Please try again or contact support.');
+      // Call backend API to get character pair
+      console.log('Fetching character selection from backend...');
+      const response = await fetch(`${CONFIG.API_URL}/api/character-selection`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ participantId })
+      });
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to get character selection: ${errorText}`);
       }
-    } catch (error) {
-      console.error('Error loading personalized scenario:', error);
+      
+      const data = await response.json();
+      console.log('Character selection response:', data);
+      
+      // Hide loading state
       hideLoadingState();
-      showDefaultContent();
-      alert('An error occurred while loading the scenario. Please check the console for details.');
+      
+      // Display the two characters for selection
+      displayCharacterPairSelection(data.characters, completedConversations + 1);
+      
+    } catch (error) {
+      console.error('Error loading character selection:', error);
+      hideLoadingState();
+      alert(`An error occurred while loading character selection: ${error.message}`);
+    }
+  }
+
+  /**
+   * Display character pair selection (high match vs low match)
+   */
+  function displayCharacterPairSelection(characters, conversationNumber) {
+    const scenarioContent = document.querySelector('.scenario-content');
+    if (!scenarioContent) {
+      console.error('Scenario container not found');
+      return;
+    }
+
+    // Randomize position to avoid bias
+    const showHighMatchFirst = Math.random() < 0.5;
+    const [char1, char2] = showHighMatchFirst ? characters : [characters[1], characters[0]];
+
+    const formatPct = (val) => `${Math.round((val || 0) * 100)}%`;
+
+    const selectionHTML = `
+      <div class="scenario-card">
+        <div class="character-pair-selection">
+          <h2>Character Selection</h2>
+          <p class="selection-instructions">
+            Below are two characters. Please select the one you would like to role-play as in this conversation.
+          </p>
+          
+          <div class="character-pair">
+            <div class="character-option" data-character="${char1.key}">
+              <div class="character-card-content">
+                <h3>${char1.name}</h3>
+                <p class="character-age">Age: ${char1.age}</p>
+                <p class="character-occupation">${char1.occupation}</p>
+                <p class="character-description">${char1.description}</p>
+                <p class="character-score">Similarity: ${formatPct(char1.similarity_score)}</p>
+              </div>
+              <button class="select-character-btn" data-character="${char1.key}">
+                Select ${char1.name}
+              </button>
+            </div>
+            
+            <div class="character-option" data-character="${char2.key}">
+              <div class="character-card-content">
+                <h3>${char2.name}</h3>
+                <p class="character-age">Age: ${char2.age}</p>
+                <p class="character-occupation">${char2.occupation}</p>
+                <p class="character-description">${char2.description}</p>
+                <p class="character-score">Similarity: ${formatPct(char2.similarity_score)}</p>
+              </div>
+              <button class="select-character-btn" data-character="${char2.key}">
+                Select ${char2.name}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    scenarioContent.innerHTML = selectionHTML;
+
+    // Add click handlers to selection buttons
+    const selectButtons = document.querySelectorAll('.select-character-btn');
+    selectButtons.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const selectedChar = btn.getAttribute('data-character');
+        await confirmCharacterSelection(selectedChar, conversationNumber);
+      });
+    });
+  }
+
+  /**
+   * Confirm character selection with backend and start conversation
+   */
+  async function confirmCharacterSelection(characterKey, conversationNumber) {
+    try {
+      const participantId = sessionStorage.getItem('participantId');
+      
+      console.log(`Confirming selection: ${characterKey}`);
+      
+      // Call backend to confirm selection
+      const response = await fetch(`${CONFIG.API_URL}/api/character-confirm`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          participantId: participantId,
+          selectedCharacter: characterKey
+        })
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to confirm character: ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log('Character confirmed:', data);
+
+      // Store in session storage
+      sessionStorage.setItem('selectedCharacter', characterKey);
+
+      // Show scenario intro page before chat
+      showScenarioIntro(characterKey, conversationNumber);
+      
+    } catch (error) {
+      console.error('Error confirming character selection:', error);
+      alert(`Failed to confirm character selection: ${error.message}`);
+    }
+  }
+
+  /**
+   * Show scenario intro screen with background image and rolling text
+   */
+  function showScenarioIntro(characterKey, conversationNumber) {
+    const scenarioContent = document.querySelector('.scenario-content');
+    if (!scenarioContent) return;
+
+    const scenarioData = SCENARIOS[characterKey];
+    const bgUrl = `media/${characterKey}.png`;
+
+    // Set page background
+    document.body.style.backgroundImage = `url('${bgUrl}')`;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundRepeat = 'no-repeat';
+
+    const baseScenario = scenarioData?.scenario || 'It is a regular day at home...';
+    const characterName = scenarioData?.name || characterKey;
+
+    // Extract name and format first line with bold name, then split rest by commas and periods
+    let scenarioText = baseScenario;
+    
+    // Replace "You are [Name]," with "You are <strong>[Name]</strong>," 
+    const namePattern = new RegExp(`You are ${characterName}`, 'i');
+    scenarioText = scenarioText.replace(namePattern, `You are <strong>${characterName}</strong>`);
+    
+    // Split by both commas and periods, preserving the punctuation
+    const parts = scenarioText.split(/([,.]\s+)/);
+    const initialLines = [];
+    for (let i = 0; i < parts.length; i += 2) {
+      const text = parts[i]?.trim();
+      const punctuation = parts[i + 1]?.trim();
+      if (text) {
+        initialLines.push(text + (punctuation || ''));
+      }
+    }
+    
+    // Further split lines that are longer than 13 words
+    const finalLines = [];
+    initialLines.forEach(line => {
+      // Count words (excluding HTML tags)
+      const textOnly = line.replace(/<[^>]+>/g, '');
+      const words = textOnly.split(/\s+/).filter(w => w.length > 0);
+      
+      if (words.length <= 13) {
+        finalLines.push(line);
+      } else {
+        // Split into chunks of max 13 words
+        // Preserve HTML tags by splitting on word boundaries
+        const parts = line.split(/(\s+)/);
+        let currentChunk = [];
+        let wordCount = 0;
+        
+        for (let i = 0; i < parts.length; i++) {
+          const part = parts[i];
+          if (part.match(/^\s+$/)) {
+            // Whitespace
+            currentChunk.push(part);
+          } else if (part.match(/^<[^>]+>$/)) {
+            // HTML tag - don't count
+            currentChunk.push(part);
+          } else {
+            // Text segment - count words in it
+            const segmentWords = part.replace(/<[^>]+>/g, '').split(/\s+/).filter(w => w.length > 0);
+            wordCount += segmentWords.length;
+            currentChunk.push(part);
+            
+            if (wordCount >= 13) {
+              finalLines.push(currentChunk.join(''));
+              currentChunk = [];
+              wordCount = 0;
+            }
+          }
+        }
+        
+        if (currentChunk.length > 0) {
+          finalLines.push(currentChunk.join(''));
+        }
+      }
+    });
+    
+    // Join lines with newlines (preserve original punctuation)
+    const lines = finalLines
+      .map(line => line.trim())
+      .join('\n');
+
+    const html = `
+      <div class="scenario-card intro-card" style="background: transparent !important; box-shadow: none !important; backdrop-filter: none !important; padding: -20rem;">
+        <div class="scenario-plain" style="text-align: left; background: transparent; box-shadow: none; padding-left: -20rem;">
+          <div class="scenario-text rolling-text" id="rolling-text" style="color: black; font-size: 1.5rem; line-height: 2.2; font-weight: 400; font-family: 'Georgia', 'Times New Roman', serif; text-align: left;"></div>
+          <div class="answer-call-wrapper" style="text-align: center; margin-top: 24px;">
+            <button id="answer-call-btn" class="answer-call-btn" style="display: none;">📞 Answer Call</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    scenarioContent.innerHTML = html;
+
+    // Typewriter / rolling text
+    const rollingEl = document.getElementById('rolling-text');
+    if (rollingEl) {
+      rollingEl.style.whiteSpace = 'pre-line';
+      // Use innerHTML to support bold tags
+      typewriterEffectHTML(rollingEl, lines, 35).then(() => {
+        // After text finishes, show button and play ring
+        const answerBtn = document.getElementById('answer-call-btn');
+        if (answerBtn) {
+          answerBtn.style.display = 'block';
+          answerBtn.style.fontSize = '1.4rem';
+          answerBtn.style.padding = '1rem 2.5rem';
+          answerBtn.style.minWidth = '240px';
+          answerBtn.style.margin = '0 auto';
+        }
+        playPhoneRinging();
+      });
+    }
+
+    // Handle Answer Call
+    const answerBtn = document.getElementById('answer-call-btn');
+    if (answerBtn) {
+      answerBtn.addEventListener('click', () => {
+        // Stop ring
+        stopPhoneRinging();
+        // Small delay for UX
+        setTimeout(() => {
+          window.location.href = `chat.html?conversation=${conversationNumber}&character=${characterKey}`;
+        }, 300);
+      });
+    }
+  }
+
+  function playPhoneRinging() {
+    const phoneRinging = document.getElementById('phoneRinging');
+    if (phoneRinging && phoneRinging.querySelector('source')) {
+      phoneRinging.volume = 0.6;
+      phoneRinging.currentTime = 0;
+      phoneRinging.play().catch(() => {});
+    }
+  }
+
+  function stopPhoneRinging() {
+    const phoneRinging = document.getElementById('phoneRinging');
+    if (phoneRinging) {
+      phoneRinging.pause();
+      phoneRinging.currentTime = 0;
     }
   }
 

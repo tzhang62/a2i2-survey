@@ -1,0 +1,26 @@
+{
+  "export_timestamp": "2026-01-09T05:58:37.912808",
+  "total_conversations": 1,
+  "conversations": [
+    {
+      "session_id": "9946ab97-9bca-4772-a4b7-f1b8d2d06b2f_mia_1767937624",
+      "character": "mia",
+      "turns": [
+        {
+          "turn": 1,
+          "resident_message": "yes I am safe",
+          "policy": "michelle",
+          "q_values": {
+            "bob": 1.1231409311294556,
+            "lindsay": 1.1311297416687012,
+            "michelle": 1.1344597339630127,
+            "niki": 1.1336703300476074,
+            "ross": 1.1309999227523804
+          },
+          "operator_response": "It's good to hear you're safe, but you need to evacuate immediately. Gather essential items and leave now. Your safety is the priority."
+        }
+      ],
+      "created_at": null
+    }
+  ]
+}

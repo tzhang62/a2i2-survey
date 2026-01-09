@@ -10,22 +10,23 @@
   <div class="fire-overlay"></div>
   
   <div class="chat-container">
-    <header class="chat-header">
-      <div class="header-content">
-        <div class="emergency-badge">🚨 EMERGENCY CALL</div>
-        <h1>Fire Department Dispatcher</h1>
-        <div id="session-status" class="session-status">
-          <!-- Session and conversation info will be populated by JavaScript -->
+    <div class="chat-main">
+      <header class="chat-header">
+        <div class="header-content">
+          <div class="emergency-badge">🚨 EMERGENCY CALL</div>
+          <h1>Fire Department Dispatcher</h1>
+          <div id="session-status" class="session-status">
+            <!-- Session and conversation info will be populated by JavaScript -->
+          </div>
+          <div id="character-info" class="character-info"></div>
         </div>
-        <div id="character-info" class="character-info"></div>
+      </header>
+
+      <div id="chat-messages" class="chat-messages">
+        <!-- Messages will be inserted here -->
       </div>
-    </header>
 
-    <div id="chat-messages" class="chat-messages">
-      <!-- Messages will be inserted here -->
-    </div>
-
-    <div class="chat-input-container" id="chat-input-container">
+      <div class="chat-input-container" id="chat-input-container">
       <div class="input-wrapper">
         <textarea 
           id="message-input" 
@@ -52,19 +53,19 @@
         </p>
         
         <form id="post-survey-form">
-          <!-- Question 1: Willingness to be rescued -->
+          <!-- Question 1: Willingness to be evacuated -->
           <div class="survey-question">
             <label class="question-label">
-              1. Were you willing to be rescued based on this conversation?
+              1. Were you willing to be evacuated based on this conversation?
               <span class="required">*</span>
             </label>
             <p class="question-explanation">
-              (That is, did the emergency operator's responses make you feel ready or convinced to follow the rescue instructions?)
+              (That is, did the emergency operator's responses make you feel ready or convinced to follow the evacuation instructions?)
             </p>
             <div class="radio-group">
               <label class="radio-option">
                 <input type="radio" name="willing" value="yes" required>
-                <span>Yes, I was willing to be rescued</span>
+                <span>Yes, I was willing to be evacuated</span>
               </label>
               <label class="radio-option">
                 <input type="radio" name="willing" value="maybe" required>
@@ -72,7 +73,7 @@
               </label>
               <label class="radio-option">
                 <input type="radio" name="willing" value="no" required>
-                <span>No, I was not willing to be rescued</span>
+                <span>No, I was not willing to be evacuated</span>
               </label>
             </div>
             
@@ -129,6 +130,16 @@
           </div>
         </form>
       </div>
+    </div>
+    </div>
+
+    <!-- Character Scenario Sidebar -->
+    <div id="character-scenario" class="character-scenario hidden">
+      <div class="scenario-reminder-header">
+        <h3>Your Character</h3>
+        <button id="toggle-scenario" class="toggle-scenario-btn">▼</button>
+      </div>
+      <div id="scenario-content" class="scenario-content-text"></div>
     </div>
   </div>
 

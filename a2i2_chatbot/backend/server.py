@@ -52,8 +52,8 @@ os.makedirs(SURVEY_RESPONSES_DIR, exist_ok=True)
 # IQL Configuration
 N_LAST_RESIDENT = 3
 EMBED_MODEL = "all-MiniLM-L6-v2"
-MAX_TURNS = 5
-MIN_RESIDENT_TURNS = 3
+MAX_TURNS = 10  # Maximum resident turns (20 total conversation turns)
+MIN_RESIDENT_TURNS = 3  # Minimum turns before LLM can decide to end conversation
 
 # Import Hugging Face API wrapper (replaces local IQL)
 try:
@@ -64,19 +64,27 @@ except ImportError as e:
     print(f"[ERROR] Failed to import Hugging Face API wrapper: {e}")
     HF_API_AVAILABLE = False
 
-# Character personas (simplified from persona.json)
-CHARACTER_PERSONAS = {
-    "bob": "Bob is around 30 years old. He prioritizes his work over safety.",
-    "ben": "Ben is a 29-year-old computer technician who works from home.",
-    "mary": "Mary is an elderly person living alone with a small dog.",
-    "lindsay": "Lindsay is a babysitter caring for two children.",
-    "ana": "Ana is a caregiver working at a senior center.",
-    "ross": "Ross is a van driver helping evacuate elderly residents.",
-    "niki": "Niki is at home with a partner, ready to cooperate.",
-    "michelle": "Michelle is at home, skeptical of evacuation warnings.",
-    "tom": "Tom is a high school teacher working on a home project.",
-    "mia": "Mia is a high school student working on a robotics project."
-}
+# Character personas (loaded from persona.json for richer similarity)
+PERSONA_FILE = os.path.join(os.path.dirname(__file__), "data_for_train", "persona.json")
+try:
+    with open(PERSONA_FILE, "r", encoding="utf-8") as f:
+        CHARACTER_PERSONAS = json.load(f)
+    print(f"[PERSONA] Loaded persona descriptions from {PERSONA_FILE}")
+except Exception as e:
+    print(f"[PERSONA] Failed to load persona.json: {e}")
+    # Fallback to simple strings if load fails
+    CHARACTER_PERSONAS = {
+        "bob": "Bob is around 30 years old. He prioritizes his work over safety.",
+        "ben": "Ben is a 29-year-old computer technician who works from home.",
+        "mary": "Mary is an elderly person living alone with a small dog.",
+        "lindsay": "Lindsay is a babysitter caring for two children.",
+        "ana": "Ana is a caregiver working at a senior center.",
+        "ross": "Ross is a van driver helping evacuate elderly residents.",
+        "niki": "Niki is at home with a partner, ready to cooperate.",
+        "michelle": "Michelle is at home, skeptical of evacuation warnings.",
+        "tom": "Tom is a high school teacher working on a home project.",
+        "mia": "Mia is a high school student working on a robotics project."
+    }
 
 
 # ============================================================================
@@ -348,6 +356,11 @@ Generate ONLY the closing message:"""
 def calculate_character_similarity(survey_data: dict, character_key: str) -> float:
     """
     Calculate similarity score between participant survey data and character profile.
+    Weights:
+      - age: 40%
+      - occupation: 30%
+      - special needs: 20%
+      - gender: 10%
     Returns a score between 0 and 1 (higher = more similar).
     """
     if character_key not in CHARACTER_PROFILES:
@@ -355,77 +368,81 @@ def calculate_character_similarity(survey_data: dict, character_key: str) -> flo
     
     character = CHARACTER_PROFILES[character_key]
     score = 0.0
-    max_score = 0.0
     
     # Extract survey data
     background = survey_data.get('background', {})
     participant_age = background.get('age', '')
-    participant_occupation = background.get('occupation', '').lower()
+    participant_occupation = (background.get('occupation') or '').lower()
+    participant_gender = (background.get('gender') or "").strip().lower()
     special_needs = survey_data.get('specialNeeds', {})
     
-    # Age similarity (weight: 2.0)
-    max_score += 2.0
+    # Age similarity (weight: 0.40)
     try:
         p_age = int(participant_age) if participant_age else 30
         c_age = character.get('age', 30)
         age_diff = abs(p_age - c_age)
         # Normalize age difference (0-50 years -> 0-1 score)
         age_score = max(0, 1 - (age_diff / 50.0))
-        score += age_score * 2.0
+        score += age_score * 0.40
     except (ValueError, TypeError):
-        # If age is invalid, give neutral score
-        score += 1.0
+        # Neutral if invalid age
+        score += 0.20
     
-    # Occupation similarity (weight: 1.5)
-    max_score += 1.5
-    char_occupation = character.get('occupation', '').lower()
+    # Occupation similarity (weight: 0.30)
+    char_occupation = (character.get('occupation') or '').lower()
     if participant_occupation and char_occupation:
-        # Direct match
         if participant_occupation == char_occupation:
-            score += 1.5
-        # Partial match (e.g., "teacher" in "high school teacher")
+            score += 0.30
         elif participant_occupation in char_occupation or char_occupation in participant_occupation:
-            score += 1.0
-        # Similar occupations
+            score += 0.20
         elif any(keyword in participant_occupation and keyword in char_occupation 
                 for keyword in ['student', 'teacher', 'tech', 'care', 'driver', 'work']):
-            score += 0.5
+            score += 0.10
+    else:
+        score += 0.05
     
-    # Responsibility for others (weight: 1.5)
-    max_score += 1.5
+    # Special needs (weight: 0.20) across responsibility/condition/vehicle
+    special_score = 0.0
+    special_max = 3
+    
     has_responsibility = special_needs.get('responsible') == 'yes'
     char_has_responsibility = any(trait in character.get('traits', []) 
                                  for trait in ['responsible for others', 'caring', 'protective'])
     if has_responsibility and char_has_responsibility:
-        score += 1.5
+        special_score += 1
     elif not has_responsibility and not char_has_responsibility:
-        score += 0.5
+        special_score += 0.5
     
-    # Mobility/communication challenges (weight: 1.0)
-    max_score += 1.0
     has_condition = special_needs.get('condition') == 'yes'
     char_elderly = 'elderly' in character.get('traits', [])
     if has_condition and char_elderly:
-        score += 1.0
+        special_score += 1
     elif not has_condition and not char_elderly:
-        score += 0.5
+        special_score += 0.3
     
-    # Vehicle needs (weight: 1.0)
-    max_score += 1.0
     needs_vehicle = special_needs.get('vehicle') == 'yes'
-    char_has_vehicle = 'driver' in character.get('occupation', '').lower()
+    char_has_vehicle = 'driver' in (character.get('occupation') or '').lower()
     if needs_vehicle and char_has_vehicle:
-        score += 1.0
+        special_score += 1
     elif not needs_vehicle:
-        score += 0.3
+        special_score += 0.3
     
-    # Normalize to 0-1 range
-    if max_score > 0:
-        normalized_score = score / max_score
+    special_norm = (special_score / special_max) if special_max > 0 else 0
+    score += special_norm * 0.20
+    
+    # Gender match (weight: 0.10)
+    char_gender = (character.get('gender') or "").strip().lower()
+    if participant_gender and char_gender:
+        if participant_gender == char_gender:
+            score += 0.10
+        else:
+            score += 0.02
     else:
-        normalized_score = 0.5
+        score += 0.03
     
-    return normalized_score
+    # Clamp to [0,1]
+    score = max(0.0, min(1.0, score))
+    return round(score, 3)
 
 
 def select_character_pair(survey_data: dict, excluded_characters: List[str]) -> tuple:
@@ -536,14 +553,12 @@ def generate_initial_greeting(character: str, persona: str, model: str = "gpt-4o
     """
     prompt = f"""You are a fire department dispatcher making an emergency call about a nearby wildfire.
 
-The resident you're calling is: {persona}
-
 Generate a brief, professional opening message (1-2 sentences) that:
 - Introduces yourself as fire department dispatch
-- Shows awareness of their situation if relevant
 - Asks about their immediate safety
 - Sounds natural, urgent but calm
 - Uses "you" not gendered pronouns
+- Do NOT assume anything about the resident - you don't know their situation yet
 
 Just output the dispatcher's message, no quotes, no labels, no extra formatting.
 
@@ -646,9 +661,8 @@ def build_prompt(policy_id: str, character_name: str, history: List[Dict[str, st
 
     # Role-play conversation with IQL policy
     instruction = (
-        f"You are the OPERATOR talking to {character_name.upper()} (the RESIDENT) during a wildfire evacuation call.\n"
+        f"You are the OPERATOR talking to a RESIDENT during a wildfire evacuation call.\n"
         f"Use the operator policy style optimized for: {policy_id}.\n"
-        f"{character_name}'s background: {CHARACTER_PERSONAS.get(character_name.lower(), 'Unknown')}\n"
         "Read the conversation so far, then produce the next operator reply.\n"
         "CRITICAL RULES:\n"
         "- KEEP IT BRIEF: Maximum 1-2 short sentences (20-30 words total).\n"
@@ -658,6 +672,7 @@ def build_prompt(policy_id: str, character_name: str, history: List[Dict[str, st
         "- No role labels, no meta commentary.\n"
         "- Avoid gendered pronouns.\n"
         "- DO NOT over-explain. Be direct and concise.\n"
+        "- Only use information revealed in the conversation - do not assume anything about the resident.\n"
         "Use the similar examples for style guidance."
     )
 
@@ -898,7 +913,14 @@ app.add_middleware(
 # Trusted Host Middleware
 app.add_middleware(
     TrustedHostMiddleware,
-    allowed_hosts=["localhost", "*.onrender.com", "*.netlify.app"]
+    # Allow local testing plus deployed hosts
+    allowed_hosts=[
+        "localhost",
+        "127.0.0.1",
+        "0.0.0.0",
+        "*.onrender.com",
+        "*.netlify.app",
+    ],
 )
 
 
@@ -1168,8 +1190,16 @@ async def start_chat(request: Request):
         initial_message = generate_initial_greeting(character, persona, model=model)
         session["history"].append({"role": "operator", "text": initial_message})
         
-        print(f"[CHAT] Started role-play session: {session_id} for character: {character}")
-        print(f"[CHAT] Initial greeting: {initial_message}")
+        # Print conversation start with clear formatting
+        print("\n" + "🟢"*40)
+        print(f"🚀 NEW CONVERSATION STARTED")
+        print("🟢"*40)
+        print(f"   Session ID: {session_id}")
+        print(f"   Character: {character.upper()}")
+        print(f"   Participant: {participant_id}")
+        print(f"\n💬 INITIAL GREETING:")
+        print(f"   {initial_message}")
+        print("🟢"*40 + "\n")
         
         return {
             "session_id": session_id,
@@ -1208,41 +1238,30 @@ async def send_message(chat_req: ChatRequest):
         session["turn_count"] += 1
         resident_turns = session["turn_count"]
         
-        print(f"[CHAT] Session: {chat_req.session_id}, Turn: {resident_turns}, Resident: {chat_req.message}")
+        # Print detailed turn information
+        print("\n" + "="*80)
+        print(f"🔵 TURN {resident_turns} | Session: {chat_req.session_id[-8:]}")
+        print("="*80)
+        print(f"👤 RESIDENT: {chat_req.message}")
+        print("-"*80)
         
         # Set model for all operations
         model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
         
-        # Check for hard cap
-        if resident_turns >= MAX_TURNS:
-            print(f"[CHAT] Max turns reached, generating natural closing")
-            closing = generate_natural_closing(history, "max_turns", character, model=model)
-            history.append({"role": "operator", "text": closing})
-            print(f"[CHAT] Closing message: {closing}")
-            
-            # Conversation stays in memory until exit/completion
-            
-            return {
-                "response": closing,
-                "session_id": chat_req.session_id,
-                "turn_count": resident_turns,
-                "conversation_ended": True,
-                "end_reason": "max_turns"
-            }
-        
-        # Judge resident stance
+        # Judge resident stance - LLM determines if conversation should end
         judge = judge_resident_stance(history, model=model)
         stance = judge["stance"]
         conf = judge["confidence"]
         
         can_end = resident_turns >= MIN_RESIDENT_TURNS
         
-        # Success end
+        # Priority 1: LLM determines success end (agreement to evacuate)
         if can_end and stance == "AGREE" and conf >= 0.70:
-            print(f"[CHAT] Success end (resident agreed), generating natural closing")
+            print(f"\n✅ CONVERSATION ENDING: Resident agreed to evacuate!")
             closing = generate_natural_closing(history, "agreement", character, model=model)
             history.append({"role": "operator", "text": closing})
-            print(f"[CHAT] Closing message: {closing}")
+            print(f"💬 CLOSING MESSAGE: {closing}")
+            print("="*80 + "\n")
             
             # Conversation stays in memory until exit/completion
             
@@ -1264,12 +1283,13 @@ async def send_message(chat_req: ChatRequest):
         else:
             session['consecutive_refuse'] = 0
         
-        # Forced end after repeated refusals
+        # Priority 2: LLM determines refusal end (clear disagreement to evacuate)
         if can_end and session['consecutive_refuse'] >= 2:
-            print(f"[CHAT] Forced end (repeated refusal), generating natural closing")
+            print(f"\n🚫 CONVERSATION ENDING: Repeated refusals detected")
             closing = generate_natural_closing(history, "refusal", character, model=model)
             history.append({"role": "operator", "text": closing})
-            print(f"[CHAT] Closing message: {closing}")
+            print(f"💬 CLOSING MESSAGE: {closing}")
+            print("="*80 + "\n")
             
             # Conversation stays in memory until exit/completion
             
@@ -1282,12 +1302,39 @@ async def send_message(chat_req: ChatRequest):
                 "judge": judge
             }
         
+        # Priority 3: Hard cap fallback (only if LLM hasn't decided to end)
+        if resident_turns >= MAX_TURNS:
+            print(f"\n🔴 CONVERSATION ENDING: Max turns reached ({MAX_TURNS} resident turns)")
+            closing = generate_natural_closing(history, "max_turns", character, model=model)
+            history.append({"role": "operator", "text": closing})
+            print(f"💬 CLOSING MESSAGE: {closing}")
+            print("="*80 + "\n")
+            
+            # Conversation stays in memory until exit/completion
+            
+            return {
+                "response": closing,
+                "session_id": chat_req.session_id,
+                "turn_count": resident_turns,
+                "conversation_ended": True,
+                "end_reason": "max_turns",
+                "judge": judge
+            }
+        
         # Role-play conversation: use IQL policy selection
         import time as timing_module
         t1 = timing_module.time()
         best_policy, qvals = iql_selector.select_policy(history, character=character, n_last=N_LAST_RESIDENT)
         t2 = timing_module.time()
-        print(f"[IQL] Selected policy: {best_policy} (took {t2-t1:.2f}s)")
+        
+        # Print IQL policy selection with Q-values
+        print("\n🤖 IQL POLICY SELECTION:")
+        print(f"   ⭐ Selected: {best_policy.upper()} (took {t2-t1:.2f}s)")
+        print(f"   📊 Q-Values:")
+        sorted_policies = sorted(qvals.items(), key=lambda x: x[1], reverse=True)
+        for policy, qval in sorted_policies:
+            marker = "→" if policy == best_policy else " "
+            print(f"      {marker} {policy:10} : {qval:.4f}")
         
         # Retrieval + operator generation
         # Lazy load policy retriever on first use
@@ -1307,11 +1354,18 @@ async def send_message(chat_req: ChatRequest):
         prompt = build_prompt(best_policy, character, history, examples)
         operator_response = call_openai_chat(prompt, model=model)
         t6 = timing_module.time()
-        print(f"[OPENAI] Generated response (took {t6-t5:.2f}s)")
         
         history.append({"role": "operator", "text": operator_response})
         
-        print(f"[CHAT] Operator: {operator_response}")
+        # Print operator response with judge prediction
+        print(f"\n🎯 JUDGE PREDICTION:")
+        print(f"   Stance: {judge['stance']} (confidence: {judge['confidence']:.2f})")
+        if judge.get('reason'):
+            print(f"   Reason: {judge['reason'][:80]}...")
+        
+        print(f"\n💬 OPERATOR RESPONSE (via {model}, {t6-t5:.2f}s):")
+        print(f"   {operator_response}")
+        print("="*80 + "\n")
         
         # Store IQL data in session
         iql_turn_data = {
@@ -1784,7 +1838,60 @@ async def get_stats(admin_key: str = None):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.get("/api/admin/export-sessions")
+async def export_active_sessions(admin_key: str = None):
+    """Export all active conversation sessions with IQL data to JSON"""
+    expected_key = os.getenv("ADMIN_KEY", "your-secret-admin-key-here")
+    
+    if admin_key != expected_key:
+        raise HTTPException(status_code=403, detail="Unauthorized. Invalid admin key.")
+    
+    try:
+        # Export all active sessions
+        export_data = {
+            "export_timestamp": datetime.utcnow().isoformat(),
+            "total_sessions": len(conversation_sessions),
+            "sessions": []
+        }
+        
+        for session_id, session in conversation_sessions.items():
+            session_data = {
+                "session_id": session_id,
+                "participant_id": session.get("participant_id"),
+                "character": session.get("character"),
+                "is_roleplay": session.get("is_roleplay"),
+                "turn_count": session["turn_count"],
+                "created_at": session.get("created_at"),
+                "history": session["history"],
+                "iql_data": session.get("iql_data", []),
+                "scenario": session.get("scenario")
+            }
+            export_data["sessions"].append(session_data)
+        
+        # Save to file
+        timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+        export_file = os.path.join(SURVEY_RESPONSES_DIR, f"active_sessions_{timestamp}.json")
+        os.makedirs(SURVEY_RESPONSES_DIR, exist_ok=True)
+        
+        with open(export_file, 'w') as f:
+            json.dump(export_data, f, indent=2)
+        
+        print(f"[EXPORT] Active sessions saved to: {export_file}")
+        
+        return {
+            "success": True,
+            "file": export_file,
+            "sessions_exported": len(conversation_sessions),
+            "data": export_data
+        }
+        
+    except Exception as e:
+        print(f"[ERROR] Session export failed: {e}")
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    uvicorn.run(app, host="localhost", port=8001)
     

@@ -24,6 +24,7 @@
   // Use real keyboard typing sound
   let typingAudio = null;
   let audioInitialized = false;
+  let soundEnabled = true; // Sound is enabled by default
 
   // Preload audio immediately to avoid delay
   function preloadAudio() {
@@ -77,10 +78,16 @@
   }
 
   function playTypingSound() {
+    // Don't play sound if it's disabled
+    if (!soundEnabled) {
+      return;
+    }
+    
     console.log('playTypingSound called, state:', { 
       hasAudio: !!typingAudio, 
       initialized: audioInitialized, 
-      paused: typingAudio ? typingAudio.paused : 'no audio' 
+      paused: typingAudio ? typingAudio.paused : 'no audio',
+      soundEnabled: soundEnabled
     });
     
     if (!typingAudio) {
@@ -122,74 +129,48 @@
     }
   }
 
-  // Show a prompt to enable sound
-  function showAudioPrompt() {
-    // Check if prompt already exists
-    if (document.getElementById('audio-prompt')) {
+  // Create sound toggle button
+  function createSoundToggle() {
+    // Check if button already exists
+    if (document.getElementById('sound-toggle')) {
       return;
     }
     
-    const prompt = document.createElement('div');
-    prompt.id = 'audio-prompt';
-    prompt.style.cssText = `
-      position: fixed;
-      top: 4rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
-      color: white;
-      padding: 1rem 2rem;
-      border-radius: 50px;
-      box-shadow: 0 8px 30px rgba(255, 107, 53, 0.6);
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s ease, opacity 0.3s ease;
-      animation: slideDown 0.5s ease-out, pulse 2s ease-in-out infinite 1s;
+    const toggle = document.createElement('button');
+    toggle.id = 'sound-toggle';
+    toggle.innerHTML = `
+      <span class="sound-icon">🔊</span>
+      <span class="sound-text">Sound On</span>
     `;
-    prompt.innerHTML = `
-      <span style="font-size: 1.3rem; margin-right: 0.5rem;">🔊</span>
-      <span>Click anywhere to enable sounds for the full experience</span>
-    `;
-    document.body.appendChild(prompt);
     
-    prompt.addEventListener('mouseenter', () => {
-      prompt.style.transform = 'translateX(-50%) scale(1.05)';
-    });
-    
-    prompt.addEventListener('mouseleave', () => {
-      prompt.style.transform = 'translateX(-50%) scale(1)';
-    });
-    
-    const enableAudio = async () => {
-      console.log('Enabling audio after user interaction...');
+    toggle.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
       
-      // Check if prompt still exists and is visible
-      if (!prompt.parentNode) {
-        console.log('Prompt already removed');
-        return;
+      if (soundEnabled) {
+        toggle.classList.remove('sound-off');
+        toggle.querySelector('.sound-icon').textContent = '🔊';
+        toggle.querySelector('.sound-text').textContent = 'Sound On';
+        // Try to initialize audio if not already done
+        initAudio().then(ready => {
+          console.log('Audio initialized:', ready);
+        });
+      } else {
+        toggle.classList.add('sound-off');
+        toggle.querySelector('.sound-icon').textContent = '🔇';
+        toggle.querySelector('.sound-text').textContent = 'Sound Off';
+        // Stop any currently playing audio
+        stopTypingSound();
       }
-      
-      await initAudio();
-      console.log('Audio initialized, initialized flag:', audioInitialized);
-      prompt.style.opacity = '0';
-      setTimeout(() => {
-        if (prompt.parentNode) {
-          prompt.remove();
-        }
-      }, 300);
-    };
+    });
     
-    // Also make the prompt itself clickable
-    prompt.addEventListener('click', enableAudio);
+    document.body.appendChild(toggle);
     
-    // Delay attaching document-level listeners to avoid immediate triggering
-    // from the navigation click
-    setTimeout(() => {
-      document.addEventListener('click', enableAudio, { once: true });
-      document.addEventListener('keydown', enableAudio, { once: true });
-    }, 500);
+    // Try to initialize audio in the background
+    initAudio().then(ready => {
+      console.log('Audio initialization result:', ready);
+    }).catch(e => {
+      console.log('Audio init error:', e);
+    });
   }
 
   // Typewriter effect function with sound and cursor
@@ -251,40 +232,34 @@
   async function initTypewriterAnimations() {
     console.log('Starting typewriter animations...');
     
-    // Always show the audio prompt initially to inform users
-    showAudioPrompt();
-    
-    // Try to initialize audio in the background
-    initAudio().then(ready => {
-      console.log('Audio initialization result:', ready);
-    }).catch(e => {
-      console.log('Audio init error:', e);
-    });
+    // Create sound toggle button
+    createSoundToggle();
     
     const welcomeH1 = document.querySelector('.welcome-section h1');
     const introParagraphs = document.querySelectorAll('.intro-text');
     const warningBanner = document.querySelector('.warning-banner');
+    const surveyForm = document.getElementById('surveyForm');
     
-    console.log('Found elements:', { welcomeH1, introParagraphs: introParagraphs.length, warningBanner });
+    console.log('Found elements:', { welcomeH1, introParagraphs: introParagraphs.length, warningBanner, surveyForm });
     
     if (welcomeH1) {
       const h1Text = welcomeH1.textContent;
       console.log('Typing h1:', h1Text);
-      await typeWriter(welcomeH1, h1Text, 150);
-      await new Promise(resolve => setTimeout(resolve, 300)); // Small pause
+      await typeWriter(welcomeH1, h1Text, 50); // Faster: was 150
+      await new Promise(resolve => setTimeout(resolve, 150)); // Faster: was 300
     }
     
     for (const para of introParagraphs) {
       const paraText = para.textContent.trim();
       console.log('Typing paragraph:', paraText.substring(0, 50) + '...');
-      await typeWriter(para, paraText, 50);
-      await new Promise(resolve => setTimeout(resolve, 300)); // Small pause between paragraphs
+      await typeWriter(para, paraText, 20); // Faster: was 50
+      await new Promise(resolve => setTimeout(resolve, 150)); // Faster: was 300
     }
     
     // Show the warning banner after welcome section is done
     if (warningBanner) {
       warningBanner.style.display = 'flex';
-      await new Promise(resolve => setTimeout(resolve, 500)); // Pause before banner
+      await new Promise(resolve => setTimeout(resolve, 200)); // Faster: was 500
       
       const h4 = warningBanner.querySelector('.content h4');
       const p = warningBanner.querySelector('.content p');
@@ -292,15 +267,25 @@
       if (h4) {
         const h4Text = h4.textContent;
         console.log('Typing banner h4:', h4Text);
-        await typeWriter(h4, h4Text, 100);
-        await new Promise(resolve => setTimeout(resolve, 300)); // Small pause
+        await typeWriter(h4, h4Text, 30); // Faster: was 100
+        await new Promise(resolve => setTimeout(resolve, 150)); // Faster: was 300
       }
       
       if (p) {
         const pText = p.textContent.trim();
         console.log('Typing banner p:', pText.substring(0, 50) + '...');
-        await typeWriter(p, pText, 40);
+        await typeWriter(p, pText, 15); // Faster: was 40
       }
+    }
+    
+    // Show the survey form after all animations are complete
+    if (surveyForm) {
+      console.log('Showing survey form after animations complete');
+      surveyForm.classList.add('visible');
+      // Smooth scroll to form
+      setTimeout(() => {
+        surveyForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
     }
     
     console.log('Typewriter animations complete!');

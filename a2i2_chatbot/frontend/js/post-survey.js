@@ -66,7 +66,7 @@
   function setupEventListeners() {
     const form = document.getElementById('post-survey-form');
     
-    // Question 1: Willingness to be rescued
+    // Question 1: Willingness to be evacuated
     const willingRadios = document.querySelectorAll('input[name="willing_rescued"]');
     willingRadios.forEach(radio => {
       radio.addEventListener('change', handleWillingChange);
@@ -83,7 +83,7 @@
   }
 
   /**
-   * Handle willingness to be rescued change
+   * Handle willingness to be evacuated change
    */
   function handleWillingChange(event) {
     const value = event.target.value;
@@ -283,7 +283,7 @@
             Thank you for completing all three conversations!
           </p>
           <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem; line-height: 1.8;">
-            Your participation in this research study is greatly appreciated. Your responses will help us understand how people communicate with emergency operators during fire-rescue scenarios.
+            Your participation in this research study is greatly appreciated. Your responses will help us understand how people communicate with emergency operators during fire-evacuation scenarios.
           </p>
           <p style="font-size: 1rem; color: #666; margin-bottom: 3rem;">
             You may now close this window.

@@ -1,0 +1,135 @@
+---
+pid: 2050
+cwd: /Users/tzhang/projects/a2i2_survey/a2i2_chatbot/backend
+active_command: ./start_server.sh
+last_command: ./start_server.sh
+last_exit_code: 0
+---
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+(base) proxima:a2i2_survey tzhang$ tail -f /Users/tzhang/.cursor/projects/Users-tzhang-projects-a2i2-survey/terminals/6.txt
+tail: /Users/tzhang/.cursor/projects/Users-tzhang-projects-a2i2-survey/terminals/6.txt: No such file or directory
+(base) proxima:a2i2_survey tzhang$ tail -f /Users/tzhang/.cursor/projects/Users-tzhang-projects-a2i2-survey/terminals/6.txt
+tail: /Users/tzhang/.cursor/projects/Users-tzhang-projects-a2i2-survey/terminals/6.txt: No such file or directory
+(base) proxima:a2i2_survey tzhang$ tail -f /Users/tzhang/.cursor/projects/Users-tzhang-projects-a2i2-survey/terminals/6.txt
+tail: /Users/tzhang/.cursor/projects/Users-tzhang-projects-a2i2-survey/terminals/6.txt: No such file or directory
+(base) proxima:a2i2_survey tzhang$ ps aux | grep "python.*server.py" | grep -v grep
+(base) proxima:a2i2_survey tzhang$  cd /Users/tzhang/projects/a2i2_survey/a2i2_chatbot/backend
+(base) proxima:backend tzhang$    ./start_server.sh
+================================
+Starting A2I2 Backend Server
+================================
+Loading environment variables from .env file...
+⚠️  Virtual environment not activated
+Attempting to activate: /Users/tzhang/projects/A2I2/venv
+✅ Virtual environment activated
+
+✅ Environment variables loaded:
+  - OPENAI_API_KEY: sk-proj-...e1IA
+  - HUGGINGFACE_TOKEN: hf_xAnqY...loOu
+  - MODEL: gpt-4o-mini
+  - HF_MODEL: tzhang62-iql-fire-rescue-api.hf.space
+
+Starting server...
+
+[EMBED-HF] Embedding API wrapper loaded successfully
+[IMPORT] Hugging Face API wrapper imported successfully
+INFO:     Started server process [3792]
+INFO:     Waiting for application startup.
+[IQL-HF] Initialized with Space: https://tzhang62-iql-fire-rescue-api.hf.space
+[IQL-HF] 5 policies available
+[POLICY-RETRIEVER] Using lazy loading (will load on first use)
+[POLICY-RETRIEVER] This keeps startup fast and saves memory
+[IQL] System initialized successfully in 0.00s (Hugging Face API)
+INFO:     Application startup complete.
+ERROR:    [Errno 48] error while attempting to bind on address ('0.0.0.0', 8001): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+(base) proxima:backend tzhang$ lsof -nP -iTCP:8001 -sTCP:LISTEN | grep Python | awk '{print $2}' | xargs kill
+(base) proxima:backend tzhang$ sleep 2
+(base) proxima:backend tzhang$ ./start_server.sh
+================================
+Starting A2I2 Backend Server
+================================
+Loading environment variables from .env file...
+⚠️  Virtual environment not activated
+Attempting to activate: /Users/tzhang/projects/A2I2/venv
+✅ Virtual environment activated
+
+✅ Environment variables loaded:
+  - OPENAI_API_KEY: sk-proj-...e1IA
+  - HUGGINGFACE_TOKEN: hf_xAnqY...loOu
+  - MODEL: gpt-4o-mini
+  - HF_MODEL: tzhang62-iql-fire-rescue-api.hf.space
+
+Starting server...
+
+[EMBED-HF] Embedding API wrapper loaded successfully
+[IMPORT] Hugging Face API wrapper imported successfully
+INFO:     Started server process [4693]
+INFO:     Waiting for application startup.
+[IQL-HF] Initialized with Space: https://tzhang62-iql-fire-rescue-api.hf.space
+[IQL-HF] 5 policies available
+[POLICY-RETRIEVER] Using lazy loading (will load on first use)
+[POLICY-RETRIEVER] This keeps startup fast and saves memory
+[IQL] System initialized successfully in 0.00s (Hugging Face API)
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+
+
+[SURVEY] Submitted and stored in memory: 9946ab97-9bca-4772-a4b7-f1b8d2d06b2f
+INFO:     127.0.0.1:62523 - "POST /api/survey HTTP/1.1" 200 OK
+[GREETING] Generated for mia: Hi, this is fire department dispatch. We’re monitoring a nearby wildfire and want to ensure your safety—are you currently in a safe location?
+[CHAT] Started role-play session: 9946ab97-9bca-4772-a4b7-f1b8d2d06b2f_mia_1767937624 for character: mia
+[CHAT] Initial greeting: Hi, this is fire department dispatch. We’re monitoring a nearby wildfire and want to ensure your safety—are you currently in a safe location?
+INFO:     127.0.0.1:62525 - "POST /api/chat/start HTTP/1.1" 200 OK
+[CHAT] Session: 9946ab97-9bca-4772-a4b7-f1b8d2d06b2f_mia_1767937624, Turn: 1, Resident: yes I am safe
+[IQL-HF] Querying API for policy (character=mia)...
+[IQL-HF] Selected policy: michelle
+[IQL-HF] Q-values: {'bob': 1.1231409311294556, 'lindsay': 1.1311297416687012, 'michelle': 1.1344597339630127, 'niki': 1.1336703300476074, 'ross': 1.1309999227523804}
+[IQL] Selected policy: michelle (took 0.37s)
+[POLICY-RETRIEVER] Using HF Space GPU embeddings (fast!)
+[EMBED-HF] Initialized with Space: https://tzhang62-iql-fire-rescue-api.hf.space
+[POLICY-RETRIEVER] HF embedding API ready in 0.00s
+[POLICY-RETRIEVER] Ready for fast retrieval
+[EMBED-HF] Encoded 1 texts in 0.32s (GPU)
+[RETRIEVAL] Got 2 examples (took 0.35s)
+[OPENAI] Generated response (took 0.87s)
+[CHAT] Operator: It's good to hear you're safe, but you need to evacuate immediately. Gather essential items and leave now. Your safety is the priority.
+INFO:     127.0.0.1:62528 - "POST /api/chat/message HTTP/1.1" 200 OK
+^CINFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [4693]
+(base) proxima:backend tzhang$ ./start_server.sh
+================================
+Starting A2I2 Backend Server
+================================
+Loading environment variables from .env file...
+⚠️  Virtual environment not activated
+Attempting to activate: /Users/tzhang/projects/A2I2/venv
+✅ Virtual environment activated
+
+✅ Environment variables loaded:
+  - OPENAI_API_KEY: sk-proj-...e1IA
+  - HUGGINGFACE_TOKEN: hf_xAnqY...loOu
+  - MODEL: gpt-4o-mini
+  - HF_MODEL: tzhang62-iql-fire-rescue-api.hf.space
+
+Starting server...
+
+[EMBED-HF] Embedding API wrapper loaded successfully
+[IMPORT] Hugging Face API wrapper imported successfully
+INFO:     Started server process [8542]
+INFO:     Waiting for application startup.
+[IQL-HF] Initialized with Space: https://tzhang62-iql-fire-rescue-api.hf.space
+[IQL-HF] 5 policies available
+[POLICY-RETRIEVER] Using lazy loading (will load on first use)
+[POLICY-RETRIEVER] This keeps startup fast and saves memory
+[IQL] System initialized successfully in 0.00s (Hugging Face API)
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:62769 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63274 - "GET /api/admin/export-sessions?admin_key=your-secret-admin-key-here HTTP/1.1" 404 Not Found

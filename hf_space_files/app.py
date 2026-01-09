@@ -22,10 +22,6 @@ app = FastAPI(title="IQL Fire Rescue API")
 EMBED_MODEL = "all-MiniLM-L6-v2"
 N_LAST = 3
 
-# Policies
-POLICIES = ["provide_information", "offer_assistance", "express_urgency", 
-            "ask_question", "give_direction", "acknowledge_concern", "build_rapport"]
-
 # ============================================================================
 # IQL Model (same as your server.py)
 # ============================================================================
@@ -127,9 +123,6 @@ class Response(BaseModel):
 
 @app.post("/", response_model=Response)
 async def predict(req: Request):
-    if not iql_selector:
-        return {"policy": POLICIES[0], "q_values": {}}
-    
     # Parse state: "msg1 | msg2 | msg3"
     if req.inputs == "START" or not req.inputs:
         messages = []

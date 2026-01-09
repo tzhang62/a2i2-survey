@@ -32,6 +32,50 @@
   let conversationNumber = 1; // Current conversation (1-6)
   let isRolePlay = false; // Whether this is a role-play conversation
 
+  // Character scenarios (same as in scenario.js)
+  const SCENARIOS = {
+    bob: {
+      name: "Bob",
+      scenario: "You are Bob, a man in his mid-20s working at home and focused on your job. It feels like a regular workday and you do not want to be interrupted. You have heard about a wildfire nearby, but you believe you still have time. While you are working, your phone suddenly rings. The caller ID shows the local fire department..."
+    },
+    niki: {
+      name: "Niki",
+      scenario: "You are Niki, a woman in her mid-30s who lives at home with her husband. It is a normal day and you are together at home, relaxing. You have heard there is a wildfire nearby, but it does not seem serious. You look outside and see some smoke in the distance, but no flames. As you sit with your husband, your phone suddenly rings. The caller ID shows the local fire department..."
+    },
+    lindsay: {
+      name: "Lindsay",
+      scenario: "You are Lindsay, a babysitter in her early 20s watching two young children while their parents are not home. The day has been quiet and the children are playing nearby. You have heard there may be a wildfire in the area, but you are not sure how close it is. While you are with the children, your phone suddenly rings. The caller ID shows the local fire department..."
+    },
+    michelle: {
+      name: "Michelle",
+      scenario: "You are Michelle, a woman in her early 50s living at home with your partner. It is a normal day and you are going about your routines, feeling settled and secure in your home. You know a wildfire is approaching, but you believe your house is well prepared. As you are with your partner, your phone suddenly rings. The caller ID shows the local fire department..."
+    },
+    ross: {
+      name: "Ross",
+      scenario: "You are Ross, a van driver in his 40s on the road with several elderly passengers. Earlier, there was an accident during evacuation and the van is now stopped. Your passengers cannot move easily, and you are trying to stay calm. While you are sitting in the driver's seat, your phone suddenly rings. The caller ID shows the local fire department..."
+    },
+    mary: {
+      name: "Mary",
+      scenario: "You are Mary, 67 years old, living alone with your small dog, Poppy. It is a quiet day at home and you are preparing for a visit from your daughter. You move slowly and everything feels unhurried. As you are getting ready, your phone suddenly rings. The caller ID shows the local fire department..."
+    },
+    ben: {
+      name: "Ben",
+      scenario: "You are Ben, 29 years old, working from home as a computer technician. It is a regular day and you are at your desk, with a bike race playing quietly in the background. You enjoy riding your e-bike, which is parked by the door. You have heard there may be a wildfire nearby, but your attention is elsewhere. While you are working, your phone suddenly rings. The caller ID shows the local fire department..."
+    },
+    ana: {
+      name: "Ana",
+      scenario: "You are Ana, 42 years old, working at the town's senior center. It is a busy workday and you are helping older adults with their daily routines. You are focused on your responsibilities. As you are assisting residents, your phone suddenly rings. The caller ID shows the local fire department..."
+    },
+    tom: {
+      name: "Tom",
+      scenario: "You are Tom, 54 years old, at home working outside behind your house. You are focused on a woodworking project and the afternoon feels familiar and steady. You know many people in town and feel connected to the community. As you work, your phone suddenly rings. The caller ID shows the local fire department..."
+    },
+    mia: {
+      name: "Mia",
+      scenario: "You are Mia, 17 years old, at school in the robotics lab. You are focused on testing a small flying robot and time passes without you noticing much else. Suddenly, your phone rings. The caller ID shows the local fire department."
+    }
+  };
+
   // DOM Elements
   const messagesContainer = document.getElementById('chat-messages');
   const messageInput = document.getElementById('message-input');
@@ -44,6 +88,9 @@
   const endMessage = document.getElementById('end-message');
   const closeModalBtn = document.getElementById('close-modal-btn');
   const loadingOverlay = document.getElementById('loading-overlay');
+  const characterScenario = document.getElementById('character-scenario');
+  const scenarioContent = document.getElementById('scenario-content');
+  const toggleScenarioBtn = document.getElementById('toggle-scenario');
 
   /**
    * Update session status display
@@ -51,23 +98,48 @@
   function updateSessionStatus() {
     if (!sessionStatus) return;
     
-    // Use isRolePlay flag to determine session type
-    if (isRolePlay) {
-      sessionStatus.innerHTML = `
-        <div class="session-badge">
-          <span class="icon">🎭</span>
-          <span>Session 2: Role-Play</span>
-        </div>
-        <div class="conversation-count">Conversation ${conversationNumber} of 3 (You play as ${capitalizeFirst(character)})</div>
-      `;
-    } else {
-      sessionStatus.innerHTML = `
-        <div class="session-badge">
-          <span class="icon">👤</span>
-          <span>Session 1: Non-Role-Play</span>
-        </div>
-        <div class="conversation-count">Conversation ${conversationNumber} of 3 (You play as yourself)</div>
-      `;
+    // All conversations are now role-play with character matching
+    sessionStatus.innerHTML = `
+      <div class="session-badge">
+        <span class="icon">🎭</span>
+        <span>Role-Play Conversation</span>
+      </div>
+      <div class="conversation-count">Conversation ${conversationNumber} of 3 (You play as ${capitalizeFirst(character)})</div>
+    `;
+  }
+
+  /**
+   * Display character scenario reminder
+   */
+  function displayCharacterScenario() {
+    if (!characterScenario || !scenarioContent || !character) return;
+    
+    const scenarioData = SCENARIOS[character.toLowerCase()];
+    if (!scenarioData) return;
+    
+    // Show the scenario section
+    characterScenario.classList.remove('hidden');
+    
+    // Format scenario text with line breaks
+    const scenarioText = scenarioData.scenario
+      .replace(/\.\s+/g, '.\n')
+      .replace(/,\s+/g, ',\n');
+    
+    scenarioContent.textContent = scenarioText;
+    
+    // Add toggle functionality
+    if (toggleScenarioBtn) {
+      let isExpanded = true;
+      toggleScenarioBtn.addEventListener('click', () => {
+        isExpanded = !isExpanded;
+        if (isExpanded) {
+          scenarioContent.style.display = 'block';
+          toggleScenarioBtn.textContent = '▼';
+        } else {
+          scenarioContent.style.display = 'none';
+          toggleScenarioBtn.textContent = '▶';
+        }
+      });
     }
   }
 
@@ -87,32 +159,40 @@
       return;
     }
     
-    // Determine conversation type and number
-    const conversationType = urlParams.get('type'); // 'non-roleplay' or 'roleplay'
+    // Get conversation parameters (all conversations are now role-play with character)
     conversationNumber = parseInt(urlParams.get('conversation') || '1');
     character = urlParams.get('character');
     participantId = sessionStorage.getItem('participantId');
 
     console.log('[INIT] URL params:', {
-      type: conversationType,
-      conversation: urlParams.get('conversation'),
       conversationNumber: conversationNumber,
       character: character
     });
     console.log('[INIT] Session storage completedConversations:', sessionStorage.getItem('completedConversations'));
 
     if (!participantId) {
-      console.warn('No participant ID found in session storage');
+      console.error('No participant ID found in session storage - redirecting to survey');
+      window.location.href = 'survey.html';
+      return;
     }
 
-    // Update session status display
-    isRolePlay = conversationType === 'roleplay' || (character && !conversationType);
+    if (!character) {
+      console.error('No character provided - redirecting to scenario page');
+      window.location.href = 'scenario.html';
+      return;
+    }
+
+    // All conversations are now role-play
+    isRolePlay = true;
     updateSessionStatus();
 
     // Hide character info since it's now in session status
     if (characterInfo) {
       characterInfo.style.display = 'none';
     }
+
+    // Display character scenario reminder
+    displayCharacterScenario();
 
     // Initialize ambient sound
     initializeAmbientSound();
@@ -289,35 +369,20 @@
     try {
       showLoading(true);
       
-      // Prepare request payload based on conversation type
-      let payload = {
-        participantId: participantId
-      };
-      
-      if (isRolePlay) {
-        // Role-play conversation (Session 2)
-        payload.character = character;
-      } else {
-        // Non-role-play conversation (Session 1)
-        // Map conversation number to persuasion strategy
-        const persuasionStrategies = {
-          1: 'rational-informational',
-          2: 'emotional-relational',
-          3: 'social-normative'
-        };
-        
-        payload.persuasionStrategy = persuasionStrategies[conversationNumber];
-        
-        // Include survey data for personalized scenario
-        const surveyDataStr = sessionStorage.getItem('surveyData');
-        if (surveyDataStr) {
-          try {
-            payload.surveyData = JSON.parse(surveyDataStr);
-          } catch (e) {
-            console.warn('Failed to parse survey data:', e);
-          }
-        }
+      // Validate required parameters
+      if (!character) {
+        throw new Error('Character is required for chat session');
       }
+      
+      if (!participantId) {
+        throw new Error('Participant ID is required for chat session');
+      }
+      
+      // Prepare request payload for role-play conversation
+      let payload = {
+        participantId: participantId,
+        character: character
+      };
       
       console.log('[CHAT] Starting session with payload:', payload);
       
@@ -594,7 +659,7 @@
       checkbox.value = utterance.number;
       
       const text = document.createElement('span');
-      text.textContent = `#${utterance.number}: "${utterance.text.substring(0, 60)}${utterance.text.length > 60 ? '...' : ''}"`;
+      text.textContent = `#${utterance.number}: "${utterance.text}"`;
       
       label.appendChild(checkbox);
       label.appendChild(text);
@@ -702,7 +767,7 @@
     const naturalness = formData.get('naturalness');
     
     if (!willing) {
-      alert('Please answer Question 1: Were you willing to be rescued based on this conversation?');
+      alert('Please answer Question 1: Were you willing to be evacuated based on this conversation?');
       // Scroll to the question
       const question1 = document.querySelector('input[name="willing"]').closest('.survey-question');
       question1.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -761,9 +826,8 @@
       
       showLoading(false);
       
-      // Redirect based on conversation count
-      if (completedConversations >= 6) {
-        // All 6 conversations complete (3 non-role-play + 3 role-play)
+      // Redirect based on conversation count (only 3 role-play conversations)
+      if (completedConversations >= 3) {
         // Call complete-study endpoint to get CCC confirmation number
         try {
           const completeResponse = await fetch(`${CONFIG.API_URL}/api/complete-study`, {
@@ -786,22 +850,11 @@
           alert('Study complete! Thank you for your participation.');
           window.location.href = 'landing.html';
         }
-      } else if (completedConversations === 3) {
-        // Completed Session 1, moving to Session 2 (character selection)
-        alert('Session 1 complete! Now moving to Session 2: Role-Play conversations.');
-        window.location.href = 'scenario.html';
-      } else if (completedConversations < 3) {
-        // Still in Session 1 (non-role-play), go directly to next conversation
-        const nextConversation = completedConversations + 1;
-        console.log('[REDIRECT] Going to Session 1, conversation:', nextConversation);
-        alert(`Session 1: Survey submitted! Proceeding to conversation ${nextConversation} of 3.`);
-        window.location.href = `chat.html?type=non-roleplay&conversation=${nextConversation}`;
       } else {
-        // In Session 2 (role-play), go directly to next conversation with same character
-        const nextConversation = completedConversations - 3 + 1;
-        const selectedCharacter = sessionStorage.getItem('selectedCharacter');
+        // Go to next character selection for the next conversation
+        const nextConversation = completedConversations + 1;
         alert(`Survey submitted! Proceeding to conversation ${nextConversation} of 3.`);
-        window.location.href = `chat.html?type=roleplay&conversation=${nextConversation}&character=${selectedCharacter}`;
+        window.location.href = 'scenario.html';
       }
       
     } catch (error) {
@@ -853,7 +906,7 @@
         <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
         <h2 style="margin-top: 0; color: #4CAF50; font-size: 2rem;">Study Complete!</h2>
         <p style="color: #333; line-height: 1.6; margin: 1.5rem 0; font-size: 1.1rem;">
-          Thank you for completing all 6 conversations!<br>
+          Thank you for completing all 3 conversations!<br>
           Your contribution is greatly appreciated.
         </p>
         <p style="color: #333; font-weight: 600; margin: 1rem 0;">

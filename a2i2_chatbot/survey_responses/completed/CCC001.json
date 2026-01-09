@@ -1,17 +1,17 @@
 {
   "confirmation_number": "CCC001",
-  "participant_id": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
+  "participant_id": "d1f53e2f-24f5-4d18-800d-a8e8ac002a60",
   "status": "complete",
-  "completion_timestamp": "2025-12-24T00:35:30.036198",
+  "completion_timestamp": "2026-01-09T07:23:09.635775",
   "survey": {
-    "timestamp": "2025-12-24T00:32:18.304Z",
+    "timestamp": "2026-01-09T07:16:59.838Z",
     "background": {
-      "email": "maviszhang0124@gmail.com",
+      "email": "tzhang62@usc.edu",
       "nickname": "Mavis",
-      "age": "33",
+      "age": "34",
       "gender": "female",
-      "education": "some-college",
-      "occupation": "Scientist",
+      "education": "graduate-degree",
+      "occupation": "software engineer",
       "ideology": "2"
     },
     "personality": {
@@ -27,7 +27,7 @@
       "q10": "1"
     },
     "moral": {
-      "q1": "6",
+      "q1": "5",
       "q2": "5",
       "q3": "5",
       "q4": "5",
@@ -46,81 +46,341 @@
       "vehicle": "no",
       "details": ""
     },
-    "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
-    "serverTimestamp": "2025-12-24T00:32:18.311860"
+    "participantId": "d1f53e2f-24f5-4d18-800d-a8e8ac002a60",
+    "serverTimestamp": "2026-01-09T07:16:59.846784"
   },
   "post_surveys": [
     {
-      "sessionId": "1c15a853-e96e-486c-9ba6-744d72d4b71d_niki_1766536506",
-      "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
+      "sessionId": "d1f53e2f-24f5-4d18-800d-a8e8ac002a60_niki_1767943131",
+      "participantId": "d1f53e2f-24f5-4d18-800d-a8e8ac002a60",
       "character": "niki",
-      "conversationNumber": 6,
-      "timestamp": "2025-12-24T00:35:30.017Z",
-      "willing": "yes",
-      "willingYesDetails": "",
-      "willingNoDetails": "",
-      "naturalness": "very-natural",
-      "unnaturalUtterances": []
-    },
-    {
-      "sessionId": "1c15a853-e96e-486c-9ba6-744d72d4b71d_nonrole_social-normative_1766536413",
-      "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
-      "character": "self",
-      "conversationNumber": 3,
-      "timestamp": "2025-12-24T00:34:06.454Z",
-      "willing": "yes",
-      "willingYesDetails": "",
-      "willingNoDetails": "",
-      "naturalness": "very-natural",
-      "unnaturalUtterances": []
-    },
-    {
-      "sessionId": "1c15a853-e96e-486c-9ba6-744d72d4b71d_niki_1766536459",
-      "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
-      "character": "niki",
-      "conversationNumber": 4,
-      "timestamp": "2025-12-24T00:34:43.893Z",
-      "willing": "yes",
-      "willingYesDetails": "",
-      "willingNoDetails": "",
-      "naturalness": "very-natural",
-      "unnaturalUtterances": []
-    },
-    {
-      "sessionId": "1c15a853-e96e-486c-9ba6-744d72d4b71d_nonrole_emotional-relational_1766536386",
-      "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
-      "character": "self",
-      "conversationNumber": 2,
-      "timestamp": "2025-12-24T00:33:32.653Z",
-      "willing": "yes",
-      "willingYesDetails": "",
-      "willingNoDetails": "",
-      "naturalness": "very-natural",
-      "unnaturalUtterances": []
-    },
-    {
-      "sessionId": "1c15a853-e96e-486c-9ba6-744d72d4b71d_niki_1766536485",
-      "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
-      "character": "niki",
-      "conversationNumber": 5,
-      "timestamp": "2025-12-24T00:35:05.722Z",
-      "willing": "yes",
-      "willingYesDetails": "",
-      "willingNoDetails": "",
-      "naturalness": "very-natural",
-      "unnaturalUtterances": []
-    },
-    {
-      "sessionId": "1c15a853-e96e-486c-9ba6-744d72d4b71d_nonrole_rational-informational_1766536357",
-      "participantId": "1c15a853-e96e-486c-9ba6-744d72d4b71d",
-      "character": "self",
       "conversationNumber": 1,
-      "timestamp": "2025-12-24T00:33:05.178Z",
+      "timestamp": "2026-01-09T07:20:03.396Z",
       "willing": "yes",
       "willingYesDetails": "",
       "willingNoDetails": "",
       "naturalness": "very-natural",
       "unnaturalUtterances": []
+    },
+    {
+      "sessionId": "d1f53e2f-24f5-4d18-800d-a8e8ac002a60_bob_1767943225",
+      "participantId": "d1f53e2f-24f5-4d18-800d-a8e8ac002a60",
+      "character": "bob",
+      "conversationNumber": 2,
+      "timestamp": "2026-01-09T07:21:39.570Z",
+      "willing": "yes",
+      "willingYesDetails": "",
+      "willingNoDetails": "",
+      "naturalness": "very-natural",
+      "unnaturalUtterances": []
+    },
+    {
+      "sessionId": "d1f53e2f-24f5-4d18-800d-a8e8ac002a60_mary_1767943351",
+      "participantId": "d1f53e2f-24f5-4d18-800d-a8e8ac002a60",
+      "character": "mary",
+      "conversationNumber": 3,
+      "timestamp": "2026-01-09T07:23:09.613Z",
+      "willing": "yes",
+      "willingYesDetails": "",
+      "willingNoDetails": "",
+      "naturalness": "very-natural",
+      "unnaturalUtterances": []
+    }
+  ],
+  "conversations": [
+    {
+      "session_id": "d1f53e2f-24f5-4d18-800d-a8e8ac002a60_niki_1767943131",
+      "character": "niki",
+      "conversation_type": "roleplay",
+      "persuasion_strategy": null,
+      "history": [
+        {
+          "role": "operator",
+          "text": "Hello, this is the fire department dispatcher. We're aware of a nearby wildfire and want to ensure your safety. Can you let us know how you're doing right now?"
+        },
+        {
+          "role": "resident",
+          "text": "I am doing good"
+        },
+        {
+          "role": "operator",
+          "text": "It's good to hear. Please prepare to evacuate immediately. Are you and your partner ready to leave?"
+        },
+        {
+          "role": "resident",
+          "text": "yes"
+        },
+        {
+          "role": "operator",
+          "text": "Please gather your essentials and leave the area now. Head to the nearest evacuation center for safety."
+        },
+        {
+          "role": "resident",
+          "text": "okay thanks"
+        },
+        {
+          "role": "operator",
+          "text": "Thank you for your cooperation. Stay safe and take care as you evacuate."
+        }
+      ],
+      "iql_data": [
+        {
+          "turn": 1,
+          "resident_message": "I am doing good",
+          "operator_response": "It's good to hear. Please prepare to evacuate immediately. Are you and your partner ready to leave?",
+          "selected_policy": "niki",
+          "q_values": {
+            "bob": 1.0615437030792236,
+            "lindsay": 1.075226068496704,
+            "michelle": 1.0838063955307007,
+            "niki": 1.0850595235824585,
+            "ross": 1.0732707977294922
+          },
+          "judge": {
+            "stance": "UNKNOWN",
+            "confidence": 0.5,
+            "reason": "The resident's response does not indicate any clear stance on evacuating."
+          },
+          "timestamp": "2026-01-09T07:19:06.205750"
+        },
+        {
+          "turn": 2,
+          "resident_message": "yes",
+          "operator_response": "Please gather your essentials and leave the area now. Head to the nearest evacuation center for safety.",
+          "selected_policy": "niki",
+          "q_values": {
+            "bob": 1.0584406852722168,
+            "lindsay": 1.071823000907898,
+            "michelle": 1.079805612564087,
+            "niki": 1.084161639213562,
+            "ross": 1.0724927186965942
+          },
+          "judge": {
+            "stance": "AGREE",
+            "confidence": 1.0,
+            "reason": "The resident confirms readiness to leave by saying 'yes' when asked if they are ready to evacuate."
+          },
+          "timestamp": "2026-01-09T07:19:14.842697"
+        }
+      ],
+      "turn_count": 3,
+      "created_at": "2026-01-09T07:18:51.741486",
+      "ended_at": "2026-01-09T07:23:09.636056",
+      "scenario": null
+    },
+    {
+      "session_id": "d1f53e2f-24f5-4d18-800d-a8e8ac002a60_bob_1767943225",
+      "character": "bob",
+      "conversation_type": "roleplay",
+      "persuasion_strategy": null,
+      "history": [
+        {
+          "role": "operator",
+          "text": "Hello, this is the fire department dispatcher. We're monitoring a wildfire close to your location and need to ensure you're safe. Can you tell me your current situation?"
+        },
+        {
+          "role": "resident",
+          "text": "I am doing good"
+        },
+        {
+          "role": "operator",
+          "text": "You need to evacuate immediately. The wildfire is spreading rapidly, and staying could put your life at serious risk."
+        },
+        {
+          "role": "resident",
+          "text": "okay"
+        },
+        {
+          "role": "operator",
+          "text": "Please gather your essential belongings and leave immediately. Head to the nearest evacuation center for your safety."
+        },
+        {
+          "role": "resident",
+          "text": "okay thanks"
+        },
+        {
+          "role": "operator",
+          "text": "Make sure to stay calm and move quickly. Your safety is the priority; please leave now."
+        },
+        {
+          "role": "resident",
+          "text": "okay thanks"
+        },
+        {
+          "role": "operator",
+          "text": "Stay focused on evacuating. The fire is unpredictable and can change direction quickly. Leave now for your safety."
+        },
+        {
+          "role": "resident",
+          "text": "okay"
+        },
+        {
+          "role": "operator",
+          "text": "Take care and stay safe. Goodbye."
+        }
+      ],
+      "iql_data": [
+        {
+          "turn": 1,
+          "resident_message": "I am doing good",
+          "operator_response": "You need to evacuate immediately. The wildfire is spreading rapidly, and staying could put your life at serious risk.",
+          "selected_policy": "niki",
+          "q_values": {
+            "bob": 1.0615437030792236,
+            "lindsay": 1.075226068496704,
+            "michelle": 1.0838063955307007,
+            "niki": 1.0850595235824585,
+            "ross": 1.0732707977294922
+          },
+          "judge": {
+            "stance": "UNKNOWN",
+            "confidence": 0.5,
+            "reason": "The resident did not provide any information about their intention to evacuate or stay."
+          },
+          "timestamp": "2026-01-09T07:20:34.923173"
+        },
+        {
+          "turn": 2,
+          "resident_message": "okay",
+          "operator_response": "Please gather your essential belongings and leave immediately. Head to the nearest evacuation center for your safety.",
+          "selected_policy": "niki",
+          "q_values": {
+            "bob": 1.0662133693695068,
+            "lindsay": 1.0771167278289795,
+            "michelle": 1.0861072540283203,
+            "niki": 1.0901564359664917,
+            "ross": 1.0795509815216064
+          },
+          "judge": {
+            "stance": "DELAY",
+            "confidence": 0.7,
+            "reason": "The resident's response of 'okay' does not clearly indicate a commitment to evacuate, suggesting a possible delay in action."
+          },
+          "timestamp": "2026-01-09T07:20:50.653186"
+        },
+        {
+          "turn": 3,
+          "resident_message": "okay thanks",
+          "operator_response": "Make sure to stay calm and move quickly. Your safety is the priority; please leave now.",
+          "selected_policy": "niki",
+          "q_values": {
+            "bob": 1.0906533002853394,
+            "lindsay": 1.1045209169387817,
+            "michelle": 1.1097904443740845,
+            "niki": 1.11190927028656,
+            "ross": 1.1045522689819336
+          },
+          "judge": {
+            "stance": "DELAY",
+            "confidence": 0.7,
+            "reason": "The resident acknowledges the request but does not explicitly commit to evacuating immediately."
+          },
+          "timestamp": "2026-01-09T07:21:00.822361"
+        },
+        {
+          "turn": 4,
+          "resident_message": "okay thanks",
+          "operator_response": "Stay focused on evacuating. The fire is unpredictable and can change direction quickly. Leave now for your safety.",
+          "selected_policy": "michelle",
+          "q_values": {
+            "bob": 1.1022573709487915,
+            "lindsay": 1.1158146858215332,
+            "michelle": 1.1203508377075195,
+            "niki": 1.1198090314865112,
+            "ross": 1.114305853843689
+          },
+          "judge": {
+            "stance": "DELAY",
+            "confidence": 0.7,
+            "reason": "The resident acknowledges the operator's instructions but does not explicitly commit to evacuating immediately."
+          },
+          "timestamp": "2026-01-09T07:21:08.556440"
+        }
+      ],
+      "turn_count": 5,
+      "created_at": "2026-01-09T07:20:25.488869",
+      "ended_at": "2026-01-09T07:23:09.636121",
+      "scenario": null
+    },
+    {
+      "session_id": "d1f53e2f-24f5-4d18-800d-a8e8ac002a60_mary_1767943351",
+      "character": "mary",
+      "conversation_type": "roleplay",
+      "persuasion_strategy": null,
+      "history": [
+        {
+          "role": "operator",
+          "text": "Hello, this is the fire department dispatcher. We\u2019re currently managing a wildfire situation near your area and need to ensure your safety. Are you safe at home right now?"
+        },
+        {
+          "role": "resident",
+          "text": "yes"
+        },
+        {
+          "role": "operator",
+          "text": "We need to evacuate immediately. Please gather your essentials and Poppy, and I\u2019ll arrange for a van pickup."
+        },
+        {
+          "role": "resident",
+          "text": "okay"
+        },
+        {
+          "role": "operator",
+          "text": "Please find your essentials and Poppy now. The van will arrive shortly to assist with your evacuation."
+        },
+        {
+          "role": "resident",
+          "text": "okay"
+        },
+        {
+          "role": "operator",
+          "text": "You're making a wise choice by evacuating. Please stay safe, and we'll see you soon."
+        }
+      ],
+      "iql_data": [
+        {
+          "turn": 1,
+          "resident_message": "yes",
+          "operator_response": "We need to evacuate immediately. Please gather your essentials and Poppy, and I\u2019ll arrange for a van pickup.",
+          "selected_policy": "niki",
+          "q_values": {
+            "bob": 1.0399692058563232,
+            "lindsay": 1.0509822368621826,
+            "michelle": 1.0616244077682495,
+            "niki": 1.0677982568740845,
+            "ross": 1.0542527437210083
+          },
+          "judge": {
+            "stance": "UNKNOWN",
+            "confidence": 0.5,
+            "reason": "The resident confirms they are safe at home but does not indicate whether they will evacuate or not."
+          },
+          "timestamp": "2026-01-09T07:22:40.226142"
+        },
+        {
+          "turn": 2,
+          "resident_message": "okay",
+          "operator_response": "Please find your essentials and Poppy now. The van will arrive shortly to assist with your evacuation.",
+          "selected_policy": "niki",
+          "q_values": {
+            "bob": 1.0510936975479126,
+            "lindsay": 1.0640666484832764,
+            "michelle": 1.0726531744003296,
+            "niki": 1.0755054950714111,
+            "ross": 1.0676811933517456
+          },
+          "judge": {
+            "stance": "AGREE",
+            "confidence": 0.9,
+            "reason": "The resident acknowledges the need to evacuate and responds positively with 'okay'."
+          },
+          "timestamp": "2026-01-09T07:22:49.046102"
+        }
+      ],
+      "turn_count": 3,
+      "created_at": "2026-01-09T07:22:31.116749",
+      "ended_at": "2026-01-09T07:23:09.636140",
+      "scenario": null
     }
   ]
 }

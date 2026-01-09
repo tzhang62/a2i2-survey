@@ -12,6 +12,7 @@ from typing import Dict, List, Tuple
 import time
 
 # Hugging Face configuration
+# NOTE: Do NOT hardcode tokens. Load them from environment (e.g., from `.env` via `start_server.sh`).
 HF_MODEL_ID = os.getenv("HUGGINGFACE_MODEL_ID", "tzhang62/iql-fire-rescue")
 HF_TOKEN = os.getenv("HUGGINGFACE_TOKEN")
 
@@ -21,8 +22,9 @@ if HF_MODEL_ID.endswith(".hf.space"):
     HF_API_URL = f"https://{HF_MODEL_ID}" if not HF_MODEL_ID.startswith("http") else HF_MODEL_ID
     IS_SPACE = True
 else:
-    # It's a model ID - use Inference API
-    HF_API_URL = f"https://api-inference.huggingface.co/models/{HF_MODEL_ID}"
+    # It's a model ID - use HF Router Inference endpoint
+    # (The legacy api-inference.huggingface.co endpoint is deprecated.)
+    HF_API_URL = f"https://router.huggingface.co/hf-inference/models/{HF_MODEL_ID}"
     IS_SPACE = False
 
 # Policy names (must match training)
@@ -43,7 +45,7 @@ class IQLHuggingFace:
         self.policy_names = POLICY_NAMES
         self.api_url = HF_API_URL
         self.is_space = IS_SPACE
-        self.headers = {"Content-Type": "application/json"}
+        self.headers = {"Content-Type": "application/json", "Accept": "application/json"}
         
         if HF_TOKEN and not IS_SPACE:
             # Token only needed for Inference API, not public Spaces
