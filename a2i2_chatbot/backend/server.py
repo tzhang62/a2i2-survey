@@ -78,42 +78,6 @@ CHARACTER_PERSONAS = {
     "mia": "Mia is a high school student working on a robotics project."
 }
 
-# Persuasion strategies for non-role-play conversations
-PERSUASION_STRATEGIES = {
-    "rational-informational": {
-        "name": "Rational-Informational",
-        "description": "Provide facts, evidence, and reasoning. Share risk levels, factual updates, and clear instructions.",
-        "guidelines": """- Use facts, statistics, and concrete data
-- Explain cause-and-effect relationships
-- Provide clear, logical step-by-step instructions
-- Reference fire behavior, wind conditions, evacuation routes
-- Be objective and information-focused
-- Example: "The fire is spreading at 2 mph. Your area has a red flag warning. You need to evacuate within 30 minutes via Highway 101 south."
-"""
-    },
-    "emotional-relational": {
-        "name": "Emotional-Relational",
-        "description": "Build emotional trust and empathy. Express care, reassurance, and shared experience.",
-        "guidelines": """- Show empathy and understanding
-- Express genuine concern for their safety and wellbeing
-- Offer reassurance and emotional support
-- Build rapport and trust
-- Acknowledge their feelings and concerns
-- Example: "I understand this is frightening. We're here to help you through this. Your safety is our top priority, and we'll make sure you get to safety."
-"""
-    },
-    "social-normative": {
-        "name": "Social-Normative",
-        "description": "Leverage norms, duty, and authority. Emphasize rules, social proof, and authority.",
-        "guidelines": """- Reference official protocols and regulations
-- Mention what others in the community are doing
-- Emphasize civic duty and responsibility
-- Use authoritative language and credentials
-- Cite emergency management standards
-- Example: "This is an official mandatory evacuation order. All residents in your zone are evacuating now. As a fire department official, I'm authorized to direct you to leave immediately."
-"""
-    }
-}
 
 # ============================================================================
 # IQL Model Components (DEPRECATED - NO LONGER USED)
@@ -381,6 +345,118 @@ Generate ONLY the closing message:"""
         return fallback_messages.get(end_reason, fallback_messages["max_turns"])
 
 
+def calculate_character_similarity(survey_data: dict, character_key: str) -> float:
+    """
+    Calculate similarity score between participant survey data and character profile.
+    Returns a score between 0 and 1 (higher = more similar).
+    """
+    if character_key not in CHARACTER_PROFILES:
+        return 0.0
+    
+    character = CHARACTER_PROFILES[character_key]
+    score = 0.0
+    max_score = 0.0
+    
+    # Extract survey data
+    background = survey_data.get('background', {})
+    participant_age = background.get('age', '')
+    participant_occupation = background.get('occupation', '').lower()
+    special_needs = survey_data.get('specialNeeds', {})
+    
+    # Age similarity (weight: 2.0)
+    max_score += 2.0
+    try:
+        p_age = int(participant_age) if participant_age else 30
+        c_age = character.get('age', 30)
+        age_diff = abs(p_age - c_age)
+        # Normalize age difference (0-50 years -> 0-1 score)
+        age_score = max(0, 1 - (age_diff / 50.0))
+        score += age_score * 2.0
+    except (ValueError, TypeError):
+        # If age is invalid, give neutral score
+        score += 1.0
+    
+    # Occupation similarity (weight: 1.5)
+    max_score += 1.5
+    char_occupation = character.get('occupation', '').lower()
+    if participant_occupation and char_occupation:
+        # Direct match
+        if participant_occupation == char_occupation:
+            score += 1.5
+        # Partial match (e.g., "teacher" in "high school teacher")
+        elif participant_occupation in char_occupation or char_occupation in participant_occupation:
+            score += 1.0
+        # Similar occupations
+        elif any(keyword in participant_occupation and keyword in char_occupation 
+                for keyword in ['student', 'teacher', 'tech', 'care', 'driver', 'work']):
+            score += 0.5
+    
+    # Responsibility for others (weight: 1.5)
+    max_score += 1.5
+    has_responsibility = special_needs.get('responsible') == 'yes'
+    char_has_responsibility = any(trait in character.get('traits', []) 
+                                 for trait in ['responsible for others', 'caring', 'protective'])
+    if has_responsibility and char_has_responsibility:
+        score += 1.5
+    elif not has_responsibility and not char_has_responsibility:
+        score += 0.5
+    
+    # Mobility/communication challenges (weight: 1.0)
+    max_score += 1.0
+    has_condition = special_needs.get('condition') == 'yes'
+    char_elderly = 'elderly' in character.get('traits', [])
+    if has_condition and char_elderly:
+        score += 1.0
+    elif not has_condition and not char_elderly:
+        score += 0.5
+    
+    # Vehicle needs (weight: 1.0)
+    max_score += 1.0
+    needs_vehicle = special_needs.get('vehicle') == 'yes'
+    char_has_vehicle = 'driver' in character.get('occupation', '').lower()
+    if needs_vehicle and char_has_vehicle:
+        score += 1.0
+    elif not needs_vehicle:
+        score += 0.3
+    
+    # Normalize to 0-1 range
+    if max_score > 0:
+        normalized_score = score / max_score
+    else:
+        normalized_score = 0.5
+    
+    return normalized_score
+
+
+def select_character_pair(survey_data: dict, excluded_characters: List[str]) -> tuple:
+    """
+    Select two characters for profile matching:
+    - First: highest similarity score (not in excluded list)
+    - Second: lowest similarity score (not in excluded list)
+    
+    Returns: (highest_char, lowest_char, scores_dict)
+    """
+    available_characters = [char for char in CHARACTER_PROFILES.keys() 
+                          if char not in excluded_characters]
+    
+    if len(available_characters) < 2:
+        raise ValueError("Not enough characters available for selection")
+    
+    # Calculate similarity scores for all available characters
+    scores = {}
+    for char_key in available_characters:
+        scores[char_key] = calculate_character_similarity(survey_data, char_key)
+    
+    # Sort by score
+    sorted_chars = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+    
+    # Select highest and lowest
+    highest_char = sorted_chars[0][0]
+    lowest_char = sorted_chars[-1][0]
+    
+    return highest_char, lowest_char, scores
+
+
 def generate_personalized_scenario(survey_data: dict, model: str = "gpt-4o-mini") -> str:
     """
     Generate a personalized emergency scenario based on participant's survey data.
@@ -551,15 +627,14 @@ def judge_resident_stance(history: List[Dict[str, str]], model: str) -> dict:
         return {"stance": "UNKNOWN", "confidence": 0.0, "reason": f"Error: {str(e)}"}
 
 
-def build_prompt(policy_id: str, character_name: str, history: List[Dict[str, str]], examples: List[Dict[str, str]], persuasion_strategy: str = None, max_context_turns: int = 6) -> str:
+def build_prompt(policy_id: str, character_name: str, history: List[Dict[str, str]], examples: List[Dict[str, str]], max_context_turns: int = 6) -> str:
     """Build prompt for operator response generation
     
     Args:
         policy_id: IQL policy identifier
-        character_name: Character being role-played (or "participant" for non-role-play)
+        character_name: Character being role-played
         history: Conversation history
         examples: Policy example dialogues
-        persuasion_strategy: One of "rational-informational", "emotional-relational", "social-normative" (for non-role-play)
         max_context_turns: Maximum conversation turns to include
     """
     context = history[-max_context_turns:] if len(history) > max_context_turns else history
@@ -569,43 +644,22 @@ def build_prompt(policy_id: str, character_name: str, history: List[Dict[str, st
         [f"Resident: {ex['resident']}\nOperator: {ex['operator']}" for ex in examples if ex.get("resident") and ex.get("operator")]
     ).strip()
 
-    # Build instruction based on whether this is role-play or non-role-play
-    if persuasion_strategy and persuasion_strategy in PERSUASION_STRATEGIES:
-        # Non-role-play conversation with specific persuasion strategy
-        strategy = PERSUASION_STRATEGIES[persuasion_strategy]
-        instruction = (
-            f"You are a FIRE DEPARTMENT OPERATOR talking to a RESIDENT during a wildfire evacuation call.\n"
-            f"PERSUASION STRATEGY: {strategy['name']}\n"
-            f"{strategy['description']}\n\n"
-            f"Guidelines for this conversation:\n{strategy['guidelines']}\n"
-            "Read the conversation so far, then produce the next operator reply.\n"
-            "CRITICAL RULES:\n"
-            "- KEEP IT BRIEF: Maximum 1-2 short sentences (20-30 words total).\n"
-            "- Get straight to the point - no elaboration.\n"
-            "- Stay in character as a professional fire department dispatcher.\n"
-            "- Focus evacuation-related guidance.\n"
-            "- No role labels, no meta commentary.\n"
-            "- Consistently apply the persuasion strategy throughout.\n"
-            f"- Use the {strategy['name']} approach in your response.\n"
-            "- DO NOT over-explain. Be direct and concise."
-        )
-    else:
-        # Role-play conversation with IQL policy
-        instruction = (
-            f"You are the OPERATOR talking to {character_name.upper()} (the RESIDENT) during a wildfire evacuation call.\n"
-            f"Use the operator policy style optimized for: {policy_id}.\n"
-            f"{character_name}'s background: {CHARACTER_PERSONAS.get(character_name.lower(), 'Unknown')}\n"
-            "Read the conversation so far, then produce the next operator reply.\n"
-            "CRITICAL RULES:\n"
-            "- KEEP IT BRIEF: Maximum 1-2 short sentences (20-30 words total).\n"
-            "- Get straight to the point - no elaboration.\n"
-            "- Calm, professional, evacuation-focused.\n"
-            "- If resident resists, emphasize urgency/danger; if cooperative, give clear next steps.\n"
-            "- No role labels, no meta commentary.\n"
-            "- Avoid gendered pronouns.\n"
-            "- DO NOT over-explain. Be direct and concise.\n"
-            "Use the similar examples for style guidance."
-        )
+    # Role-play conversation with IQL policy
+    instruction = (
+        f"You are the OPERATOR talking to {character_name.upper()} (the RESIDENT) during a wildfire evacuation call.\n"
+        f"Use the operator policy style optimized for: {policy_id}.\n"
+        f"{character_name}'s background: {CHARACTER_PERSONAS.get(character_name.lower(), 'Unknown')}\n"
+        "Read the conversation so far, then produce the next operator reply.\n"
+        "CRITICAL RULES:\n"
+        "- KEEP IT BRIEF: Maximum 1-2 short sentences (20-30 words total).\n"
+        "- Get straight to the point - no elaboration.\n"
+        "- Calm, professional, evacuation-focused.\n"
+        "- If resident resists, emphasize urgency/danger; if cooperative, give clear next steps.\n"
+        "- No role labels, no meta commentary.\n"
+        "- Avoid gendered pronouns.\n"
+        "- DO NOT over-explain. Be direct and concise.\n"
+        "Use the similar examples for style guidance."
+    )
 
     return (
         f"{instruction}\n\n"
@@ -623,8 +677,92 @@ def build_prompt(policy_id: str, character_name: str, history: List[Dict[str, st
 conversation_sessions = {}
 
 # In-memory participant data storage (surveys and post-surveys)
-# Structure: {participant_id: {"survey": {...}, "post_surveys": [...]}}
+# Structure: {participant_id: {"survey": {...}, "post_surveys": [...], "selected_characters": []}}
 participant_data = {}
+
+# Character profiles for similarity matching
+CHARACTER_PROFILES = {
+    "bob": {
+        "name": "Bob",
+        "age": 30,
+        "occupation": "office worker",
+        "traits": ["work-focused", "career-oriented", "busy", "independent"],
+        "concerns": ["work deadlines", "career advancement"],
+        "description": "Bob is around 30 years old. He prioritizes his work over safety."
+    },
+    "ben": {
+        "name": "Ben",
+        "age": 29,
+        "occupation": "computer technician",
+        "traits": ["tech-savvy", "home-based", "independent", "analytical"],
+        "concerns": ["work projects", "technology"],
+        "description": "Ben is a 29-year-old computer technician who works from home."
+    },
+    "mary": {
+        "name": "Mary",
+        "age": 75,
+        "occupation": "retired",
+        "traits": ["elderly", "lives alone", "has pet", "cautious"],
+        "concerns": ["pet safety", "mobility", "independence"],
+        "description": "Mary is an elderly person living alone with a small dog."
+    },
+    "lindsay": {
+        "name": "Lindsay",
+        "age": 25,
+        "occupation": "babysitter",
+        "traits": ["responsible for others", "caring", "young adult", "protective"],
+        "concerns": ["children's safety", "responsibility"],
+        "description": "Lindsay is a babysitter caring for two children."
+    },
+    "ana": {
+        "name": "Ana",
+        "age": 35,
+        "occupation": "caregiver",
+        "traits": ["caring", "responsible for others", "professional", "compassionate"],
+        "concerns": ["elderly residents", "duty", "safety of others"],
+        "description": "Ana is a caregiver working at a senior center."
+    },
+    "ross": {
+        "name": "Ross",
+        "age": 45,
+        "occupation": "van driver",
+        "traits": ["helpful", "service-oriented", "responsible", "community-focused"],
+        "concerns": ["helping others evacuate", "elderly residents", "community"],
+        "description": "Ross is a van driver helping evacuate elderly residents."
+    },
+    "niki": {
+        "name": "Niki",
+        "age": 32,
+        "occupation": "homemaker",
+        "traits": ["cooperative", "family-oriented", "partnered", "practical"],
+        "concerns": ["family safety", "home", "partnership"],
+        "description": "Niki is at home with a partner, ready to cooperate."
+    },
+    "michelle": {
+        "name": "Michelle",
+        "age": 40,
+        "occupation": "homeowner",
+        "traits": ["skeptical", "independent", "cautious", "self-reliant"],
+        "concerns": ["false alarms", "property", "independence"],
+        "description": "Michelle is at home, skeptical of evacuation warnings."
+    },
+    "tom": {
+        "name": "Tom",
+        "age": 38,
+        "occupation": "high school teacher",
+        "traits": ["dedicated", "project-focused", "educator", "practical"],
+        "concerns": ["home projects", "work preparation", "time"],
+        "description": "Tom is a high school teacher working on a home project."
+    },
+    "mia": {
+        "name": "Mia",
+        "age": 17,
+        "occupation": "high school student",
+        "traits": ["young", "student", "tech-focused", "ambitious"],
+        "concerns": ["school projects", "robotics", "achievement"],
+        "description": "Mia is a high school student working on a robotics project."
+    }
+}
 
 
 def get_session(session_id: str) -> Dict[str, Any]:
@@ -878,9 +1016,123 @@ async def get_survey(participant_id: str):
         raise HTTPException(status_code=500, detail=f"Error retrieving survey: {str(e)}")
 
 
+@app.post("/api/character-selection")
+async def get_character_selection(request: Request):
+    """Get two characters for profile matching (highest and lowest similarity)"""
+    try:
+        data = await request.json()
+        if data is None:
+            raise HTTPException(status_code=400, detail="Request body is required")
+        
+        participant_id = data.get("participantId")
+        
+        if not participant_id:
+            raise HTTPException(status_code=400, detail="Participant ID required")
+        
+        # Get participant data
+        if participant_id not in participant_data:
+            raise HTTPException(status_code=404, detail="Participant not found. Please complete the survey first.")
+        
+        survey_data = participant_data[participant_id].get("survey", {})
+        if not survey_data:
+            raise HTTPException(status_code=404, detail="Survey data not found")
+        
+        # Get list of already selected characters
+        selected_characters = participant_data[participant_id].get("selected_characters", [])
+        
+        print(f"[CHARACTER-SELECT] Participant: {participant_id}")
+        print(f"[CHARACTER-SELECT] Already selected: {selected_characters}")
+        
+        # Select character pair
+        try:
+            highest_char, lowest_char, scores = select_character_pair(survey_data, selected_characters)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        
+        # Get character profiles for display
+        highest_profile = CHARACTER_PROFILES[highest_char]
+        lowest_profile = CHARACTER_PROFILES[lowest_char]
+        
+        print(f"[CHARACTER-SELECT] Presenting: {highest_char} (score: {scores[highest_char]:.3f}) vs {lowest_char} (score: {scores[lowest_char]:.3f})")
+        
+        return {
+            "success": True,
+            "characters": [
+                {
+                    "key": highest_char,
+                    "name": highest_profile["name"],
+                    "age": highest_profile["age"],
+                    "occupation": highest_profile["occupation"],
+                    "description": highest_profile["description"],
+                    "similarity_score": scores[highest_char],
+                    "match_type": "high"
+                },
+                {
+                    "key": lowest_char,
+                    "name": lowest_profile["name"],
+                    "age": lowest_profile["age"],
+                    "occupation": lowest_profile["occupation"],
+                    "description": lowest_profile["description"],
+                    "similarity_score": scores[lowest_char],
+                    "match_type": "low"
+                }
+            ]
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"[ERROR] Character selection failed: {e}")
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/character-confirm")
+async def confirm_character_selection(request: Request):
+    """Confirm character selection and mark it as used"""
+    try:
+        data = await request.json()
+        if data is None:
+            raise HTTPException(status_code=400, detail="Request body is required")
+        
+        participant_id = data.get("participantId")
+        selected_character = data.get("selectedCharacter")
+        
+        if not participant_id or not selected_character:
+            raise HTTPException(status_code=400, detail="Participant ID and selected character are required")
+        
+        # Get participant data
+        if participant_id not in participant_data:
+            raise HTTPException(status_code=404, detail="Participant not found")
+        
+        # Initialize selected_characters list if not exists
+        if "selected_characters" not in participant_data[participant_id]:
+            participant_data[participant_id]["selected_characters"] = []
+        
+        # Add character to selected list
+        if selected_character not in participant_data[participant_id]["selected_characters"]:
+            participant_data[participant_id]["selected_characters"].append(selected_character)
+        
+        print(f"[CHARACTER-CONFIRM] Participant {participant_id} selected {selected_character}")
+        print(f"[CHARACTER-CONFIRM] Used characters: {participant_data[participant_id]['selected_characters']}")
+        
+        return {
+            "success": True,
+            "message": f"Character {selected_character} confirmed",
+            "selected_characters": participant_data[participant_id]["selected_characters"]
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"[ERROR] Character confirmation failed: {e}")
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.post("/api/chat/start")
 async def start_chat(request: Request):
-    """Start a new chat session (role-play or non-role-play)"""
+    """Start a new chat session (role-play only)"""
     try:
         data = await request.json()
         if data is None:
@@ -889,78 +1141,42 @@ async def start_chat(request: Request):
         character = data.get("character")
         character = character.lower() if character else None
         participant_id = data.get("participantId")
-        persuasion_strategy = data.get("persuasionStrategy")  # For non-role-play conversations
-        survey_data = data.get("surveyData")  # For generating personalized scenario
+        
+        if not character:
+            raise HTTPException(status_code=400, detail="Character is required")
+        
+        if not participant_id:
+            raise HTTPException(status_code=400, detail="Participant ID is required")
+        
+        # Validate character
+        if character not in CHARACTER_PERSONAS:
+            raise HTTPException(status_code=400, detail=f"Unknown character: {character}")
         
         # Get model configuration
         model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
         
-        # Handle non-role-play conversation
-        if persuasion_strategy:
-            if persuasion_strategy not in PERSUASION_STRATEGIES:
-                raise HTTPException(status_code=400, detail=f"Unknown persuasion strategy: {persuasion_strategy}")
-            
-            # Create session for non-role-play
-            session_id = f"{participant_id}_nonrole_{persuasion_strategy}_{int(time.time())}"
-            session = get_session(session_id)
-            session["character"] = None  # No character in non-role-play
-            session["participant_id"] = participant_id
-            session["persuasion_strategy"] = persuasion_strategy
-            session["is_roleplay"] = False
-            
-            # Generate personalized scenario if survey data provided
-            if survey_data:
-                print(f"[CHAT] Generating personalized scenario with survey data")
-                scenario = generate_personalized_scenario(survey_data, model=model)
-                session["scenario"] = scenario
-            else:
-                print(f"[CHAT] No survey data provided, using fallback scenario")
-                scenario = "It is a regular day at home. You are relaxing when your phone suddenly rings. The caller ID shows the local fire department."
-                session["scenario"] = scenario
-            
-            # Generate initial greeting
-            initial_message = generate_initial_greeting("participant", "a resident at home", model=model)
-            session["history"].append({"role": "operator", "text": initial_message})
-            
-            print(f"[CHAT] Started non-role-play session: {session_id}, strategy: {persuasion_strategy}")
-            print(f"[CHAT] Scenario: {scenario}")
-            print(f"[CHAT] Initial greeting: {initial_message}")
-            
-            return {
-                "session_id": session_id,
-                "initial_message": initial_message,
-                "scenario": scenario,
-                "is_roleplay": False
-                # Note: persuasion_strategy is kept server-side only, not exposed to participant
-            }
+        # Create session for role-play
+        session_id = f"{participant_id}_{character}_{int(time.time())}"
+        session = get_session(session_id)
+        session["character"] = character
+        session["participant_id"] = participant_id
+        session["persuasion_strategy"] = None
+        session["is_roleplay"] = True
         
-        # Handle role-play conversation
-        else:
-            if character not in CHARACTER_PERSONAS:
-                raise HTTPException(status_code=400, detail=f"Unknown character: {character}")
-            
-            # Create session for role-play
-            session_id = f"{participant_id}_{character}_{int(time.time())}"
-            session = get_session(session_id)
-            session["character"] = character
-            session["participant_id"] = participant_id
-            session["persuasion_strategy"] = None
-            session["is_roleplay"] = True
-            
-            # Generate dynamic initial greeting
-            persona = CHARACTER_PERSONAS[character]
-            initial_message = generate_initial_greeting(character, persona, model=model)
-            session["history"].append({"role": "operator", "text": initial_message})
-            
-            print(f"[CHAT] Started role-play session: {session_id} for character: {character}")
-            print(f"[CHAT] Initial greeting: {initial_message}")
-            
-            return {
-                "session_id": session_id,
-                "initial_message": initial_message,
-                "character": character,
-                "is_roleplay": True
-            }
+        # Generate dynamic initial greeting
+        persona = CHARACTER_PERSONAS[character]
+        initial_message = generate_initial_greeting(character, persona, model=model)
+        session["history"].append({"role": "operator", "text": initial_message})
+        
+        print(f"[CHAT] Started role-play session: {session_id} for character: {character}")
+        print(f"[CHAT] Initial greeting: {initial_message}")
+        
+        return {
+            "session_id": session_id,
+            "initial_message": initial_message,
+            "character": character,
+            "is_roleplay": True
+        }
         
     except Exception as e:
         print(f"[ERROR] Chat start failed: {e}")
@@ -1066,76 +1282,61 @@ async def send_message(chat_req: ChatRequest):
                 "judge": judge
             }
         
-        # Check if this is a non-role-play conversation with persuasion strategy
-        persuasion_strategy = session.get("persuasion_strategy")
-        best_policy = None
-        qvals = None
+        # Role-play conversation: use IQL policy selection
+        import time as timing_module
+        t1 = timing_module.time()
+        best_policy, qvals = iql_selector.select_policy(history, character=character, n_last=N_LAST_RESIDENT)
+        t2 = timing_module.time()
+        print(f"[IQL] Selected policy: {best_policy} (took {t2-t1:.2f}s)")
         
-        if persuasion_strategy:
-            # Non-role-play conversation: use persuasion strategy directly
-            print(f"[PERSUASION] Using strategy: {persuasion_strategy}")
-            prompt = build_prompt("default", "participant", history, [], persuasion_strategy=persuasion_strategy)
-            operator_response = call_openai_chat(prompt, model=model)
+        # Retrieval + operator generation
+        # Lazy load policy retriever on first use
+        if policy_retriever is None:
+            initialize_policy_retriever_lazy()
+        
+        t3 = timing_module.time()
+        if policy_retriever:
+            examples = policy_retriever.retrieve_topk_pairs(best_policy, resident_query=chat_req.message, k=2)
         else:
-            # Role-play conversation: use IQL policy selection
-            import time as timing_module
-            t1 = timing_module.time()
-            best_policy, qvals = iql_selector.select_policy(history, character=character, n_last=N_LAST_RESIDENT)
-            t2 = timing_module.time()
-            print(f"[IQL] Selected policy: {best_policy} (took {t2-t1:.2f}s)")
-            
-            # Retrieval + operator generation
-            # Lazy load policy retriever on first use
-            if policy_retriever is None:
-                initialize_policy_retriever_lazy()
-            
-            t3 = timing_module.time()
-            if policy_retriever:
-                examples = policy_retriever.retrieve_topk_pairs(best_policy, resident_query=chat_req.message, k=2)
-            else:
-                print("[WARNING] Policy retriever not available, using no examples")
-                examples = []
-            t4 = timing_module.time()
-            print(f"[RETRIEVAL] Got {len(examples)} examples (took {t4-t3:.2f}s)")
-            
-            t5 = timing_module.time()
-            prompt = build_prompt(best_policy, character, history, examples)
-            operator_response = call_openai_chat(prompt, model=model)
-            t6 = timing_module.time()
-            print(f"[OPENAI] Generated response (took {t6-t5:.2f}s)")
+            print("[WARNING] Policy retriever not available, using no examples")
+            examples = []
+        t4 = timing_module.time()
+        print(f"[RETRIEVAL] Got {len(examples)} examples (took {t4-t3:.2f}s)")
+        
+        t5 = timing_module.time()
+        prompt = build_prompt(best_policy, character, history, examples)
+        operator_response = call_openai_chat(prompt, model=model)
+        t6 = timing_module.time()
+        print(f"[OPENAI] Generated response (took {t6-t5:.2f}s)")
         
         history.append({"role": "operator", "text": operator_response})
         
         print(f"[CHAT] Operator: {operator_response}")
         
-        # Store IQL data in session for role-play conversations
-        if best_policy is not None:
-            iql_turn_data = {
-                "turn": resident_turns,
-                "resident_message": chat_req.message,
-                "operator_response": operator_response,
-                "selected_policy": best_policy,
-                "q_values": qvals,
-                "judge": judge,
-                "timestamp": datetime.utcnow().isoformat()
-            }
-            if "iql_data" not in session:
-                session["iql_data"] = []
-            session["iql_data"].append(iql_turn_data)
+        # Store IQL data in session
+        iql_turn_data = {
+            "turn": resident_turns,
+            "resident_message": chat_req.message,
+            "operator_response": operator_response,
+            "selected_policy": best_policy,
+            "q_values": qvals,
+            "judge": judge,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        if "iql_data" not in session:
+            session["iql_data"] = []
+        session["iql_data"].append(iql_turn_data)
         
-        # Build response based on conversation type
+        # Build response
         response_data = {
             "response": operator_response,
             "session_id": chat_req.session_id,
             "turn_count": resident_turns,
             "conversation_ended": False,
-            "judge": judge
+            "judge": judge,
+            "policy": best_policy,
+            "q_values": qvals
         }
-        
-        # Add IQL-specific data only for role-play conversations
-        if best_policy is not None:
-            response_data["policy"] = best_policy
-            response_data["q_values"] = qvals
         
         return response_data
         
