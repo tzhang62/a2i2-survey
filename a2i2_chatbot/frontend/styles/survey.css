@@ -120,7 +120,7 @@ body {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 3rem 2rem;
-  text-align: center;
+  text-align: left;
 }
 
 .welcome-section h1 {
@@ -135,7 +135,7 @@ body {
   margin-bottom: 1rem;
   line-height: 1.8;
   max-width: 700px;
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
   opacity: 0;
 }

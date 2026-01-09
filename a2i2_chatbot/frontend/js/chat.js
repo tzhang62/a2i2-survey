@@ -950,14 +950,30 @@
     const doneBtn = modal.querySelector('#finish-study-btn');
     if (doneBtn) {
       doneBtn.addEventListener('click', () => {
-        modal.remove();
+        // Clear session storage
+        sessionStorage.clear();
+        // Try to close the window/tab
+        // If window.close() doesn't work (e.g., window wasn't opened by script),
+        // show a message and redirect to blank page
+        try {
+          window.close();
+          // If window.close() doesn't immediately close, redirect after a short delay
+          setTimeout(() => {
+            if (!document.hidden) {
+              window.location.href = 'about:blank';
+            }
+          }, 100);
+        } catch (e) {
+          // Fallback: redirect to blank page
+          window.location.href = 'about:blank';
+        }
       });
+    } else {
+      // Clear session storage after a delay even if button doesn't exist
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 1000);
     }
-
-    // Clear session storage after a delay
-    setTimeout(() => {
-      sessionStorage.clear();
-    }, 1000);
   }
 
   /**
