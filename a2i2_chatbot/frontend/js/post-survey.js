@@ -288,9 +288,6 @@
           <p style="font-size: 1rem; color: #666; margin-bottom: 3rem;">
             You may now close this window.
           </p>
-          <button onclick="window.location.href='landing.html'" class="btn-submit">
-            Return to Home
-          </button>
         </div>
       `;
     }

@@ -137,7 +137,10 @@
             <p style="color: #666; font-size: 0.9rem;">
               Please save this number for your records.
             </p>
-            <button onclick="window.location.href='landing.html'" style="
+            <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
+              You may now close this window.
+            </p>
+            <button id="done-exit-btn" style="
               margin-top: 1.5rem;
               padding: 0.75rem 2rem;
               background: #ff6b35;
@@ -147,9 +150,17 @@
               font-size: 1rem;
               font-weight: 600;
               cursor: pointer;
-            ">Close</button>
+            ">Done</button>
           </div>
         `;
+        
+        // Add event listener to done button
+        const doneBtn = modal.querySelector('#done-exit-btn');
+        if (doneBtn) {
+          doneBtn.addEventListener('click', () => {
+            modal.remove();
+          });
+        }
         
         // Clear session storage
         sessionStorage.clear();

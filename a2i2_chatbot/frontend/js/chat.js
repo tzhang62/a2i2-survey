@@ -847,8 +847,7 @@
           }
         } catch (error) {
           console.error('Error completing study:', error);
-          alert('Study complete! Thank you for your participation.');
-          window.location.href = 'landing.html';
+          alert('Study complete! Thank you for your participation. You may now close this window.');
         }
       } else {
         // Go to next character selection for the next conversation
@@ -925,7 +924,10 @@
         <p style="color: #666; font-size: 0.95rem; margin: 1rem 0;">
           Please save this number for your records.
         </p>
-        <button onclick="window.location.href='landing.html'" style="
+        <p style="color: #666; font-size: 0.95rem; margin-top: 1rem;">
+          You may now close this window.
+        </p>
+        <button id="finish-study-btn" style="
           margin-top: 2rem;
           padding: 1rem 3rem;
           background: #4CAF50;
@@ -937,12 +939,20 @@
           cursor: pointer;
           transition: background 0.2s ease;
         " onmouseover="this.style.background='#45a049'" onmouseout="this.style.background='#4CAF50'">
-          Finish
+          Done
         </button>
       </div>
     `;
 
     document.body.appendChild(modal);
+    
+    // Add event listener to done button
+    const doneBtn = modal.querySelector('#finish-study-btn');
+    if (doneBtn) {
+      doneBtn.addEventListener('click', () => {
+        modal.remove();
+      });
+    }
 
     // Clear session storage after a delay
     setTimeout(() => {
