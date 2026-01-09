@@ -5,7 +5,7 @@ services:
     env: python
     region: oregon
     buildCommand: "cd a2i2_chatbot/backend && pip install --upgrade pip wheel setuptools && pip install --only-binary :all: --prefer-binary -r requirements.txt"
-    startCommand: "cd a2i2_chatbot/backend && python server.py"
+    startCommand: "cd a2i2_chatbot/backend && uvicorn server:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: OPENAI_API_KEY
         sync: false
